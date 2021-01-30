@@ -1,0 +1,154 @@
+.contenedor-button-display {
+    
+    border-radius: 7px;
+    padding: 14px 0px;
+    background-color: #282320;    
+    width: 98%;   
+    max-height: 40px;
+    font-family: 'Play', sans-serif;
+    font-size: 25px;
+    box-shadow: inset -5px -5px 4px #0a0908, inset 5px 5px 1px #4d433d;
+
+    align-self: flex-end;
+    display: flex;   
+    justify-content: space-evenly;
+    align-content: center;
+}
+ .button-display{
+    width: 60px;
+    height: 40px;    
+    min-height: 20px;
+    max-width: 80px;
+    font-family: 'Play', sans-serif;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;    
+    align-items: center;
+    color: #fff;
+    border-radius: 4px;
+    border: solid 1px #fff;
+    background-image: 
+    -webkit-repeating-linear-gradient(left, hsla(0, 0%, 100%, 0)0%,
+      hsla(0, 0%, 100%, 0) 6%, hsla(0, 0%, 100%, .1) 7.5%), -webkit-repeating-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, 0) 4%, hsla(0, 0%, 0%, .03) 4.5%), -webkit-repeating-linear-gradient(left, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%, 0) 1.2%, hsla(0, 0%, 100%, .15) 2.2%), linear-gradient(180deg, hsl(0, 0%, 0%) 0%, hsl(0, 0%, 10%) 47%, hsl(0, 0%, 0%) 53%, hsl(0, 0%, 10%)100%);
+
+    box-shadow: 1px 1px 10px -2px rgba(255, 255, 255, 0.5),
+     -1px -1px 10px -5px #fff9,
+     1px 1px 4px -1px rgba(255, 255, 255, 0.712),
+     -1px -1px 4px -1px rgba(255, 255, 255, 0.541),
+     -3px -1px 3px 6px #141210,
+     3px 1px 3px 6px #141210; 
+
+     
+    
+   
+}
+ 
+ .button-display:hover {
+    box-shadow: 1px 1px 10px -2px rgba(255, 255, 255, 0.5),
+    -1px -1px 10px -5px #fff9,
+    inset 1px 2px 20px -1px rgba(255, 255, 255, 0.247),
+    inset -1px 2px 20px -1px rgba(255, 255, 255, 0.212),
+    -3px -1px 3px 6px #141210,
+    3px 1px 3px 6px #141210;
+    
+}
+
+.button-display:active {
+    color: #48bfe3;
+    text-shadow: 0px 0px 30px #72efdd,
+     0px 0px 20px #56cfe1;
+    box-shadow: 3px 3px 20px 10px #fff6, -1px -1px 20px 0px #72efdc59, inset -1px -1px 30px 0px #fff9, inset -2px -2px 1px 0px #56cfe1, inset 2px 2px 1px 4px #56cfe1, 1px 3px 5px 4px #72efdd, -5px -10px 30px 0px #0002, -1px -8px 30px 0px #0002;     
+    border-bottom: 1px solid #48bfe3;
+    outline: none;     
+ } 
+
+
+
+ 
+
+
+.encendido{
+    
+    width: 60px;
+    height: 40px;    
+    min-height: 20px;
+    max-width: 80px;
+    font-family: 'Play', sans-serif;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;    
+    align-items: center;
+    color:#7fd1b9;
+    border-radius: 4px;
+    border: solid 1px #7fd1b9;
+    background-image: 
+    -webkit-repeating-linear-gradient(left, hsla(0, 0%, 100%, 0)0%,
+      hsla(0, 0%, 100%, 0) 6%, hsla(0, 0%, 100%, .1) 7.5%), -webkit-repeating-linear-gradient(left, hsla(0, 0%, 0%, 0) 0%, hsla(0, 0%, 0%, 0) 4%, hsla(0, 0%, 0%, .03) 4.5%), -webkit-repeating-linear-gradient(left, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%, 0) 1.2%, hsla(0, 0%, 100%, .15) 2.2%), linear-gradient(180deg, hsl(0, 0%, 0%) 0%, hsl(0, 0%, 10%) 47%, hsl(0, 0%, 0%) 53%, hsl(0, 0%, 10%)100%);   
+    
+    box-shadow:
+
+    3px 3px 15px 0px#7fd1b98e,
+      -3px -3px 15px 0px #7fd1b98c, 
+     inset -1px -1px 10px 0px #fff9, 
+     inset -2px -2px 1px 0px #7fd1b9c5, 
+     inset 2px 2px 2px 0px #7fd1b9c5,
+      1px 1px 5px 0px #7fd1b9c5,
+       -3px -3px 6px 0px #000, 
+      3px 3px 6px 0px #000,
+      3px -1px 3px 6px #141210,
+      3px 1px 3px 6px #141210; 
+      
+      text-shadow:  1px 1px 6px  #7fd1b9;
+      outline: none;
+      
+    
+
+}
+ .ledBlanco {
+    width: 30%;
+    border-bottom: 5px solid #fff7ff;
+    padding: 0px 3px;
+    margin-bottom: 15%;
+}
+.ledAzul {
+    width: 31%;
+    border-bottom: 5px solid #7fd1b9;
+    box-shadow: 0px 0px 30px #7fd1b9, 0px 0px 20px #7fd1b9;
+    padding: 0px 3px;
+    margin-bottom: 15%;
+
+    
+    
+}
+
+
+/* -----------------------------------------btn-number-------------------------- */
+
+
+.contenedor-btnNumber{
+    height: 300px;
+    max-height: 600px;    
+    padding: 14px 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px;   
+    justify-content: space-around ;
+    align-content: space-around;
+        border-radius: 7px;
+    background-color: #282320;       
+    box-shadow: inset -5px -5px 4px #0a0908, inset 5px 5px 1px #4d433d;
+}
+
+
+
+
+ .btn-number {
+     
+    font-family: 'Play', sans-serif; 
+    font-size: 18px;
+     
+   
+}
+

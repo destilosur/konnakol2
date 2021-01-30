@@ -1,0 +1,34 @@
+/* este es el css global */
+
+body {
+    background: #282320;
+    box-sizing: border-box;
+}
+
+body h1 {
+    font-family: 'Play', sans-serif;
+    font-size: 40px;
+    color: #7fd1b9;
+    margin: 0;
+}
+
+.titulo-subrayado {
+    width: 170px;
+    margin-left: 120px;
+    margin-bottom: 25px;
+    display: flex;
+    display: inline-block;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.caja-subr {
+    padding-bottom: 3px;
+    border-bottom: 4px solid #FFD152;
+}
+
+.subrayado {
+    align-self: flex-start;
+    height: 10px;
+    background-color: #DB664A;
+}
