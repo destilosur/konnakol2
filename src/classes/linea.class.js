@@ -1,6 +1,7 @@
 
 import {crearTablaHtml} from '../js/component';
 
+
 let idContador=1; 
 export class Linea { 
 
@@ -15,11 +16,12 @@ export class Linea {
     };
     
 
-    constructor() {
+    constructor(id) {
          
-        this.id=idContador++;
+        this.id=(!id)?idContador++:id;
         this.arraySilabas = [];
         crearTablaHtml(this.id);
+        
     };
 
     agregarSilaba(n_silaba){
@@ -35,15 +37,14 @@ export class Linea {
         this.arraySilabas.forEach(pop());
 
     };
+
+    static reiniciarIdContador(){
+
+        idContador=1;
+    };
     
 
-    lineaArrayEnConsola() {
-        console.log(this.arraySilabas);
-    };
-
-    removerLinea(){
-        
-    };
+   
 
 
 };

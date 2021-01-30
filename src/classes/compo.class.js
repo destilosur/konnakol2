@@ -5,7 +5,7 @@ const arrayCompos = [];//TODO:PARA CUANDO CARGE TODAS LAS COMPOS
 
 
 export class Compo {
-    constructor(nombre, grupo, nBeats) {
+    constructor(nombre, grupo, nBeats, arraySilabas) {
 
         this.nombre = nombre;
         this.grupo = grupo;
@@ -20,7 +20,7 @@ export class Compo {
     };
     // LOCAL STORAGE-de la ultima commpo scrita------------------------------------
 
-    guardarLocalStorage() {
+     guardarLocalStorage() {
 
         localStorage.removeItem('compoLineas');
         //TODO: CUNADO BORRO BIEN PERO CUANDO ESCRIBO LUEGO QUILOMBO
@@ -32,27 +32,27 @@ export class Compo {
         localStorage.setItem('compoLineas', JSON.stringify(this.arrayLineas));
 
 
-        console.log(localStorage);
+        // console.log(localStorage);
     };
 
     loadLocalStorage() {
 
-        console.log(localStorage.getItem('compoNombre'));
+        // console.log(localStorage.getItem('compoNombre'));
 
         if (localStorage.getItem('compoNombre')) {
 
             this.nombre = (localStorage.getItem('compoNombre')) ?
                 localStorage.getItem('compoNombre') :
                 this.nombre = "";
-            console.log(this.nombre);
+            // console.log(this.nombre);
             this.grupo = (localStorage.getItem('compoGrupo')) ?
                 localStorage.getItem('compoGrupo') :
-                this.nombre = "";
-            console.log(this.grupo);
+                this.grupo = "";
+            // console.log(this.grupo);
             this.nBeats = (localStorage.getItem('compoNBeats')) ?
                 localStorage.getItem('compoNBeats') :
-                this.nombre = "";
-            console.log(this.nBeats);
+                this.nBeats = "";
+            // console.log(this.nBeats);
 
             //recuperando LocalStorage Lineas y escribiendo en html
             this.arrayLineas = (localStorage.getItem('compoLineas')) ?
@@ -79,16 +79,25 @@ export class Compo {
 
     mandandoObjLineaAEscribirHtml(objLinea) {
 
-        
-        let idLinea=objLinea.id;
+
+        let idLinea = objLinea.id;
         let silabasArray = objLinea.arraySilabas;
-        console.warn(idLinea);
-       
-               for (const silaba of silabasArray) {
-                    escribirHtml(idLinea, silaba);
-                 };
+        // console.warn(idLinea);
+
+        for (const silaba of silabasArray) {
+            escribirHtml(idLinea, silaba);
+        };
 
     };
+
+    reiniciarCompo() {
+        this.nombre = 'sin nombre';
+        this.grupo = 'sin grupo';
+        this.nBeats = 1;
+        this.arrayLineas = [];
+        Linea.reiniciarIdContador();
+        
+    }
 
 
 

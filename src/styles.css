@@ -12,10 +12,25 @@ body h1 {
     margin: 0;
 }
 
+.logo-titulo{
+    padding-top: 20px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between ;
+    align-items: center;
+    margin-left: 5%;
+    margin-bottom: 3.125rem;
+
+}
+.logo{
+    width: 16rem;
+}
+
 .titulo-subrayado {
-    width: 170px;
-    margin-left: 120px;
-    margin-bottom: 25px;
+    
+    margin-right:200px;
+    width: 10.625rem;
+     margin: auto;
     display: flex;
     display: inline-block;
     flex-direction: column;

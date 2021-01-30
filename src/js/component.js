@@ -1,13 +1,17 @@
-import { compo1 } from '../index';
-import { Linea } from '../classes/linea.class';
 import { Compo } from '../classes/compo.class';
+import { Linea } from '../classes/linea.class';
+import { compo1 } from '../index';
 
 
 const d = document;
 const $btns = d.querySelectorAll('body .display-botones button');
 const $template = document.querySelector('#caja-escritura').content;
 const speakSilabas = [' Ta ', ' TaKa ', ' Takite ', ' Takatimi ', ' TakaTakite ', ' TakatimiTaka ', ' TakaTakaTakite ', ' TakatimiTakajuna '];
-let idLinea=1;
+
+let ultimaLineaID;
+
+
+
 
 
 
@@ -15,77 +19,76 @@ let idLinea=1;
 
 export const crearTablaHtml = (id) => {
     $template.querySelector('.notas').dataset.id = id;
+    ultimaLineaID = id;
+
     let $node = document.importNode($template, true);
 
     document.body.querySelector('.marco-display').appendChild($node);
 };
 
- const borrarLineasArrayYHtml = () => {
-     //borra lineas html
-    document.body.querySelectorAll('.notas').forEach(elem=>elem.remove());
+const borrarLineasArrayYHtml = () => {
+    //borra lineas html
+    document.body.querySelectorAll('.notas').forEach(elem => elem.remove());
 
     //borra lineas array=[]  
+    const lineasArr = compo1.arrayLineas;
+    if (lineasArr) {
 
-    if(compo1.arrayLineas){
-        const lineas = compo1.arrayLineas;       
-    for(const linea of lineas){
+        for (const linea of lineasArr) {
 
-        let silabasDeLinea=linea.arraySilabas;
-        silabasDeLinea=[];
-        console.log(silabasDeLinea);       
-        
+            let silabasDeLinea = linea.arraySilabas;
+            silabasDeLinea = [];
+            // console.log(silabasDeLinea);       
+
+        };
     };
-};
-    
 
 
-    
+
+
 };
-// escribe html---------------------------------------------------
+// escribe Array y    html---------------------------------------------------
 export const escribirArray = (num) => {
 
-    const lineas = compo1.arrayLineas;
-    const ultimaLinea = lineas[lineas.length - 1];
-    ultimaLinea.agregarSilaba(num);
+
+    const lineasArr = compo1.arrayLineas;
+    const ultimaLineaArr = lineasArr[lineasArr.length - 1];
+    ultimaLineaArr.agregarSilaba(num);
     // console.log(compo1);
-    console.log(ultimaLinea.arraySilabas);
+    // console.log(ultimaLinea.arraySilabas);
 
 };
-export const escribirHtml=(id, num)=>{
-    
-    console.log(`Id ${id} num: ${num}`);
+export const escribirHtml = (id, num) => {
+
+    // console.log(`Id ${id} num: ${num}`);
     const speak = document.createElement('p')
     speak.innerText = speakSilabas[num - 1];
-    const lineasHtml = document.body.querySelectorAll('.notas');    
-    const lineaID = lineasHtml[id-1].querySelector('.borde-notas');
-   
-    // for(let linea of lineasHtml){
-    //     let id=linea.getAttribute('data-id');
-
-    //     console.log(id==='1');
-        
-    // };
-    
-
+    const lineasHtml = document.body.querySelectorAll('.notas');
+    const lineaID = lineasHtml[id - 1].querySelector('.borde-notas');
     lineaID.appendChild(speak);
+
+    compo1.guardarLocalStorage();
 
 
 
 };
 
 const borrarUltimaSilaba = () => {
-    //borra ultimo[] del array
-    const lineas = compo1.arrayLineas;
-    const ultimaLinea = lineas[lineas.length - 1];
-    ultimaLinea.borrarUltimaSilaba();
-    console.log(ultimaLinea.arraySilabas);
+    //borra ultimo silaba del[]  arraySilabas
+
+    const lineasArr = compo1.arrayLineas;
+    const ultimaLineaArr = lineasArr[lineasArr.length - 1];
+    ultimaLineaArr.borrarUltimaSilaba();//de clase Linea
+    console.log(ultimaLineaArr);
+
 
 
 
     const lineasHtml = document.body.querySelectorAll('.notas');
     const ultimaLineaHtml = lineasHtml[lineasHtml.length - 1].querySelector('.borde-notas');
-    if (!ultimaLineaHtml.children[ultimaLineaHtml.children.length - 1].matches('div'))
-        ultimaLineaHtml.lastChild.remove();
+    if (!ultimaLineaHtml.children[ultimaLineaHtml.children.length - 1].matches('div'))  ultimaLineaHtml.lastChild.remove();
+
+        compo1.guardarLocalStorage();
 };
 
 
@@ -109,35 +112,31 @@ function accionBoton() {
     }, 1000);
 
     //----escribir
-    if (btn.matches('.btn-number')){
-         escribirArray(parseInt(btn.textContent));
-         escribirHtml(idLinea,parseInt(btn.textContent));
+    if (btn.matches('.btn-number')) {
+        escribirArray(parseInt(btn.textContent));
+        escribirHtml(ultimaLineaID, parseInt(btn.textContent));
     };
 
-    if (btn.textContent === 'Clear') borrarUltimaSilaba();
+    // if (btn.textContent === 'Clear') borrarUltimaSilaba();
 
     //guardar------
     if (btn.textContent === 'Save') compo1.guardarLocalStorage();
 
     //load
     if (btn.textContent === 'Load') {
+        compo1.reiniciarCompo();
         borrarLineasArrayYHtml();
-        const compoNueva = new Compo();        
-        compoNueva.loadLocalStorage();
+        
         //TODO: ESTO ES PROVISIONAL
 
     };
-    if(btn.textContent==='Clear'){
-        //TODO: CUNADO BORRO BIEN PERO CUANDO ESCRIBO LUEGO QUILOMBO
-        idLinea=1;
+    if (btn.textContent === 'Clear') {
+        
+
+        compo1.reiniciarCompo();
         borrarLineasArrayYHtml();
-        const compoNueva = new Compo();        
-        compoNueva.nuevaLinea();
+        compo1.nuevaLinea();
     };
-
-
-
-
 };
 
 $btns.forEach(elem => elem.addEventListener('click', accionBoton));
@@ -148,22 +147,31 @@ $btns.forEach(elem => elem.addEventListener('click', accionBoton));
 
 
 export const accionTeclas = (e) => {
-    
+
     const num = parseInt(e.key);
     // console.log(e.code);
-    if (num > 0 && num < 9){ 
+    if (num > 0 && num < 9) {
         escribirArray(num);
-        escribirHtml(idLinea,num);
+        escribirHtml(ultimaLineaID, num);
+        
     };
 
-    if (e.key === 'Backspace' || e.code === 'Backspace') borrarUltimaSilaba();
+    if (e.key === 'Backspace' || e.code === 'Backspace') {
+
+        borrarUltimaSilaba();
+        
+    }
 
     if (e.keyCode == 13) {
         compo1.nuevaLinea();
-        idLinea++;
+        console.log(compo1);
+
     };
 };
 document.addEventListener('keydown', accionTeclas);
+
+
+
 
 
 
