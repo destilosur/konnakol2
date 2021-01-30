@@ -1,6 +1,6 @@
 # Konnakol
 
-Por Ahora solo es una pagina web con webpack 
+Es una pagina que crea y guarda y carga composiociones de Konnakol
 
 ### notas:
 recuerden reconstruir los modulos de Node
