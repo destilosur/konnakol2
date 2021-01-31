@@ -62,7 +62,7 @@ export class Compo {
 
         } else {
 
-            console.log('no hay nombre de compo');
+            this.arrayLineas = [];
 
         };
     };

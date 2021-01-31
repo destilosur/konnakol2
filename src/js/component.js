@@ -1,6 +1,6 @@
 import { Compo } from '../classes/compo.class';
 import { Linea } from '../classes/linea.class';
-import { compo1 } from '../index';
+import { compo1,guardarCompoEnLista,recargarCompoDeLista} from '../index';
 
 
 const d = document;
@@ -30,7 +30,7 @@ export const crearTablaHtml = (id) => {
 export const escribirArray = (id, num) => {
 
     compo1.arrayLineas[id - 1].agregarSilaba(num);
-    compo1.guardarLocalStorage();
+    
 
 };
 
@@ -44,6 +44,7 @@ export const escribirHtml = (id, num) => {
     //ASINGNAMOS A VARIABLE COMPONENT.JS
     $cajaNotas = document.body.querySelectorAll('.notas .borde-notas');
     $cajaNotas[id - 1].appendChild(speak);
+    compo1.guardarLocalStorage();
 };
 
 
@@ -68,7 +69,7 @@ const borrarLineasHtml = () => {
 
 
 
-// -----------------------EVENTO-BOTONES------------------------------------
+// -----------------------EVENTO-BOTONES LUCES------------------------------------
 
 function accionBoton() {
     //luz encendido efecto clase .encendido--------
@@ -89,7 +90,7 @@ function accionBoton() {
 
 
 
-    // -----------------------------BOTONES------------------------------------------
+    // -----------------------------BOTONES ACCIÒN------------------------------------------
     //----escribir 
     if (btn.matches('.btn-number')) {
         escribirArray(lineaID, parseInt(btn.textContent));
@@ -97,12 +98,15 @@ function accionBoton() {
     };
 
     //SAVE------
-    if (btn.textContent === 'Save') bo;
+    if (btn.textContent === 'Save') guardarCompoEnLista(compo1);
 
     //LOAD
     if (btn.textContent === 'Load') {
         compo1.reiniciarCompo();
         borrarLineasHtml();
+        recargarCompoDeLista();
+        
+        
 
         //TODO: ESTO ES PROVISIONAL
 
