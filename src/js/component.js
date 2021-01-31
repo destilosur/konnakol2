@@ -1,12 +1,13 @@
 import { Compo } from '../classes/compo.class';
 import { Linea } from '../classes/linea.class';
-import { compo1,guardarCompoEnLista,recargarCompoDeLista} from '../index';
+import { compo1, guardarCompoEnLista, abrirLista } from '../index';
 
 
 const d = document;
 const $btns = d.querySelectorAll('body .display-botones button');
 const $template = document.querySelector('#caja-escritura').content;
 let $cajaNotas;
+
 const speakSilabas = [' Ta ', ' TaKa ', ' Takite ', ' Takatimi ', ' TakaTakite ', ' TakatimiTaka ', ' TakaTakaTakite ', ' TakatimiTakajuna '];
 
 let lineaID;
@@ -30,7 +31,7 @@ export const crearTablaHtml = (id) => {
 export const escribirArray = (id, num) => {
 
     compo1.arrayLineas[id - 1].agregarSilaba(num);
-    
+
 
 };
 
@@ -61,7 +62,7 @@ const borrarUltimaSilaba = (id) => {
 };
 
 
-const borrarLineasHtml = () => {
+export const borrarLineasHtml = () => {
 
     document.body.querySelectorAll('.notas').forEach(elem => elem.remove());
 
@@ -69,10 +70,9 @@ const borrarLineasHtml = () => {
 
 
 
-// -----------------------EVENTO-BOTONES LUCES------------------------------------
 
 function accionBoton() {
-    //luz encendido efecto clase .encendido--------
+    // -----------------------EVENTO-BOTONES LUCES------------------------------------
     let btn = (this.matches('.ledBlanco')) ? this.parentElement : this;
 
 
@@ -90,26 +90,24 @@ function accionBoton() {
 
 
 
-    // -----------------------------BOTONES ACCIÒN------------------------------------------
-    //----escribir 
+    // -----------------------------BOTONES ACCIÒN------------------------------------
+    //ESCRIBIR 1 A 8
     if (btn.matches('.btn-number')) {
         escribirArray(lineaID, parseInt(btn.textContent));
         escribirHtml(lineaID, parseInt(btn.textContent));
     };
+    //BACK
+    if (btn.matches('.back')) borrarUltimaSilaba(lineaID);
 
     //SAVE------
-    if (btn.textContent === 'Save') guardarCompoEnLista(compo1);
+    if (btn.textContent === 'Save') guardarCompoEnLista();
 
     //LOAD
     if (btn.textContent === 'Load') {
-        compo1.reiniciarCompo();
-        borrarLineasHtml();
-        recargarCompoDeLista();
-        
-        
 
-        //TODO: ESTO ES PROVISIONAL
-
+        // TODO: SE TIENE QUE REINICIAR CUANDO PINCHO EN ENLASSE
+        borrarLineasHtml()
+        abrirLista();
     };
 
     //REINICIAR
@@ -143,6 +141,12 @@ export const accionTeclas = (e) => {
 };
 
 document.addEventListener('keydown', accionTeclas);
+
+
+
+
+
+
 
 
 

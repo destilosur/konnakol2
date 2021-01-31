@@ -26,6 +26,16 @@
 
   <!-- ---------------------------------------------display--------------------- -->
   <div class="display-botones">
+    
+    <div class="info" id="info">
+      <label for="nombre">Nombre</label>
+      <input type="text" class="nombre" id="nombre">
+      <label for="grupo">Tala</label>
+      <input type="text" class="grupo" id="grupo">
+      <label for="nBeats">Beats</label>
+      <input type="number" name="nBeats" id="nBeats"  min="4" max="100"value="">
+    </div>
+
     <div class="display-btnNumbrer">
       <div class="marco-display">
         <!-- //colocar aqui template  -->
@@ -42,6 +52,8 @@
         <button class="btn-number button-display">6</button>
         <button class="btn-number button-display">7</button>
         <button class="btn-number button-display">8</button>
+        <button class="button-display back">Back</button>
+
       </div>
     </div>
     <div class="contenedor-button-display">
@@ -68,6 +80,10 @@
       </div>
     </div>
   </template>
+
+  <dir class="lista" id="lista">
+    
+  </dir>
 </body>
 
 </html>

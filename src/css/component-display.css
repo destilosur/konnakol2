@@ -8,6 +8,21 @@ body .display-botones{
     
 
 }
+
+.info{
+    
+    display: flex;
+    justify-content: space-around;
+    width: 97%;
+    border: 1px solid #fff;
+    padding: 10px 0px;
+    border-radius: 10px;
+}
+
+.info label{
+    color: #fff;
+    font-family: 'Play', sans-serif;
+}
 .display-btnNumbrer{
     width: 97%;
     display: flex;

@@ -47,3 +47,15 @@ body h1 {
     height: 10px;
     background-color: #DB664A;
 }
+
+
+/* //////////////////////////LISTA////////////////////////////////// */
+
+.lista a{
+
+
+
+    font-size: 18px;
+    display: block;
+    color: aqua;
+}

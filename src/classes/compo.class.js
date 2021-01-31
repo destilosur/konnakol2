@@ -1,5 +1,5 @@
 
-import { escribirArray, escribirHtml } from '../js/component';
+import { cargandoDatos, escribirHtml } from '../js/component';
 import { Linea } from './linea.class.js';
 const arrayCompos = [];//TODO:PARA CUANDO CARGE TODAS LAS COMPOS
 
@@ -18,8 +18,9 @@ export class Compo {
         this.arrayLineas.push(new Linea());
 
     };
+   
+     
     // LOCAL STORAGE-de la ultima commpo scrita------------------------------------
-
     guardarLocalStorage() {
 
         localStorage.setItem('compoNombre', this.nombre);
@@ -57,7 +58,6 @@ export class Compo {
                 this.mandandoObjLineaAEscribirHtml(linea);
 
             };
-
             return true;
 
         } else {
