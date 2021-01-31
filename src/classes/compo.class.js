@@ -10,7 +10,7 @@ export class Compo {
         this.nombre = nombre;
         this.grupo = grupo;
         this.nBeats = nBeats;
-        this.arrayLineas = [];
+        this.arrayLineas = arraySilabas;
     };
 
     nuevaLinea() {
@@ -20,39 +20,29 @@ export class Compo {
     };
     // LOCAL STORAGE-de la ultima commpo scrita------------------------------------
 
-     guardarLocalStorage() {
-
-        localStorage.removeItem('compoLineas');
-        //TODO: CUNADO BORRO BIEN PERO CUANDO ESCRIBO LUEGO QUILOMBO
-        //CUANDO SAVE ALGO Y YA HABIA OTRA COSA QUILOMBO
+    guardarLocalStorage() {
 
         localStorage.setItem('compoNombre', this.nombre);
         localStorage.setItem('compoGrupo', this.grupo);
         localStorage.setItem('compoNBeats', this.nBeats);
         localStorage.setItem('compoLineas', JSON.stringify(this.arrayLineas));
 
-
-        // console.log(localStorage);
     };
 
     loadLocalStorage() {
 
-        // console.log(localStorage.getItem('compoNombre'));
 
         if (localStorage.getItem('compoNombre')) {
 
             this.nombre = (localStorage.getItem('compoNombre')) ?
                 localStorage.getItem('compoNombre') :
                 this.nombre = "";
-            // console.log(this.nombre);
             this.grupo = (localStorage.getItem('compoGrupo')) ?
                 localStorage.getItem('compoGrupo') :
                 this.grupo = "";
-            // console.log(this.grupo);
             this.nBeats = (localStorage.getItem('compoNBeats')) ?
                 localStorage.getItem('compoNBeats') :
                 this.nBeats = "";
-            // console.log(this.nBeats);
 
             //recuperando LocalStorage Lineas y escribiendo en html
             this.arrayLineas = (localStorage.getItem('compoLineas')) ?
@@ -96,7 +86,7 @@ export class Compo {
         this.nBeats = 1;
         this.arrayLineas = [];
         Linea.reiniciarIdContador();
-        
+
     }
 
 

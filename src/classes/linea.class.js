@@ -6,7 +6,6 @@ let idContador=1;
 export class Linea { 
 
     static fromJson({id,arraySilabas}){
-
         
         const tempLinea = new Linea();
         tempLinea.id=id;

@@ -6,89 +6,64 @@ import { compo1 } from '../index';
 const d = document;
 const $btns = d.querySelectorAll('body .display-botones button');
 const $template = document.querySelector('#caja-escritura').content;
+let $cajaNotas;
 const speakSilabas = [' Ta ', ' TaKa ', ' Takite ', ' Takatimi ', ' TakaTakite ', ' TakatimiTaka ', ' TakaTakaTakite ', ' TakatimiTakajuna '];
 
-let ultimaLineaID;
+let lineaID;
 
 
 
 
-
-
-
+// -------------------------------------FUNCIONES ARRAY Y DOM-----------------------------------------
 
 export const crearTablaHtml = (id) => {
+
+    lineaID = id;
     $template.querySelector('.notas').dataset.id = id;
-    ultimaLineaID = id;
-
     let $node = document.importNode($template, true);
-
     document.body.querySelector('.marco-display').appendChild($node);
-};
-
-const borrarLineasArrayYHtml = () => {
-    //borra lineas html
-    document.body.querySelectorAll('.notas').forEach(elem => elem.remove());
-
-    //borra lineas array=[]  
-    const lineasArr = compo1.arrayLineas;
-    if (lineasArr) {
-
-        for (const linea of lineasArr) {
-
-            let silabasDeLinea = linea.arraySilabas;
-            silabasDeLinea = [];
-            // console.log(silabasDeLinea);       
-
-        };
-    };
-
-
-
 
 };
-// escribe Array y    html---------------------------------------------------
-export const escribirArray = (num) => {
 
 
-    const lineasArr = compo1.arrayLineas;
-    const ultimaLineaArr = lineasArr[lineasArr.length - 1];
-    ultimaLineaArr.agregarSilaba(num);
-    // console.log(compo1);
-    // console.log(ultimaLinea.arraySilabas);
+// escribe Array -----------------
+export const escribirArray = (id, num) => {
 
-};
-export const escribirHtml = (id, num) => {
-
-    // console.log(`Id ${id} num: ${num}`);
-    const speak = document.createElement('p')
-    speak.innerText = speakSilabas[num - 1];
-    const lineasHtml = document.body.querySelectorAll('.notas');
-    const lineaID = lineasHtml[id - 1].querySelector('.borde-notas');
-    lineaID.appendChild(speak);
-
+    compo1.arrayLineas[id - 1].agregarSilaba(num);
     compo1.guardarLocalStorage();
 
-
-
 };
 
-const borrarUltimaSilaba = () => {
-    //borra ultimo silaba del[]  arraySilabas
-
-    const lineasArr = compo1.arrayLineas;
-    const ultimaLineaArr = lineasArr[lineasArr.length - 1];
-    ultimaLineaArr.borrarUltimaSilaba();//de clase Linea
-    console.log(ultimaLineaArr);
+// escribe HTML ----------------
+export const escribirHtml = (id, num) => {
 
 
+    const speak = document.createElement('p')
+    speak.innerText = speakSilabas[num - 1];
+
+    //ASINGNAMOS A VARIABLE COMPONENT.JS
+    $cajaNotas = document.body.querySelectorAll('.notas .borde-notas');
+    $cajaNotas[id - 1].appendChild(speak);
+};
 
 
-    const lineasHtml = document.body.querySelectorAll('.notas');
-    const ultimaLineaHtml = lineasHtml[lineasHtml.length - 1].querySelector('.borde-notas');
-    if (!ultimaLineaHtml.children[ultimaLineaHtml.children.length - 1].matches('div'))  ultimaLineaHtml.lastChild.remove();
 
-        compo1.guardarLocalStorage();
+const borrarUltimaSilaba = (id) => {
+
+    //BORRA ULTIMA SILABA DE ARRAY SILABAS
+    compo1.arrayLineas[id - 1].borrarUltimaSilaba();
+
+    //BORRA ULTIMA SILABA HTML   
+    if (!$cajaNotas[id - 1].children[$cajaNotas[id - 1].children.length - 1].matches('div')) $cajaNotas[id - 1].lastChild.remove();
+
+    compo1.guardarLocalStorage();
+};
+
+
+const borrarLineasHtml = () => {
+
+    document.body.querySelectorAll('.notas').forEach(elem => elem.remove());
+
 };
 
 
@@ -111,30 +86,33 @@ function accionBoton() {
         if (btn.children[0]) btn.children[0].classList.toggle('ledAzul');
     }, 1000);
 
-    //----escribir
+
+
+
+    // -----------------------------BOTONES------------------------------------------
+    //----escribir 
     if (btn.matches('.btn-number')) {
-        escribirArray(parseInt(btn.textContent));
-        escribirHtml(ultimaLineaID, parseInt(btn.textContent));
+        escribirArray(lineaID, parseInt(btn.textContent));
+        escribirHtml(lineaID, parseInt(btn.textContent));
     };
 
-    // if (btn.textContent === 'Clear') borrarUltimaSilaba();
+    //SAVE------
+    if (btn.textContent === 'Save') bo;
 
-    //guardar------
-    if (btn.textContent === 'Save') compo1.guardarLocalStorage();
-
-    //load
+    //LOAD
     if (btn.textContent === 'Load') {
         compo1.reiniciarCompo();
-        borrarLineasArrayYHtml();
-        
+        borrarLineasHtml();
+
         //TODO: ESTO ES PROVISIONAL
 
     };
+
+    //REINICIAR
     if (btn.textContent === 'Clear') {
-        
 
         compo1.reiniciarCompo();
-        borrarLineasArrayYHtml();
+        borrarLineasHtml();
         compo1.nuevaLinea();
     };
 };
@@ -149,25 +127,17 @@ $btns.forEach(elem => elem.addEventListener('click', accionBoton));
 export const accionTeclas = (e) => {
 
     const num = parseInt(e.key);
-    // console.log(e.code);
+
     if (num > 0 && num < 9) {
-        escribirArray(num);
-        escribirHtml(ultimaLineaID, num);
-        
+        escribirArray(lineaID, num);
+        escribirHtml(lineaID, num);
     };
 
-    if (e.key === 'Backspace' || e.code === 'Backspace') {
+    if (e.key === 'Backspace' || e.code === 'Backspace') borrarUltimaSilaba(lineaID);
 
-        borrarUltimaSilaba();
-        
-    }
-
-    if (e.keyCode == 13) {
-        compo1.nuevaLinea();
-        console.log(compo1);
-
-    };
+    if (e.keyCode == 13) compo1.nuevaLinea();
 };
+
 document.addEventListener('keydown', accionTeclas);
 
 
