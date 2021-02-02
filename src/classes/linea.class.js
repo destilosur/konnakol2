@@ -2,8 +2,13 @@
 import {crearTablaHtml} from '../js/component';
 
 
-let idContador=1; 
+
+ let idContador=1;
 export class Linea { 
+
+    // static get getContador(){
+    //     let idContador=1;
+    // }
 
     static fromJson({id,arraySilabas}){
         
@@ -40,6 +45,10 @@ export class Linea {
     static reiniciarIdContador(){
 
         idContador=1;
+    };
+    static setIdContador(id){
+
+        idContador=id;
     };
     
 

@@ -1,16 +1,34 @@
 
-import { cargandoDatos, escribirHtml } from '../js/component';
+import {  escribirHtml } from '../js/component';
 import { Linea } from './linea.class.js';
-const arrayCompos = [];//TODO:PARA CUANDO CARGE TODAS LAS COMPOS
+
+
+
 
 
 export class Compo {
-    constructor(nombre, grupo, nBeats, arraySilabas) {
+
+    // static formJSON({ nombre, grupo, nBeats, arrayLineas }) {
+
+    //     const tempCompo = new Compo();
+    //     tempCompo.nombre = nombre;
+    //     tempCompo.grupo = grupo;
+    //     tempCompo.nBeats = nBeats;
+    //     tempCompo.arrayLineas = arrayLineas;
+
+    //     return tempCompo;
+
+    // };
+
+
+    constructor( nombre, grupo, nBeats, arraySilabas ) {
 
         this.nombre = nombre;
         this.grupo = grupo;
         this.nBeats = nBeats;
         this.arrayLineas = arraySilabas;
+
+        
     };
 
     nuevaLinea() {
@@ -18,8 +36,8 @@ export class Compo {
         this.arrayLineas.push(new Linea());
 
     };
-   
-     
+
+
     // LOCAL STORAGE-de la ultima commpo scrita------------------------------------
     guardarLocalStorage() {
 
@@ -58,11 +76,13 @@ export class Compo {
                 this.mandandoObjLineaAEscribirHtml(linea);
 
             };
+            this.cargarDatosCompo(this);
             return true;
 
         } else {
 
             this.arrayLineas = [];
+            this.cargarDatosCompo(this);
 
         };
     };
@@ -81,13 +101,33 @@ export class Compo {
     };
 
     reiniciarCompo() {
-        this.nombre = 'sin nombre';
-        this.grupo = 'sin grupo';
-        this.nBeats = 1;
+        this.nombre = 'default';
+        this.grupo = 'default';
+        this.nBeats = 5;
         this.arrayLineas = [];
         Linea.reiniciarIdContador();
+        this.cargarDatosCompo();
 
     }
+
+    cargarDatosCompo() {
+
+
+        document.getElementById('nombre').value = this.nombre;
+        document.getElementById('grupo').value= this.grupo;
+        document.getElementById('nBeats').value = this.nBeats;
+
+
+    }
+
+    setCompo({nombre,grupo,nBeats,arrayLineas}){
+        this.nombre=nombre;
+        this.grupo=grupo;
+        this.nBeats=nBeats;
+        this.arrayLineas = arrayLineas.map(Linea.fromJson);
+
+        this.cargarDatosCompo();
+    };
 
 
 

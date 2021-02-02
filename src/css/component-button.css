@@ -4,9 +4,9 @@
     padding: 14px 0px;
     background-color: #282320;    
     width: 98%;   
-    max-height: 40px;
+    max-height: 2.5rem;
     font-family: 'Play', sans-serif;
-    font-size: 25px;
+    font-size: 1.5rem;
     box-shadow: inset -5px -5px 4px #0a0908, inset 5px 5px 1px #4d433d;
 
     align-self: flex-end;
@@ -128,8 +128,9 @@
 
 
 .contenedor-btnNumber{
-    height: 300px;
-    max-height: 600px;    
+    align-self: flex-end;
+    height: 350px;
+    max-height: 700px;    
     padding: 14px 14px;
     display: grid;
     grid-template-columns: 1fr 1fr; 

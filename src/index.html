@@ -3,6 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
+  <script src="https://kit.fontawesome.com/54e911f0db.js" crossorigin="anonymous"></script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Play&display=swap" rel="stylesheet">
 
@@ -27,7 +29,7 @@
   <!-- ---------------------------------------------display--------------------- -->
   <div class="display-botones">
     
-    <div class="info" id="info">
+    <div class=" contenedor-button-display info" id="info">
       <label for="nombre">Nombre</label>
       <input type="text" class="nombre" id="nombre">
       <label for="grupo">Tala</label>
@@ -52,7 +54,10 @@
         <button class="btn-number button-display">6</button>
         <button class="btn-number button-display">7</button>
         <button class="btn-number button-display">8</button>
+        <button class="btn-number button-display">9</button>
+        <button class="btn-number button-display">R</button>
         <button class="button-display back">Back</button>
+        <button class="button-display back">New Line</button>
 
       </div>
     </div>
@@ -61,8 +66,8 @@
 
       <button class="button-display">Save<div class="ledBlanco"></div></button>
       <button class="button-display">Load<div class="ledBlanco"></div></button>
-      <button class="button-display">Group<div class="ledBlanco"></div></button>
-      <button class="button-display">Clear<div class="ledBlanco"></div></button>
+      <button class="button-display">Edit<div class="ledBlanco"></div></button>
+      <button class="button-display">New<div class="ledBlanco"></div></button>
 
     </div>
   </div>
@@ -73,6 +78,8 @@
     <div class="notas">
       <div class="borde-notas">
         <div class="close">x</div>
+        <i class="fas fa-times cruz "></i>
+        
         <!-- <img src="assets/svg/notas-cont.svg" alt="" width="30px" class="nota1"> -->
         <!-- <img src="assets/svg/notas-cont.svg" alt="" width="30px" class="nota2"> -->
         <!-- <img src="assets/svg/notaFin.svg" alt="" height="16px" class="nota3"> -->
@@ -84,6 +91,9 @@
   <dir class="lista" id="lista">
     
   </dir>
+
+ 
 </body>
+
 
 </html>
