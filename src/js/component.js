@@ -7,13 +7,16 @@ const d = document;
 const $btns = d.querySelectorAll('body .display-botones button');
 const $template = document.querySelector('#caja-escritura').content;
 let $cajaNotas;
+let modoBloqueo = false;
+
+console.info(modoBloqueo);
 
 
 
 const speakSilabas = [' Ta ', ' TaKa ', ' Takite ', ' Takatimi ', ' TakaTakite ', ' TakatimiTaka ', ' TakaTakaTakite ', ' TakatimiTakajuna '];
 
 let lineaID;
-let escribir = true;
+let escribirInputs = false;
 let repetir = 2;// para icono x2 x3 x4 se reinicia en focusLinea
 
 
@@ -33,13 +36,8 @@ export const crearTablaHtml = (id) => {
 
 export const focusLinea = () => {
 
-    if ($cajaNotas === undefined) {
-        compo1.reiniciarCompo();
-        compoRecargada = {};
-        borrarLineasHtml();
-        compo1.nuevaLinea();
-    };
 
+    if (modoBloqueo) return alert('Modo bloqueo activado en focus metodo');
     $cajaNotas = document.body.querySelectorAll('.notas .borde-notas');
     $cajaNotas.forEach(linea => linea.classList.remove('edit'));
     $cajaNotas[lineaID - 1].classList.add('edit');
@@ -55,29 +53,38 @@ export const focusLinea = () => {
 // escribe Array -----------------
 export const escribirArray = (id, num) => {
 
-    compo1.arrayLineas[id - 1].agregarSilaba(num);
-    ;
+    if (!modoBloqueo && !escribirInputs) compo1.arrayLineas[id - 1].agregarSilaba(num);
+
 
 
 };
 
 // escribe HTML ----------------
 export const escribirHtml = (id, num) => {
+    // if (modoBloqueo) return alert('Press Edit \ndont forget to save');
+    if (modoBloqueo) return alert('Modo bloqueo activado en escribirHtml metodo');
 
-    const speak = document.createElement('p')
-    speak.innerText = speakSilabas[num - 1];
 
-    //ASINGNAMOS A VARIABLE COMPONENT.JS
-    $cajaNotas = document.body.querySelectorAll('.notas .borde-notas');
-    $cajaNotas[id - 1].appendChild(speak);
-    compo1.guardarLocalStorage();
+    if (!escribirInputs) {
+        const speak = document.createElement('p')
+        speak.innerText = speakSilabas[num - 1];
+
+        //ASINGNAMOS A VARIABLE COMPONENT.JS
+        $cajaNotas = document.body.querySelectorAll('.notas .borde-notas');
+        $cajaNotas[id - 1].appendChild(speak);
+        compo1.guardarLocalStorage();
+    }
+
 };
 
 
 
 const borrarUltimaSilaba = (id) => {
+    // if (modoBloqueo) return alert('Press Edit \ndont forget to save');
 
-    if (compo1.arrayLineas.length === 0) return alert('Press Edit \ndont forget to save');
+    if (modoBloqueo) return alert('modo bloqueo en borrarUltimaSilaba');
+
+    if(!escribirInputs){
     //BORRA ULTIMA SILABA DE ARRAY SILABAS
     compo1.arrayLineas[id - 1].borrarUltimaSilaba();
 
@@ -85,10 +92,13 @@ const borrarUltimaSilaba = (id) => {
     if (!$cajaNotas[id - 1].children[$cajaNotas[id - 1].children.length - 1].matches('div')) $cajaNotas[id - 1].lastChild.remove();
 
     compo1.guardarLocalStorage();
+    };
 };
 
 
 export const borrarLineasHtml = () => {
+
+    if (modoBloqueo) return alert('Modo bloqueo activado en borrarLineasHtml metodo');
 
     document.body.querySelectorAll('.notas').forEach(elem => elem.remove());
 
@@ -120,13 +130,14 @@ function accionBoton() {
     // -----------------------------BOTONES ACCIÒN------------------------------------
     //ESCRIBIR 1 A 9
     if (btn.matches('.btn-number') && (btn.textContent > 0 && btn.textContent < 10)) {
-        if (compo1.arrayLineas.length === 0) return alert('Press Edit \ndont forget to save');
+
         escribirArray(lineaID, parseInt(btn.textContent));
         escribirHtml(lineaID, parseInt(btn.textContent));
     };
 
-    if (btn.textContent === 'R') {
+    if (btn.textContent === 'R' && modoBloqueo) {
 
+        //TODO:QUE GUARDE LA REPETICION EN ARRAY Y LISTA
 
         const ledRepetir = document.querySelectorAll('.cruz')[lineaID - 1];
         ledRepetir.textContent = repetir++;
@@ -142,21 +153,18 @@ function accionBoton() {
     };
 
     //BACK
-    if (btn.textContent === 'Back') {
+    if (btn.textContent === 'Back') borrarUltimaSilaba(lineaID);
 
-        if (compo1.arrayLineas.length === 0) return alert('Press Edit \ndont forget to save');
 
-        borrarUltimaSilaba(lineaID);
-    }
     //NEW LINE
-    if (btn.textContent === 'New Line') {
+    if (btn.textContent === 'New Line' && !modoBloqueo) {
         compo1.nuevaLinea();
         focusLinea();
     };
 
     //SAVE------
     if (btn.textContent === 'Save') {
-        if (compo1.arrayLineas.length === 0) return alert('it`s already saved\nPress Edit \ndont forget to save');
+        if (modoBloqueo) return alert('it`s already saved\nPress Edit \ndont forget to save');
         guardarCompoEnLista();
         loadCompoLista();
 
@@ -164,8 +172,7 @@ function accionBoton() {
 
     //LOAD
     if (btn.textContent === 'Load') {
-
-
+        modoBloqueo = false;
         loadCompoLista();
         abrirLista();
     };
@@ -173,27 +180,25 @@ function accionBoton() {
     //REINICIAR
     if (btn.textContent === 'New') {
 
+        modoBloqueo = false;
         compo1.reiniciarCompo();
-        compoRecargada = {};
         borrarLineasHtml();
         compo1.nuevaLinea();
-        console.log(lineaID);
         focusLinea();
 
     };
     if (btn.textContent === 'Edit') {
 
 
-        if (Object.entries(compoRecargada).length === 0) {
-            alert('First load Tala')
-        } else {
-            borrarLineasHtml();
-            compo1.reiniciarCompo();
-            compo1.setCompo(compoRecargada);
-            compo1.arrayLineas.forEach(linea => compo1.mandandoObjLineaAEscribirHtml(linea));
-            focusLinea();
+        if (!modoBloqueo) return alert('First load Tala')
 
-        }
+        modoBloqueo = false;
+        focusLinea();
+        
+       
+        
+        
+
     }
 };
 
@@ -208,22 +213,18 @@ export const accionTeclas = (e) => {
 
     const num = parseInt(e.key);
 
-    if (num > 0 && num < 9 && escribir == true) {
+    if (num > 0 && num < 9) {
 
-        if (compo1.arrayLineas.length === 0) return alert('Press Edit \ndont forget to save');
         escribirArray(lineaID, num);
         escribirHtml(lineaID, num);
     };
 
-    if ((e.key === 'Backspace' || e.code === 'Backspace') && escribir == true) {
-
-        if (compo1.arrayLineas.length === 0) return alert('Press Edit \ndont forget to save');
-
-        borrarUltimaSilaba(lineaID);
-    }
+    if (e.key === 'Backspace' || e.code === 'Backspace') borrarUltimaSilaba(lineaID);
 
 
-    if (e.keyCode == 13) {
+
+    if (e.keyCode == 13 && !modoBloqueo && !escribirInputs) {
+        //TODO: QUE NO CUANDO ESCRIBO INPUT NI CUANDO NO ES EDITABLE
         compo1.nuevaLinea();
         focusLinea();
     }
@@ -241,13 +242,14 @@ document.addEventListener('click', (e) => {
         };
     };
     if (e.target.matches('.close')) {
+        if ($cajaNotas && !modoBloqueo) {
+            //TODO: QUE NO PUEDA HACERLO EN VERSION BLOKED. SE PODRA HACER UNA VERSION BLOQUED TRUE?
+            let closeId = e.target.parentElement.parentElement.getAttribute('data-id');
 
-        let closeId = e.target.parentElement.parentElement.getAttribute('data-id');
+            // borramos Array  que pichamos
+            compo1.arrayLineas = compo1.arrayLineas.filter((linea, index, array) => linea !== array[closeId - 1]);
+            //borramos Linea HTML que pinchamos
 
-        // borramos Array  que pichamos
-        compo1.arrayLineas = compo1.arrayLineas.filter((linea, index, array) => linea !== array[closeId - 1]);
-        //borramos Linea HTML que pinchamos
-        if ($cajaNotas) {
             document.querySelectorAll('.notas')[closeId - 1].remove();
             //resetemos los ids y el let contador de clase Linea
             let contador = 1;
@@ -270,15 +272,17 @@ document.addEventListener('click', (e) => {
 //----------------------------------------INPUTS--------------------------------------------------
 const inputs = document.querySelectorAll('input');
 
+
 inputs.forEach(input => input.addEventListener('focus', (e) => {
+    if(modoBloqueo) return alert('Modo bloqueo en inputs metodo');
     e.target.classList.add('input-foco');
     //para que no escriba en linea cuando inputs
-    escribir = false;
-
+    escribirInputs = true;
+    
 }));
 inputs.forEach(input => input.addEventListener('blur', (e) => {
     e.target.classList.remove('input-foco');
-    escribir = true;
+    escribirInputs = false;
 }));
 
 
@@ -288,19 +292,39 @@ inputs.forEach(input => input.addEventListener('blur', (e) => {
 ///////////////////////////////////LISTA DE COMPOS/////////////////////////////////////
 
 let compoLista = [];
-let compoRecargada = {};
 let indexCompoLista = undefined;
 
 const guardarCompoEnLista = () => {
-
     loadCompoLista();
+    let nombresLista = compoLista.map(compo => compo.nombre);
+    let inputNombre = document.getElementById('nombre').value.trim();
+    let indexRepetido= nombresLista.indexOf(inputNombre);
+    console.log(indexRepetido);
+
+    if (nombresLista.includes(inputNombre)) {
+
+        let guardar = confirm(`La Lista ya contiene el nombre. Desea sobreescribir ${inputNombre}?`);
+
+        if (guardar) {
+            compoLista.splice(indexRepetido, 1);
+            
+            return guardarConfirmado();
+
+        }else {
+             return alert('inputNombre  + Saved Canceled') 
+            };
+    };
+
+    guardarConfirmado();
+};
+
+const guardarConfirmado = () => {
     guardarDatos();
     compoLista.push(compo1);
-    //borro del CompoLista el editado 
-    compoLista.splice(indexCompoLista, 1);
     localStorage.setItem('compoLista', JSON.stringify(compoLista));
-
 };
+
+
 
 const guardarDatos = () => {
 
@@ -312,8 +336,6 @@ const guardarDatos = () => {
 };
 
 const loadCompoLista = () => {
-
-
 
     compoLista = (localStorage.getItem('compoLista'))
         ? compoLista = JSON.parse(localStorage.getItem('compoLista'))
@@ -329,7 +351,7 @@ const loadCompoLista = () => {
 
 export const abrirLista = () => {
 
-    compoLista.map((compo, index) => {
+    compoLista.forEach((compo, index) => {
         const enlase = document.createElement('a');
         let texto = document.createTextNode(`${compo.nombre}`);
         enlase.appendChild(texto);
@@ -342,28 +364,30 @@ export const abrirLista = () => {
 
 const recargarCompoDeLista = function () {
 
-    compo1.reiniciarCompo();
+
+
     borrarLineasHtml();
+    Linea.reiniciarIdContador();
     indexCompoLista = this.getAttribute('value');
-    const c = compoLista[indexCompoLista];
-    c.arrayLineas = c.arrayLineas.map(linea => Linea.fromJson(linea));
+    compo1.nombre = compoLista[indexCompoLista].nombre;
+    compo1.grupo = compoLista[indexCompoLista].grupo;
+    compo1.nBeats = compoLista[indexCompoLista].nBeats;
+    compo1.arrayLineas = compoLista[indexCompoLista].arrayLineas.map(Linea.fromJson);
 
-
-    //asignamos a otra variable no accede a metodos de escribir y borrar (compo1)
-    compoRecargada = new Compo(c.nombre, c.grupo, c.nBeats, c.arrayLineas);
-
+    
+    compo1.arrayLineas.forEach(linea => compo1.mandandoObjLineaAEscribirHtml(linea));
+    compo1.cargarDatosCompo();
     // /CAMBIAMOS MODO BLOKED
+    modoBloqueo = true;
+    document.querySelectorAll('.lista a').forEach(a=>a.remove());
 
 
 
-    compoRecargada.arrayLineas.forEach(linea => compo1.mandandoObjLineaAEscribirHtml(linea));
-
-    compoRecargada.cargarDatosCompo();
-
-    //sacamos focus borde
-    $cajaNotas.forEach(linea => linea.classList.remove('edit'));
-    // //borrar la lista
-    document.querySelectorAll('.lista a').forEach(a => a.remove());
+    // //TODO: SEPARAR CUANDO ABRA Y CIERRA LISTA
+    // //sacamos focus borde
+    // $cajaNotas.forEach(linea => linea.classList.remove('edit'));
+    // // //borrar la lista
+    // document.querySelectorAll('.lista a').forEach(a => a.remove());
 
 
 };

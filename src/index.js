@@ -9,19 +9,15 @@ import { focusLinea} from './js/component';
 
 export let compo1 = new Compo('Default','Default',4,[]);
 const compoGuardada = compo1.loadLocalStorage();
-focusLinea();
-
-
-// console.log(compo1);
-
-
-
-
 
 if (!compoGuardada) {
 
     compo1.nuevaLinea();
 };
+
+focusLinea();
+
+// console.log(compo1);
 
 
 

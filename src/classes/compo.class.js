@@ -8,19 +8,7 @@ import { Linea } from './linea.class.js';
 
 export class Compo {
 
-    // static formJSON({ nombre, grupo, nBeats, arrayLineas }) {
-
-    //     const tempCompo = new Compo();
-    //     tempCompo.nombre = nombre;
-    //     tempCompo.grupo = grupo;
-    //     tempCompo.nBeats = nBeats;
-    //     tempCompo.arrayLineas = arrayLineas;
-
-    //     return tempCompo;
-
-    // };
-
-
+    
     constructor( nombre, grupo, nBeats, arraySilabas ) {
 
         this.nombre = nombre;
@@ -120,14 +108,14 @@ export class Compo {
 
     }
 
-    setCompo({nombre,grupo,nBeats,arrayLineas}){
-        this.nombre=nombre;
-        this.grupo=grupo;
-        this.nBeats=nBeats;
-        this.arrayLineas = arrayLineas.map(Linea.fromJson);
+    // set setCompo({nombre,grupo,nBeats,arrayLineas}){
+    //     this.nombre=nombre;
+    //     this.grupo=grupo;
+    //     this.nBeats=nBeats;
+    //     this.arrayLineas = arrayLineas.map(Linea.fromJson);
 
-        this.cargarDatosCompo();
-    };
+    //     this.cargarDatosCompo();
+    // };
 
 
 
