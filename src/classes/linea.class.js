@@ -6,29 +6,30 @@ import {crearTablaHtml} from '../js/component';
  let idContador=1;
 export class Linea { 
 
-    // static get getContador(){
-    //     let idContador=1;
-    // }
+    
 
-    static fromJson({id,arraySilabas}){
+    static fromJson({id,arraySilabas,rep=1}){
         
         const tempLinea = new Linea();
         tempLinea.id=id;
+        tempLinea.rep=rep;
         tempLinea.arraySilabas=arraySilabas;        
 
         return tempLinea;
     };
     
 
-    constructor(id) {
+    constructor(id,rep=1) {
          
         this.id=(!id)?idContador++:id;
+        this.rep=rep;
         this.arraySilabas = [];
         crearTablaHtml(this.id);
         
     };
 
     agregarSilaba(n_silaba){
+        
         this.arraySilabas.push(n_silaba);
         
     };

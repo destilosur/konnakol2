@@ -1,150 +1,184 @@
-body .display-botones {
+:root
+{
+    --color-resaltado: rgb(0, 230, 241);
+    --color-hover: #8cffff;
+    --color-resaltado-trans: rgba(0, 229, 241, .5);
+    --color-hover-trans: hsla(180, 100%, 77%, .589);
+    --color-background: #282320;
+}
+body .display-botones
+{
+    position: relative;
+    z-index: 20;
+
+    display: flex;
+    flex-wrap: wrap;
+
     width: 95%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     min-width: 200px;
+    margin: auto;
 }
 
-.info {
+
+
+.display-btnNumbrer
+{
     display: flex;
-    justify-content: space-around;
-    max-height: 100rem;
-    font-size: 45px;
-}
 
-.info label {
-    color: #fff;
-}
-
-.info input {
-    border: none;
-    border-radius: 0.2rem;
-    font-size: 16px;
-    font-weight: 500;
-    font-family: 'Play', sans-serif;
-    padding: 0px 5px;
-}
-
-.display-btnNumbrer {
     width: 97%;
-    display: flex;
+    margin: auto;
 }
 
-body .marco-display {
+body .marco-display
+{
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
+
     width: 97%;
+    min-width: 200px;
     min-height: 350px;
-    min-width: 200px;
-    background: #caede1;
+
     border-radius: 7px;
+    background: #caede1;
 }
 
-body .marco-display .notas {
+body .marco-display .notas
+{
     display: flex;
     align-items: center;
     justify-content: center;
+
     width: 96%;
     height: 60px;
+
     border-radius: 6px;
-    box-shadow: -3px -3px 20px -1px #d7f1ebb7, inset 2px 5px 5px 3px rgba(216, 248, 238, 0.726), 7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+    box-shadow: -3px -3px 20px -1px #d7f1ebb7, inset 2px 5px 5px 3px rgba(216, 248, 238, .726), 7px 7px 20px 0 #0002, 4px 4px 5px 0 #0001;
 }
 
-body .marco-display .notas .borde-notas {
+.borde-linea
+{
     display: flex;
-    /* align-content: center; */
+
+    width: 97%;
+
+    border: inset 1px #7fd1b9;
+    border: inset .5px hsla(0, 3%, 12%, .137);
+    border-radius: 5px;
+}
+
+body .marco-display .notas .borde-notas
+{
+    display: flex;
+    overflow: hidden;
     justify-content: flex-start;
+
     width: 96%;
     height: 40px;
-    border: inset 1px #7fd1b9;
-    border: inset 0.5px hsla(0, 3%, 12%, 0.137);
-    box-shadow: none;
-    overflow: hidden;
 }
 
-body .marco-display .notas .edit {
-    box-shadow: inset 3px 3px 15px 0px#99dbc7, inset -3px -3px 15px 0px#99dbc7;
-    border: inset 0.5px #56cfe1;
-    box-shadow: inset -1px -1px 3px 0px #fff9ff, inset -2px -2px 6px 0px #56cfe1, inset 2px 2px 6px 0px #56cfe1, inset 1px 1px 2px 3px #fff, inset 2px 2px 6px 0px #72efdd;
+body .marco-display .notas .edit
+{
+    border: inset .5px var(--color-resaltado-trans);
+    box-shadow: 1px 1px 6px 0 #fff,
+    inset -2px -2px 8px 0 var(--color-resaltado-trans),
+    inset 2px 2px 8px 0 var(--color-resaltado-trans),
+    inset -1px -1px 2px 2px #fff,
+    inset 9px 9px 30px 0 var(--color-hover-trans);
 }
 
-.input-foco {
-    box-shadow: inset 3px 3px 15px 0px#99dbc7, inset -3px -3px 15px 0px#99dbc7;
-    border: inset 0.5px #56cfe1;
-    box-shadow: inset -1px -1px 3px 0px #fff9ff, inset -2px -2px 6px 0px #56cfe1, inset 2px 2px 6px 0px #56cfe1, inset 1px 1px 2px 3px #fff, inset 2px 2px 6px 0px #72efdd;
+.input-foco
+{
+    border: inset .5px var(--color-resaltado-trans);
+    box-shadow: 1px 1px 8px 0 #fff,
+    inset -1px -1px 0 0 #fff,
+    inset -2px -2px 15px 1px var(--color-resaltado-trans),
+    inset 2px 2px 15px 0 var(--color-resaltado-trans),
+    inset 2px 2px 15px 1px var(--color-hover-trans);
 }
 
-body .marco-display .notas .borde-notas p {
-    align-self: center;
-    justify-self: start;
-    display: inline-block;
+body .marco-display .notas .borde-notas p
+{
     font-family: 'Play', sans-serif;
-    font-size: 20px;
-    text-shadow: 1px 1px 2px rgb(255, 255, 255);
-    margin-left: 5px;
+    font-size: 1.25rem;
+
+    display: inline-block;
+    align-self: center;
+
     margin-right: 5px;
+    margin-left: 5px;
+
+    text-shadow: 1px 1px 2px rgb(255, 255, 255);
 }
 
 /* --------boton-cerrar-linea----- */
 
-.close {
+.contenedor-iconos
+{
     display: flex;
-    justify-content: center;
+    order: 2;
+}
+
+.close
+{
+    font-family: sans-serif;
+    /* position: relative;
+    right: -96%; */
+
+    display: flex;
     align-items: center;
+    align-self: center;
+    /* flex-shrink: 0; */
+    justify-content: center;
+
     width: 25px;
     height: 25px;
-    color: #acacac;
-    position: relative;
-    right: -96%;
-    align-self: center;
-    flex-shrink: 0;
-    font-family: sans-serif;
-    /* padding: 10px 10px; */
+    margin: 0 10px 0 5px;
+
     cursor: pointer;
-    /* text-shadow: -2px -2px 10px #fff; */
+
+    color: #acacac;
     border-radius: 100%;
-    background-image: linear-gradient(rgba(146, 187, 172, 0.616), rgba(255, 255, 255, 0.87));
+    background-image: linear-gradient(rgba(146, 187, 172, .616), rgba(255, 255, 255, .87));
 }
 
-.close:hover {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.87), rgba(155, 187, 175, 0.726));
+.close:hover
+{
+    background-image: linear-gradient(rgba(255, 255, 255, .87), rgba(155, 187, 175, .726));
 }
 
-.cruz{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    right: -87%; 
+.cruz
+{
     font-size: 20px;
-    height: 30px;
-    padding: 0px 7px;
-    align-self: center;
-    border-radius: 20%;
-    border: solid 1px #7fd1b9;
-    color:#7fd1b9;
-    text-shadow:  1px 1px 6px  #9ad6c4;
 
-    box-shadow:
-
-    3px 3px 15px 0px#7fd1b98e,
-      -3px -3px 15px 0px #7fd1b98c, 
-     inset -1px -1px 10px 0px #fff9, 
-     inset -2px -2px 1px 0px #7fd1b9c5, 
-     inset 2px 2px 2px 0px #7fd1b9c5,
-      1px 1px 5px 0px #7fd1b9c5;
-      
+    display: flex;
     visibility: hidden;
+    align-items: center;
+    align-self: center;
+
+    height: 30px;
+    margin: 0 10px 0 5px;
+    padding: 0 7px;
+
+    color: #7fd1b9;
+    border: solid 1px #7fd1b9;
+    border-radius: 20%;
+    box-shadow: 3px 3px 15px 0#7fd1b98e,
+    -3px -3px 15px 0 #7fd1b98c,
+    inset -1px -1px 10px 0 #fff9,
+    inset -2px -2px 1px 0 #7fd1b9c5,
+    inset 2px 2px 2px 0 #7fd1b9c5,
+    1px 1px 5px 0 #7fd1b9c5;
+    text-shadow: 1px 1px 6px  #9ad6c4;
 }
 
-.mostrar{
+.mostrar
+{
     visibility: visible;
 }
 
-body .marco-display .notas .borde-notas img {
+/* body .marco-display .notas .borde-notas img {
     filter: drop-shadow(3px 2px 2px rgb(151, 149, 149));
 }
 
@@ -158,4 +192,4 @@ body .nota3 {
     padding-top: 2px;
     align-self: center;
     left: -4px;
-}
+} */

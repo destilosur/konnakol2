@@ -1,61 +1,88 @@
 /* este es el css global */
-
-body {
-    background: #282320;
-    box-sizing: border-box;
+html
+{
+    scroll-behavior: smooth;
 }
 
-body h1 {
+body
+{
+    box-sizing: border-box;
+
+    background: #282320;
+}
+
+body h1
+{
     font-family: 'Play', sans-serif;
     font-size: 40px;
-    color: #7fd1b9;
+
     margin: 0;
+
+    color: #7fd1b9;
 }
 
-.logo-titulo{
-    padding-top: 20px;
-    width: 90%;
+.logo-titulo
+{
     display: flex;
-    justify-content: space-between ;
     align-items: center;
-    margin-left: 5%;
-    margin-bottom: 3.125rem;
+    justify-content: space-between ;
 
+    width: 90%;
+    margin-bottom: 3.125rem;
+    margin-left: 5%;
+    /* z-index: 20; */
+    padding-top: 20px;
 }
-.logo{
+.logo
+{
     width: 16rem;
 }
 
-.titulo-subrayado {
-    
-    margin-right:200px;
-    width: 10.625rem;
-     margin: auto;
+.titulo-subrayado
+{
     display: flex;
     display: inline-block;
     flex-direction: column;
     justify-content: center;
+
+    width: 10.625rem;
+    margin: auto;
+    margin-right: 200px;
 }
 
-.caja-subr {
+.caja-subr
+{
     padding-bottom: 3px;
-    border-bottom: 4px solid #FFD152;
+
+    border-bottom: 4px solid #ffd152;
 }
 
-.subrayado {
+.subrayado
+{
     align-self: flex-start;
+
     height: 10px;
-    background-color: #DB664A;
+
+    background-color: #db664a;
 }
 
+.footer
+{
+    order: 4;
 
-/* //////////////////////////LISTA////////////////////////////////// */
+    width: 95%;
+    margin: auto;
+    margin-top: 5px;
 
-.lista a{
+    border: .5px solid #fff;
+    border-radius: 3px;
+}
 
+.footer-texto
+{
+    font-size: 1.2rem;
 
+    padding: 5px 20px;
 
-    font-size: 18px;
-    display: block;
-    color: aqua;
+    color: white;
 }

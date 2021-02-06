@@ -1,5 +1,5 @@
 
-import {  escribirHtml } from '../js/component';
+import {  escribirHtml,escribirRepeticiones } from '../js/component';
 import { Linea } from './linea.class.js';
 
 
@@ -76,11 +76,11 @@ export class Compo {
     };
 
     mandandoObjLineaAEscribirHtml(objLinea) {
-
-
-        let idLinea = objLinea.id;
-        let silabasArray = objLinea.arraySilabas;
-        // console.warn(idLinea);
+       //TODO: ESCRIBIR REPETICIONES
+        
+       let idLinea = objLinea.id;
+       let silabasArray = objLinea.arraySilabas;
+       escribirRepeticiones(idLinea,objLinea.rep);
 
         for (const silaba of silabasArray) {
             escribirHtml(idLinea, silaba);
@@ -108,14 +108,7 @@ export class Compo {
 
     }
 
-    // set setCompo({nombre,grupo,nBeats,arrayLineas}){
-    //     this.nombre=nombre;
-    //     this.grupo=grupo;
-    //     this.nBeats=nBeats;
-    //     this.arrayLineas = arrayLineas.map(Linea.fromJson);
-
-    //     this.cargarDatosCompo();
-    // };
+    
 
 
 

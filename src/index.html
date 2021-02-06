@@ -11,88 +11,165 @@
   <title>Konnakol</title>
 </head>
 
+
+
 <body>
-  <div class="logo-titulo">
-    <img class="logo" src="assets/LogoDS.png" alt="logo destilosur">
-    <div class="titulo-subrayado">
-      <h1>Konnakol</h1>
-      <div class="caja-subr">
-        <div class="subrayado"></div>
+  <header>
+    <div class="logo-titulo">
+      <img class="logo" src="assets/LogoDS.png" alt="logo destilosur">
+      <div class="titulo-subrayado">
+        <h1>Konnakol</h1>
+        <div class="caja-subr">
+          <div class="subrayado"></div>
+        </div>
       </div>
     </div>
-  </div>
+  </header>
 
 
 
+  <main>
+    <!-- ---------------------------------------------display--------------------- -->
+    <div class="display-botones" id="display-botones">
+
+      <div class=" contenedor-button-display info" id="info">
+        <label for="nombre">Nombre</label>
+        <input type="text" class="nombre titulo-lista" id="nombre">
+        <label for="grupo">Tala</label>
+        <input type="text" class=" grupo titulo-lista" id="grupo">
+        <label for="nBeats">Beats</label>
+        <input type="number" name="nBeats" class=" titulo-lista nBeats" id="nBeats" min="4" max="124" value=""
+          placeholder="Default">
+      </div>
+
+      <div class="display-btnNumbrer">
+        <div class="marco-display">
+          <!-- //colocar aqui template  -->
 
 
-  <!-- ---------------------------------------------display--------------------- -->
-  <div class="display-botones">
-    
-    <div class=" contenedor-button-display info" id="info">
-      <label for="nombre">Nombre</label>
-      <input type="text" class="nombre" id="nombre">
-      <label for="grupo">Tala</label>
-      <input type="text" class="grupo" id="grupo">
-      <label for="nBeats">Beats</label>
-      <input type="number" name="nBeats" id="nBeats"  min="4" max="100"value="">
-    </div>
+        </div>
+        <div class="contenedor-btnNumber">
 
-    <div class="display-btnNumbrer">
-      <div class="marco-display">
-        <!-- //colocar aqui template  -->
+          <button class="btn-number button-display">1</button>
+          <button class="btn-number button-display">2</button>
+          <button class="btn-number button-display">3</button>
+          <button class="btn-number button-display">4</button>
+          <button class="btn-number button-display">5</button>
+          <button class="btn-number button-display">6</button>
+          <button class="btn-number button-display">7</button>
+          <button class="btn-number button-display">8</button>
+          <button class="btn-number button-display">9</button>
+          <button class="btn-number button-display">R</button>
+          <button class="button-display back">Back</button>
+          <button class="button-display back">New Line</button>
 
+        </div>
+      </div>
+      <div class="contenedor-button-display">
+
+
+        <button class="button-display">Save<div class="ledBlanco"></div></button>
+        <a class="button-display" href="#footer">Load<div class="ledBlanco"></div></a>
+        <button class="button-display">Edit<div class="ledBlanco"></div></button>
+        <button class="button-display">New<div class="ledBlanco"></div></button>
 
       </div>
-      <div class="contenedor-btnNumber">
-
-        <button class="btn-number button-display">1</button>
-        <button class="btn-number button-display">2</button>
-        <button class="btn-number button-display">3</button>
-        <button class="btn-number button-display">4</button>
-        <button class="btn-number button-display">5</button>
-        <button class="btn-number button-display">6</button>
-        <button class="btn-number button-display">7</button>
-        <button class="btn-number button-display">8</button>
-        <button class="btn-number button-display">9</button>
-        <button class="btn-number button-display">R</button>
-        <button class="button-display back">Back</button>
-        <button class="button-display back">New Line</button>
-
-      </div>
     </div>
-    <div class="contenedor-button-display">
 
 
-      <button class="button-display">Save<div class="ledBlanco"></div></button>
-      <button class="button-display">Load<div class="ledBlanco"></div></button>
-      <button class="button-display">Edit<div class="ledBlanco"></div></button>
-      <button class="button-display">New<div class="ledBlanco"></div></button>
+    <template id="caja-escritura">
 
-    </div>
-  </div>
-  <br><br><br><br><br>
+      <div class="notas">
+        <div class="borde-linea">
+          <div class="borde-notas">
 
-  <template id="caja-escritura">
+          </div>
+          <div class="contenedor-iconos">
+            <i class="fas fa-times cruz " data-rep="" data-id=""></i>
+            <div class="close">x</div>
+          </div>
+        </div>
 
-    <div class="notas">
-      <div class="borde-notas">
-        <div class="close">x</div>
-        <i class="fas fa-times cruz "></i>
-        
         <!-- <img src="assets/svg/notas-cont.svg" alt="" width="30px" class="nota1"> -->
         <!-- <img src="assets/svg/notas-cont.svg" alt="" width="30px" class="nota2"> -->
         <!-- <img src="assets/svg/notaFin.svg" alt="" height="16px" class="nota3"> -->
 
       </div>
+    </template>
+
+    <!-- -----------------------------------Lista--------------------------------- -->
+
+    <div class="lista-panel" id="lista">
+
+
+      <div class="contenedor-lista-usuarios" id="contenedor-lista-usuarios">
+        <table>
+          <thead>
+            <th colspan="3" class="titulo-lista">Usuario</th>
+          </thead>
+          <tbody>
+            <!-- aca el template tr-enlase -->
+          </tbody>
+
+        </table>
+      </div>
+
+
+
+
+      <!-- ----------------------------borrar luego----------------------------------------------- -->
+      <div class="contenedor-lista-predefinidos" id="contenedor-lista-predefinidos">
+        <table>
+          <thead>
+            <th colspan="3" class="titulo-lista">Predefinidos</th>
+          </thead>
+          <tbody>
+
+            <!-- aca el template tr-enlase -->
+
+
+
+          </tbody>
+
+        </table>
+      </div>
+
+
+      <!-- -----------------------------------------hata aca---------------------------------------- -->
+
+
+
+
+
+
+      <div class="contenedor-button-display contenedor-button-lista">
+        <a class="button-display" href="#display-botones">Close<div class="ledBlanco"></div></a>
+      </div>
+
     </div>
-  </template>
 
-  <div class="lista" id="lista">
-    
-  </div>
+    <template id="tr-enlace" class="tr-enlace">
 
- 
+      <tr class="tr-tabla" id="item-lista">
+        <td class="td1" id="td1">
+
+          <a href="#display-botones" class="enlase-item-lista " id="enlace-item-lista"></a>
+
+        </td>
+
+        <td class="td2" id="td2"></td>
+        <td class="td3" id="td3"></td>
+      </tr>
+
+
+    </template>
+
+    <div class="footer" id="footer">
+
+      <div class="footer-texto">destiloSur @todos los derechos reservados <i class="fab fa-github-alt"></i></div>
+    </div>
+
+  </main>
 </body>
 
 

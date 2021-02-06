@@ -2,7 +2,8 @@ import { Compo } from './classes/compo.class';
 import './styles.css';
 import './css/component-display.css';
 import './css/component-button.css';
-import { focusLinea} from './js/component';
+import './css/lista-panel.css';
+import { inicio} from './js/component';
 
 
 
@@ -15,7 +16,7 @@ if (!compoGuardada) {
     compo1.nuevaLinea();
 };
 
-focusLinea();
+inicio();
 
 // console.log(compo1);
 

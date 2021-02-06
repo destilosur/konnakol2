@@ -1,0 +1,91 @@
+:root {
+    --color-resaltado: rgb(0, 230, 241);
+    --color-hover: #8cffff;
+    --color-resaltado: rgb(0, 230, 241);
+    --color-hover: #8cffff;
+    --color-background: #282320;
+    --color-amarillo: #ffd152;
+}
+
+.lista-panel {
+    visibility: hidden;
+    width: 90%;
+    height: 85vh;
+    margin: auto;
+    transition: all 1s ease-in;
+    transform: translateY(-100%);
+    background-color: var(--color-background);
+}
+
+.lista-panel-active {
+    visibility: visible;
+    transform: translateY(0%);
+}
+
+.lista-panel .contenedor-lista-usuarios, .lista-panel .contenedor-lista-predefinidos {
+    float: left;
+    width: 50%;
+}
+
+.contenedor-lista-usuarios table, .contenedor-lista-predefinidos table {
+    font-family: 'Play', sans-serif;
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+.contenedor-lista-usuarios table tbody, .contenedor-lista-predefinidos table tbody {
+    display: block;
+    overflow: auto;
+    height: 68vh;
+    color: var(--color-resaltado);
+    background-color: rgba(20, 18, 18, .637);
+}
+
+.titulo-lista {
+    font-weight: lighter;
+    width: 100%;
+    padding: 3px 0;
+    letter-spacing: .5rem;
+    color: var(--color-amarillo);
+    border: #000 solid 1px;
+    border-radius: 3px;
+    background-color: #332118;
+    box-shadow: inset 2px 2px 7px #000, inset -2px -2px 7px #000;
+    text-shadow: 3px 3px 15px rgba(255, 209, 82, .74), -3px -3px 15px rgba(255, 209, 82, .733);
+}
+
+.tr-tabla td {
+    width: 100%;
+    padding: 1px 10px;
+    border: 1px solid #282320;
+}
+
+.tr-tabla a {
+    transition: all .3s ease;
+    text-decoration: none;
+    color: var(--color-resaltado);
+}
+
+.tr-tabla a:hover {
+    font-weight: bold;
+    color: var(--color-hover);
+    text-shadow: 0 0 30px #72efdd, 0 0 20px #56cfe1;
+}
+
+.contenedor-button-lista {
+    width: 100%;
+}
+
+@media screen and (max-width:45rem) {
+    .lista-panel .contenedor-lista-usuarios, .lista-panel .contenedor-lista-predefinidos {
+        float: none;
+        overflow: auto;
+        width: 100%;
+    }
+    body .marco-display .notas .borde-notas p {
+        font-size: 1rem;
+    }
+    .footer {
+        display: none;
+    }
+}
