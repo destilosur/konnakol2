@@ -52,6 +52,7 @@
     background-color: #332118;
     box-shadow: inset 2px 2px 7px #000, inset -2px -2px 7px #000;
     text-shadow: 3px 3px 15px rgba(255, 209, 82, .74), -3px -3px 15px rgba(255, 209, 82, .733);
+    background-image: linear-gradient(to bottom, rgba(226, 219, 255, 0.4)1%,rgba(196, 196, 196, 0)50%);
 }
 
 .tr-tabla td {
@@ -89,3 +90,4 @@
         display: none;
     }
 }
+

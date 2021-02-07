@@ -314,7 +314,7 @@ let compoLista = [];
 let indexCompoLista = undefined;
 
 const guardarCompoEnLista = () => {
-
+    // COMPROBAR NOMBRE IGUAL A UNO GUARDADO
     let nombresLista = compoLista.map(compo => compo.nombre);
     let inputNombre = document.getElementById('nombre').value.trim();
     let indexRepetido = nombresLista.indexOf(inputNombre);

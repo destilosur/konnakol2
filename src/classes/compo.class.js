@@ -16,6 +16,7 @@ export class Compo {
         this.nBeats = nBeats;
         this.arrayLineas = arraySilabas;
 
+
         
     };
 

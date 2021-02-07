@@ -9,6 +9,7 @@ body
     box-sizing: border-box;
 
     background: #282320;
+   
 }
 
 body h1
@@ -66,16 +67,18 @@ body h1
     background-color: #db664a;
 }
 
+
 .footer
 {
     order: 4;
 
     width: 95%;
     margin: auto;
-    margin-top: 5px;
+    margin-top: 30px;
 
     border: .5px solid #fff;
     border-radius: 3px;
+    
 }
 
 .footer-texto
