@@ -11,11 +11,12 @@ let modoBloqueo = false;
 
 
 
-const speakSilabas = [' Ta ', ' TaKa ', ' Takite ', ' Takatimi ', ' TakaTakite ', ' TakatimiTaka ', ' TakaTakaTakite ', ' TakatimiTakajuna '];
+const speakSilabas = [' Ta ', ' Taka ', ' Takite ', ' Takatimi ', ' TakaTakite ', ' TakatimiTaka ', ' TakaTakaTakite ', ' TakatimiTakajuna ', 'TakadimiTakaTakita'];
 
 let lineaID;
 let escribirInputs = false;
 let repetir = 2;// para icono x2 x3 x4 se reinicia en focusLinea
+let contadorBols = 0;
 
 
 
@@ -62,21 +63,38 @@ export const escribirArray = (id, num, repet) => {
 
 
 };
-
+let idTemp;
 // escribe HTML ----------------
 export const escribirHtml = (id, num) => {
     // if (modoBloqueo) return alert('Press Edit \ndont forget to save');
     if (modoBloqueo) return alert('Modo bloqueo activado en escribirHtml metodo');
 
+    if(typeof num !=='string')return console.error`<p> El dato guardado ${num} no es una cadena de texto`;
+
+
+
 
     if (!escribirInputs) {
-        const speak = document.createElement('p')
-        speak.innerText = speakSilabas[num - 1];
+
+        if (num.includes('('))num = num.replaceAll('(', '<span>').replaceAll(')', '</span>');
+
+
+        if (idTemp !== id) contadorBols = 0;
+        const speak = document.createElement('p');
+        speak.dataset.index = contadorBols++;
+        speak.classList.add('jati');
+        speak.innerHTML = num;
+        idTemp = id
+
+
 
         //ASINGNAMOS A VARIABLE COMPONENT.JS
         $cajaNotas = document.body.querySelectorAll(' .borde-notas');
         $cajaNotas[id - 1].appendChild(speak);
         compo1.guardarLocalStorage();
+
+
+
     }
 
 };
@@ -85,8 +103,6 @@ export const escribirRepeticiones = (id, rep) => {
 
 
     const ledRepetir = document.querySelectorAll('.cruz')[id - 1];
-    console.log(document.querySelectorAll('.cruz')[id - 1])
-    // console.warn(`id ${id} repet: ${rep} ledRepetir: ${ledRepetir}`);
     ledRepetir.textContent = rep;
     (rep === 1)
         ? ledRepetir.classList.remove('mostrar')
@@ -149,14 +165,11 @@ function accionBoton() {
     //ESCRIBIR 1 A 9
     if (btn.matches('.btn-number') && (btn.textContent > 0 && btn.textContent < 10)) {
 
-        escribirArray(lineaID, parseInt(btn.textContent));
-        escribirHtml(lineaID, parseInt(btn.textContent));
+        escribirArray(lineaID, speakSilabas[parseInt(btn.textContent) - 1]);
+        escribirHtml(lineaID, speakSilabas[parseInt(btn.textContent) - 1]);
     };
 
     if (btn.textContent === 'R' && !modoBloqueo) {
-
-
-        //TODO:QUE GUARDE LA REPETICION EN ARRAY Y LISTA
 
         const ledRepetir = document.querySelectorAll('.cruz')[lineaID - 1];
 
@@ -179,6 +192,7 @@ function accionBoton() {
     if (btn.textContent === 'New Line' && !modoBloqueo) {
         compo1.nuevaLinea();
         focusLinea();
+
     };
 
     //SAVE------
@@ -231,10 +245,10 @@ export const accionTeclas = (e) => {
 
     const num = parseInt(e.key);
 
-    if (num > 0 && num < 9) {
+    if (num > 0 && num < 10) {
 
-        escribirArray(lineaID, num);
-        escribirHtml(lineaID, num);
+        escribirArray(lineaID, speakSilabas[parseInt(num) - 1]);
+        escribirHtml(lineaID, speakSilabas[parseInt(num) - 1]);
     };
 
     if (e.key === 'Backspace' || e.code === 'Backspace') borrarUltimaSilaba(lineaID);
@@ -245,14 +259,117 @@ export const accionTeclas = (e) => {
 
         compo1.nuevaLinea();
         focusLinea();
+
     }
 };
 
 document.addEventListener('keydown', accionTeclas);
 
 //----------------EVENTO CLICK-------------------------------------------------
-
+let letrasSilaba = [];
+let indexBol = 0;
+const alertas = document.querySelector('#alertas');
 document.addEventListener('click', (e) => {
+    // TODO: poder marcar donde va el AnuDrutam y el drutam
+    // no va a poder ser por que marca toda la palabra
+    // e.target.classList.add('drutam');
+    // e.target.classList.add('anu-drutam');
+
+    // idea se escribe todo de a una silaba 
+    //cuando escribis 4 un bucle for recorre las 4 silabas y va buscando en el array de a silaba mas un espacio al final
+    //agregamos un radio button si queremos modo variacion cuando esta puesto
+    //abre una ventana con las variaciones del numero apretado
+    //luego si queres marcar una de rojo le agregas la clase drutam
+    // y para guardarlo a la que tenga la clase drutam le agrgas un asterisco
+    //luego cuando carga la que tenga un asterisco le agrega la clase drutam
+
+    if(e.target.matches('.cerrar-drutam')){
+      letrasSilaba=[];
+      alertas.querySelectorAll('p').forEach(nodo => nodo.remove());
+        return alertas.classList.remove('alertas-activo');
+    };
+
+    if (e.target.parentElement.matches('.edit')) {
+        indexBol = e.target.getAttribute('data-index');
+        letrasSilaba=compo1.arrayLineas[lineaID - 1].arraySilabas[indexBol].replaceAll(' ', '').split('');
+        // console.log(letrasSilaba);
+        // letrasSilaba = e.target.textContent.replaceAll(' ', '').split('');
+        // console.warn(letrasSilaba);
+
+       
+        alertas.classList.add('alertas-activo');
+
+
+        letrasSilaba.forEach((letra, index) => {
+            const p = document.createElement('p');
+            p.dataset.indexLetra = index;
+            p.textContent = letra;
+            alertas.appendChild(p);
+        });
+    };
+
+    const reg = /[^aeiou]+/gi;
+    if (e.target.parentElement.matches('.alertas-activo') && reg.test(e.target.textContent)) {
+
+
+        const indexLetra = parseInt(e.target.getAttribute('data-index-letra'));
+        letrasSilaba.splice(indexLetra, 0, '(');
+        letrasSilaba.splice(indexLetra + 3, 0, ')');
+
+        let letrasUnidas = letrasSilaba.join('');
+        compo1.arrayLineas[lineaID - 1].arraySilabas[indexBol] = letrasUnidas;
+        
+        alertas.querySelectorAll('p').forEach(nodo => nodo.remove());
+            alertas.classList.remove('alertas-activo');
+           
+
+            if(e.target.matches('#reset-drutam')){
+                const regex= /[\(\)]/g;
+               const silabaReseteada= compo1.arrayLineas[lineaID - 1].arraySilabas[indexBol].replaceAll(regex,'');
+               compo1.arrayLineas[lineaID - 1].arraySilabas[indexBol] = silabaReseteada;
+               compo1.guardarLocalStorage();
+            };
+            
+            document.body.querySelectorAll(' .edit p').forEach(p=>p.remove());
+            
+            contadorBols = 0;
+            
+            compo1.mandandoObjLineaAEscribirHtml(compo1.arrayLineas[lineaID-1]);
+
+            compo1.guardarLocalStorage();
+
+
+
+
+    }
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // 
+
+
 
     if (e.target.matches('.borde-notas')) {
         if (compo1.arrayLineas.length !== 0) {
