@@ -11,7 +11,7 @@ let modoBloqueo = false;
 
 
 
-const speakSilabas = [' Ta ', ' Taka ', ' Takite ', ' Takatimi ', ' taketitaton ', ' TakatimiTaka ', ' TakaTakaTakite ', ' TakatimiTakajuna ', 'TakadimiTakaTakita'];
+const speakSilabas = [' Ta ', ' Taka ', 'Tan-gu', ' Takatimi ', ' taketitaton ', ' TakatimiTaka ', 'ta-te-kinaton', ' TakatimiTakajuna ', 'TakadimiTakaTakita'];
 
 let lineaID;
 let escribirInputs = false;
@@ -72,9 +72,11 @@ export const escribirHtml = (id, bol) => {
 
 
     if (!escribirInputs) {  
-
         let indiceD = [];
-
+        
+        bol=bol.replaceAll("-","--");
+        bol=bol.replaceAll(/tan/ig,'an');
+        
         if (bol.includes('(')) {
             
             let idLetra = bol.indexOf('('); //primera vez
@@ -91,16 +93,17 @@ export const escribirHtml = (id, bol) => {
             
         }
         
-        const bolCortado = bol.trim().match(/ta|te|ti|ka|ke|ki|mi|na|ju|ton/gi);
+        let bolCortado = bol.trim().match(/ta|te|ti|ka|ke|ki|mi|na|ju|ton|--|an|gu/gi);
 
         bolCortado.push('&nbsp &nbsp');            
 
 
         bolCortado.forEach((silaba ,index)=> {
             const speak = document.createElement('p');
-            speak.innerHTML = silaba;    
-            
+            speak.innerHTML = silaba;             
             indiceD.forEach(ind=> {if(ind/2===index) speak.classList.add('drutam')});
+            if(speak.innerHTML==='--'){speak.innerHTML='-'; speak.classList.add('guiones')};  
+            if(speak.innerHTML==='an')speak.innerHTML='Tan';  
             
             $cajaNotas = document.body.querySelectorAll(' .borde-notas');
             $cajaNotas[id - 1].appendChild(speak);

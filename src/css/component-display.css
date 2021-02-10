@@ -111,6 +111,17 @@ body .marco-display .notas .borde-notas p
     text-shadow: 1px 1px 2px rgb(255, 255, 255);
 }
 
+body .marco-display .notas .borde-notas .guiones{
+    
+    font-size: 3rem;
+    line-height: 1.2rem;
+    
+    /* border-bottom-color: black; */
+    
+
+
+}
+
 /* --------boton-cerrar-linea----- */
 
 .contenedor-iconos
