@@ -85,7 +85,8 @@ export class Compo {
 
         for (const silaba of silabasArray) {
             escribirHtml(idLinea, silaba);
-            // console.log(silaba);
+            
+             
         };
 
     };

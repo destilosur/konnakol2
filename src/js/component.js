@@ -7,17 +7,32 @@ const $btns = d.querySelectorAll('body .display-botones button , .display-botone
 const $template = document.querySelector('#caja-escritura').content;
 let $cajaNotas;
 let modoBloqueo = false;
+const $select = document.querySelector('#option-bol');
 
 
 
 
-const speakSilabas = [' Ta ', ' Taka ', 'Tan-gu', ' Takatimi ', ' taketitaton ', ' TakatimiTaka ', 'ta-te-kinaton', ' TakatimiTakajuna ', 'TakadimiTakaTakita'];
+
 
 let lineaID;
 let escribirInputs = false;
 let repetir = 2;// para icono x2 x3 x4 se reinicia en focusLinea
 let contadorSilaba = 0;
 
+
+const speakSilabas = [
+    ['Ta', 'Taka', 'Takite', 'Takatimi', 'Tatekinaton', 'TakatimiTaka', 'ta-ti-kinaton', ' TakatimiTakajuna ', 'TakadimiTakaTakita'],
+
+    [ 'Na', 'Ta', 'te', 'Ton', 'Ta', 'Ka', 'Di', 'Mi', '-'],
+    [ 'Ta-', 'Dimi', 'Kita', 'Kina', 'Tati'],
+    [ 'Tan-gu', 'Ta--', 'ta-ki', '-te-', '-ta-', 'Kinatom', 'tatikena'],
+    [ 'Takajuna', 'Kitaka', 'Ta-ka-', 'Ta---', 'Tikinaton', 'Tati--', 'Tati-ta'],
+    ['Takatakite', 'Takitetaka', 'Ta-kinaton', 'Tati-naton', 'Ta----', 'Ta-ah--', 'Ta--ah'],
+    ['TakiteTakite', 'Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'terekitaka', 'Ta-ki-ta-', 'ki-na-ton'],
+    [ 'Ta-ti-kenaton', 'Ta', 'te', 'Ton', 'ta', 'ka', 'di', 'mi'],
+    [ 'Na', 'Ta', 'te', 'Ton', 'ta', 'ka', 'di', 'mi'],
+    [ 'Na', 'Ta', 'te', 'Ton', 'ta', 'ka', 'di', 'mi']
+];
 
 
 
@@ -49,16 +64,64 @@ const focusLinea = () => {
     repetir = 2;
 };
 
+const eleccionDeBol = (id, num) => {
+
+
+    //PREDETERMINADO
+    escribirArray(id, speakSilabas[0][num-1]);
+    escribirHtml(id, speakSilabas[0][num-1]);
+    compo1.guardarLocalStorage();
+
+    if($select.options){
+            let optSelect= [...$select.options]
+            optSelect.forEach(elem=>elem.remove());
+
+        } ;
+    speakSilabas[num].forEach(elem=>cargarSelect(elem));
+
+
+
+
+
+
+
+
+};
+
+
+
+
+const cargarSelect = (opcion) => {
+
+    $select.disabled = false;
+    
+    const opcionBol = document.createElement('option');
+    opcionBol.setAttribute('value', opcion);
+    opcionBol.textContent = opcion;
+    $select.appendChild(opcionBol);
+
+};
+
+$select.addEventListener('change', function () {
+    let opcionBol = this.options.selectedIndex;
+
+    const valor = this.options[this.options.selectedIndex].value;
+
+    escribirHtml(lineaID, valor);
+    escribirArray(lineaID, valor);
+    compo1.guardarLocalStorage();
+});
+
 
 // escribe Array -----------------
-export const escribirArray = (id, num, repet) => {
+export const escribirArray = (id, bol, repet) => {
 
 
     if (!modoBloqueo && !escribirInputs && repet === 'R') {
-        compo1.arrayLineas[id - 1].rep = num - 1;
+        compo1.arrayLineas[id - 1].rep = bol - 1;
         compo1.guardarLocalStorage();
 
-    } else if (!modoBloqueo && !escribirInputs) compo1.arrayLineas[id - 1].agregarSilaba(num);
+    } else if (!modoBloqueo && !escribirInputs) compo1.arrayLineas[id - 1].agregarSilaba(bol);
 
 
 
@@ -68,46 +131,46 @@ export const escribirHtml = (id, bol) => {
     // if (modoBloqueo) return alert('Press Edit \ndont forget to save');
     if (modoBloqueo) return alert('Modo bloqueo activado en escribirHtml metodo');
 
-    if (typeof bol !== 'string') return console.error`<p> El dato guardado ${num} no es una cadena de texto`;
+    if (typeof bol !== 'string') return console.error`<p> El dato guardado ${bol} no es una cadena de texto`;
 
 
-    if (!escribirInputs) {  
+    if (!escribirInputs) {
         let indiceD = [];
-        
-        bol=bol.replaceAll("-","--");
-        bol=bol.replaceAll(/tan/ig,'an');
-        
+
+        bol = bol.replaceAll("-", "--");
+        bol = bol.replaceAll(/tan/ig, 'an');
+
         if (bol.includes('(')) {
-            
+
             let idLetra = bol.indexOf('('); //primera vez
-            
-            let contador=1;
-            while (idLetra >=0) {
+
+            let contador = 1;
+            while (idLetra >= 0) {
                 indiceD.push(idLetra);
                 idLetra = bol.indexOf('(', idLetra + 1);
                 contador++;
-             }            
-             indiceD=indiceD.map((ind,index)=>ind=ind-(index*2));
-            
-            bol = bol.replace(/[()]/g, '');           
-            
+            }
+            indiceD = indiceD.map((ind, index) => ind = ind - (index * 2));
+
+            bol = bol.replace(/[()]/g, '');
+
         }
-        
-        let bolCortado = bol.trim().match(/ta|te|ti|ka|ke|ki|mi|na|ju|ton|--|an|gu/gi);
 
-        bolCortado.push('&nbsp &nbsp');            
+        let bolCortado = bol.trim().match(/ta|te|ti|ka|ke|ki|mi|na|ju|ton|--|an|gu|ah|re/gi);
+
+        bolCortado.push('&nbsp &nbsp');
 
 
-        bolCortado.forEach((silaba ,index)=> {
+        bolCortado.forEach((silaba, index) => {
             const speak = document.createElement('p');
-            speak.innerHTML = silaba;             
-            indiceD.forEach(ind=> {if(ind/2===index) speak.classList.add('drutam')});
-            if(speak.innerHTML==='--'){speak.innerHTML='-'; speak.classList.add('guiones')};  
-            if(speak.innerHTML==='an')speak.innerHTML='Tan';  
-            
+            speak.innerHTML = silaba;
+            indiceD.forEach(ind => { if (ind / 2 === index) speak.classList.add('drutam') });
+            if (speak.innerHTML === '--') { speak.innerHTML = '-'; speak.classList.add('guiones') };
+            if (speak.innerHTML === 'an') speak.innerHTML = 'Tan';
+
             $cajaNotas = document.body.querySelectorAll(' .borde-notas');
             $cajaNotas[id - 1].appendChild(speak);
-            
+
         });
 
     }
@@ -129,7 +192,7 @@ export const escribirRepeticiones = (id, rep) => {
 
 const borrarUltimaSilaba = (id) => {
     // if (modoBloqueo) return alert('Press Edit \ndont forget to save');
-
+// TODO: MIRAR QUE BORRA HTML POR SILABA Y ARRAY POR BOL
     if (modoBloqueo) return alert('modo bloqueo en borrarUltimaSilaba');
 
     if (!escribirInputs) {
@@ -180,8 +243,10 @@ function accionBoton() {
     //ESCRIBIR 1 A 9
     if (btn.matches('.btn-number') && (btn.textContent > 0 && btn.textContent < 10)) {
 
-        escribirArray(lineaID, speakSilabas[parseInt(btn.textContent) - 1]);
-        escribirHtml(lineaID, speakSilabas[parseInt(btn.textContent) - 1]);
+                
+        eleccionDeBol(lineaID, parseInt(btn.textContent));
+        
+
     };
 
     if (btn.textContent === 'R' && !modoBloqueo) {
@@ -262,8 +327,7 @@ export const accionTeclas = (e) => {
 
     if (num > 0 && num < 10) {
 
-        escribirArray(lineaID, speakSilabas[parseInt(num) - 1]);
-        escribirHtml(lineaID, speakSilabas[parseInt(num) - 1]);
+        eleccionDeBol(lineaID, num);
     };
 
     if (e.key === 'Backspace' || e.code === 'Backspace') borrarUltimaSilaba(lineaID);
@@ -284,7 +348,7 @@ document.addEventListener('keydown', accionTeclas);
 document.addEventListener('click', (e) => {
 
 
-// ESCRIBIR LOS DRUTAM () EN EL ARRAY 
+    // ESCRIBIR LOS DRUTAM () EN EL ARRAY 
     if (e.target.parentElement.matches('.edit')) {
 
         e.target.classList.toggle('drutam');
@@ -293,7 +357,7 @@ document.addEventListener('click', (e) => {
         let silabasTemp = [...parrafo_silabas].map(p => p.textContent);
 
 
-     
+
         parrafo_silabas.forEach((silaba, index) => {
             if (silaba.matches('.drutam')) {
                 silabasTemp[index] = `(${silabasTemp[index]})`;
@@ -310,11 +374,11 @@ document.addEventListener('click', (e) => {
         console.log(compo1.arrayLineas);
         compo1.guardarLocalStorage();
     };
-    
-    
 
 
-    
+
+
+
     //PONER FOCUS
     if (e.target.matches('.borde-notas')) {
         if (compo1.arrayLineas.length !== 0) {
