@@ -213,25 +213,3 @@
     grid-column: 1/span 2;
 }
 
-.reset-drutam{
-    height: 30px;    
-    align-self: center;
-    margin-bottom: 10px;
-    order: 2;
-}
-
-.cerrar-drutam{
-    
-
-    height: 20px;
-    width: 20px;
-    background-color: #fff;
-    color: black;
-    order: 3;
-    font-family: 'Play', sans-serif;
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 10px 10px;
-    text-align: center;
-    
-}

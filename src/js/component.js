@@ -11,12 +11,12 @@ let modoBloqueo = false;
 
 
 
-const speakSilabas = [' Ta ', ' Taka ', ' Takite ', ' Takatimi ', ' TakaTakite ', ' TakatimiTaka ', ' TakaTakaTakite ', ' TakatimiTakajuna ', 'TakadimiTakaTakita'];
+const speakSilabas = [' Ta ', ' Taka ', ' Takite ', ' Takatimi ', ' taketitaton ', ' TakatimiTaka ', ' TakaTakaTakite ', ' TakatimiTakajuna ', 'TakadimiTakaTakita'];
 
 let lineaID;
 let escribirInputs = false;
 let repetir = 2;// para icono x2 x3 x4 se reinicia en focusLinea
-let contadorBols = 0;
+let contadorSilaba = 0;
 
 
 
@@ -63,37 +63,49 @@ export const escribirArray = (id, num, repet) => {
 
 
 };
-let idTemp;
 // escribe HTML ----------------
-export const escribirHtml = (id, num) => {
+export const escribirHtml = (id, bol) => {
     // if (modoBloqueo) return alert('Press Edit \ndont forget to save');
     if (modoBloqueo) return alert('Modo bloqueo activado en escribirHtml metodo');
 
-    if(typeof num !=='string')return console.error`<p> El dato guardado ${num} no es una cadena de texto`;
+    if (typeof bol !== 'string') return console.error`<p> El dato guardado ${num} no es una cadena de texto`;
 
 
+    if (!escribirInputs) {  
+
+        let indiceD = [];
+
+        if (bol.includes('(')) {
+            
+            let idLetra = bol.indexOf('('); //primera vez
+            
+            let contador=1;
+            while (idLetra >=0) {
+                indiceD.push(idLetra);
+                idLetra = bol.indexOf('(', idLetra + 1);
+                contador++;
+             }            
+             indiceD=indiceD.map((ind,index)=>ind=ind-(index*2));
+            
+            bol = bol.replace(/[()]/g, '');           
+            
+        }
+        
+        const bolCortado = bol.trim().match(/ta|te|ti|ka|ke|ki|mi|na|ju|ton/gi);
+
+        bolCortado.push('&nbsp &nbsp');            
 
 
-    if (!escribirInputs) {
-
-        if (num.includes('('))num = num.replaceAll('(', '<span>').replaceAll(')', '</span>');
-
-
-        if (idTemp !== id) contadorBols = 0;
-        const speak = document.createElement('p');
-        speak.dataset.index = contadorBols++;
-        speak.classList.add('jati');
-        speak.innerHTML = num;
-        idTemp = id
-
-
-
-        //ASINGNAMOS A VARIABLE COMPONENT.JS
-        $cajaNotas = document.body.querySelectorAll(' .borde-notas');
-        $cajaNotas[id - 1].appendChild(speak);
-        compo1.guardarLocalStorage();
-
-
+        bolCortado.forEach((silaba ,index)=> {
+            const speak = document.createElement('p');
+            speak.innerHTML = silaba;    
+            
+            indiceD.forEach(ind=> {if(ind/2===index) speak.classList.add('drutam')});
+            
+            $cajaNotas = document.body.querySelectorAll(' .borde-notas');
+            $cajaNotas[id - 1].appendChild(speak);
+            
+        });
 
     }
 
@@ -266,117 +278,49 @@ export const accionTeclas = (e) => {
 document.addEventListener('keydown', accionTeclas);
 
 //----------------EVENTO CLICK-------------------------------------------------
-let letrasSilaba = [];
-let indexBol = 0;
-const alertas = document.querySelector('#alertas');
 document.addEventListener('click', (e) => {
-    // TODO: poder marcar donde va el AnuDrutam y el drutam
-    // no va a poder ser por que marca toda la palabra
-    // e.target.classList.add('drutam');
-    // e.target.classList.add('anu-drutam');
 
-    // idea se escribe todo de a una silaba 
-    //cuando escribis 4 un bucle for recorre las 4 silabas y va buscando en el array de a silaba mas un espacio al final
-    //agregamos un radio button si queremos modo variacion cuando esta puesto
-    //abre una ventana con las variaciones del numero apretado
-    //luego si queres marcar una de rojo le agregas la clase drutam
-    // y para guardarlo a la que tenga la clase drutam le agrgas un asterisco
-    //luego cuando carga la que tenga un asterisco le agrega la clase drutam
 
-    if(e.target.matches('.cerrar-drutam')){
-      letrasSilaba=[];
-      alertas.querySelectorAll('p').forEach(nodo => nodo.remove());
-        return alertas.classList.remove('alertas-activo');
-    };
-
+// ESCRIBIR LOS DRUTAM () EN EL ARRAY 
     if (e.target.parentElement.matches('.edit')) {
-        indexBol = e.target.getAttribute('data-index');
-        letrasSilaba=compo1.arrayLineas[lineaID - 1].arraySilabas[indexBol].replaceAll(' ', '').split('');
-        // console.log(letrasSilaba);
-        // letrasSilaba = e.target.textContent.replaceAll(' ', '').split('');
-        // console.warn(letrasSilaba);
 
-       
-        alertas.classList.add('alertas-activo');
+        e.target.classList.toggle('drutam');
+
+        const parrafo_silabas = document.querySelectorAll('.notas')[lineaID - 1].querySelectorAll('.borde-notas p');
+        let silabasTemp = [...parrafo_silabas].map(p => p.textContent);
 
 
-        letrasSilaba.forEach((letra, index) => {
-            const p = document.createElement('p');
-            p.dataset.indexLetra = index;
-            p.textContent = letra;
-            alertas.appendChild(p);
-        });
-    };
-
-    const reg = /[^aeiou]+/gi;
-    if (e.target.parentElement.matches('.alertas-activo') && reg.test(e.target.textContent)) {
-
-
-        const indexLetra = parseInt(e.target.getAttribute('data-index-letra'));
-        letrasSilaba.splice(indexLetra, 0, '(');
-        letrasSilaba.splice(indexLetra + 3, 0, ')');
-
-        let letrasUnidas = letrasSilaba.join('');
-        compo1.arrayLineas[lineaID - 1].arraySilabas[indexBol] = letrasUnidas;
-        
-        alertas.querySelectorAll('p').forEach(nodo => nodo.remove());
-            alertas.classList.remove('alertas-activo');
-           
-
-            if(e.target.matches('#reset-drutam')){
-                const regex= /[\(\)]/g;
-               const silabaReseteada= compo1.arrayLineas[lineaID - 1].arraySilabas[indexBol].replaceAll(regex,'');
-               compo1.arrayLineas[lineaID - 1].arraySilabas[indexBol] = silabaReseteada;
-               compo1.guardarLocalStorage();
+     
+        parrafo_silabas.forEach((silaba, index) => {
+            if (silaba.matches('.drutam')) {
+                silabasTemp[index] = `(${silabasTemp[index]})`;
             };
-            
-            document.body.querySelectorAll(' .edit p').forEach(p=>p.remove());
-            
-            contadorBols = 0;
-            
-            compo1.mandandoObjLineaAEscribirHtml(compo1.arrayLineas[lineaID-1]);
-
-            compo1.guardarLocalStorage();
+        });
 
 
+        silabasTemp = silabasTemp.join('').split(' ');
 
+        silabasTemp = silabasTemp.map(bol => bol.trim());
+        silabasTemp = silabasTemp.filter(bol => bol.length !== 0);
+        compo1.arrayLineas[lineaID - 1].arraySilabas = [...silabasTemp];
 
-    }
-
+        console.log(compo1.arrayLineas);
+        compo1.guardarLocalStorage();
+    };
+    
     
 
 
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // 
-
-
-
+    //PONER FOCUS
     if (e.target.matches('.borde-notas')) {
         if (compo1.arrayLineas.length !== 0) {
             lineaID = e.target.parentElement.parentElement.getAttribute('data-id');
             focusLinea();
         };
     };
+
+    // BORRAR LINEA
     if (e.target.matches('.close')) {
         if ($cajaNotas && !modoBloqueo) {
 
@@ -398,9 +342,6 @@ document.addEventListener('click', (e) => {
         compo1.guardarLocalStorage();
 
     };
-
-
-
 
 });
 
@@ -535,11 +476,6 @@ const recargarCompoDeLista = function () {
     document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
     modoBloqueo = true;
 
-    // TODO: CUANDO MODO BLOQUE DISBLE BOTONES MENOS EDIT Y AVISAR CON UN CARTEL
-
-
-
-
 
 };
 
@@ -549,8 +485,6 @@ const recargarCompoDeLista = function () {
 
 
 
-// TODO: X2 X3 X4 
-// TODO: RADIOBUTTON QUE AGREGA 13 ES TES CON SILENCIO 23 ES 3 ISOLATION ETC. METODO LE ADGREGA LA DECENA 
 
 
 

@@ -78,15 +78,7 @@ body .marco-display .notas .borde-notas
     height: 40px;
 }
 
-body .marco-display .notas .borde-notas span{
 
-    font-weight: bold;
-    background-color: #db664a;
-    color: #fff;
-    padding: 1px 3px;
-    border-radius: 5px;
-
-}
 
 body .marco-display .notas .edit
 {
@@ -114,10 +106,7 @@ body .marco-display .notas .borde-notas p
     font-size: 1.25rem;
 
     display: inline-block;
-    align-self: center;
-
-    margin-right: 5px;
-    margin-left: 5px;
+    align-self: center;   
 
     text-shadow: 1px 1px 2px rgb(255, 255, 255);
 }
@@ -189,14 +178,12 @@ body .marco-display .notas .borde-notas p
 }
 
 .drutam{
-    border: 1px solid #db664a;
+    border: 2px solid #db664a;
+    border-radius: 3px;
+    padding: 1px 2px;
 
 }
-.anu-drutam{
-    background-color:  #db664a;
-    color: #fff;
 
-}
 
 .alertas{
 
