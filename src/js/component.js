@@ -30,8 +30,8 @@ const speakSilabas = [
     ['Takatakite', 'Takitetaka', 'Ta-kinaton', 'Tati-naton', 'Ta----', 'Ta-ah--', 'Ta--ah'],
     ['TakiteTakite', ,'Tatikenaton-','Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'terekitaka', 'Ta-ki-ta-', 'ki-na-ton'],
     [ 'Ta-ti-kenaton', 'Ta', 'te', 'Ton', 'ta', 'ka', 'di', 'mi'],
-    [ 'Takatimi', 'Ta', 'te', 'Ton', 'ta', 'ka', 'di', 'mi'],
-    [ 'Na', 'Ta', 'te', 'Ton', 'ta', 'ka', 'di', 'mi']
+    [ 'Tati-ke-na-ton', 'Tan-guTatikenaton', 'TakaterekiteTaka', 'Ta-terekiteTaka'],
+    [ 'Ta-di-ke-na-ton', 'Ta-ti-Tatikenaton', 'TakadimiTatikenaton', 'TakaTakaTakaTakite', 'TakaTakiteTakaTaka']
 ];
 
 
