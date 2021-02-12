@@ -25,12 +25,12 @@ const speakSilabas = [
 
     [ 'Na', 'Ta', 'te', 'Ton', 'Ta', 'Ka', 'Di', 'Mi', '-'],
     [ 'Ta-', 'Dimi', 'Kita', 'Kina', 'Tati'],
-    [ 'Tan-gu', 'Ta--', 'ta-ki', '-te-', '-ta-', 'Kinatom', 'tatikena'],
-    [ 'Takajuna', 'Kitaka', 'Ta-ka-', 'Ta---', 'Tikinaton', 'Tati--', 'Tati-ta'],
+    [ 'Tan-gu', 'Ta--', 'ta-ki', '-te-', '-ta-', 'Kinatom'],
+    [ 'Takajuna', 'Kitaka', 'tatikena', 'Ta-ka-', 'Ta---', 'Tikinaton', 'Tati--', 'Tati-ta'],
     ['Takatakite', 'Takitetaka', 'Ta-kinaton', 'Tati-naton', 'Ta----', 'Ta-ah--', 'Ta--ah'],
-    ['TakiteTakite', 'Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'terekitaka', 'Ta-ki-ta-', 'ki-na-ton'],
+    ['TakiteTakite', ,'Tatikenaton-','Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'terekitaka', 'Ta-ki-ta-', 'ki-na-ton'],
     [ 'Ta-ti-kenaton', 'Ta', 'te', 'Ton', 'ta', 'ka', 'di', 'mi'],
-    [ 'Na', 'Ta', 'te', 'Ton', 'ta', 'ka', 'di', 'mi'],
+    [ 'Takatimi', 'Ta', 'te', 'Ton', 'ta', 'ka', 'di', 'mi'],
     [ 'Na', 'Ta', 'te', 'Ton', 'ta', 'ka', 'di', 'mi']
 ];
 
@@ -42,7 +42,7 @@ export const crearTablaHtml = (id) => {
 
     lineaID = id;
     $template.querySelector('.notas').dataset.id = id;
-    let $node = document.importNode($template, true);
+    let $node = d.importNode($template, true);
     document.body.querySelector('.marco-display').appendChild($node);
 
 

@@ -1,7 +1,7 @@
 # Konnakol
 
 Es una pagina que crea y guarda y carga composiociones de Konnakol
-Ahora trabajo en otro ordenador
+modificacion ordenador1
 
 ### notas:
 recuerden reconstruir los modulos de Node
