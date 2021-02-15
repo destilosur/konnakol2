@@ -223,6 +223,19 @@ body .marco-display .notas .borde-notas .guiones{
 
 
 
+.option-bol option{
+    display: block;
+    overflow: auto;
+    font-size: 1.2rem;
+    color: var(--color-resaltado);
+    background-color: rgba(20, 18, 18);
+    
+}
+
+
+
+
+
 /* body .marco-display .notas .borde-notas img {
     filter: drop-shadow(3px 2px 2px rgb(151, 149, 149));
 }

@@ -38,9 +38,9 @@ export class Linea {
         this.arraySilabas.pop();
     };
 
-    borrarTodaLasSilabas(){
-        this.arraySilabas.forEach(pop());
+    get getUltimaSilaba(){
 
+        return this.arraySilabas[this.arraySilabas.length-1];
     };
 
     static reiniciarIdContador(){
