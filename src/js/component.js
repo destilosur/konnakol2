@@ -1,5 +1,6 @@
 import { Linea } from '../classes/linea.class';
 import { compo1 } from '../index';
+// import data from '../data.json';
 
 const d = document;
 const $btns = d.querySelectorAll('body .display-botones .button , #lista a');
@@ -247,7 +248,7 @@ function accionBoton() {
     guardarCompoEnLista();
     crearListaHtml();
     reiniciarSelect();
-    modoBloqueo=true;
+    modoBloqueo = true;
     $cajaNotas.forEach(linea => linea.classList.remove('edit'));
   }
 
@@ -274,7 +275,7 @@ function accionBoton() {
     if (!modoBloqueo) return mensajeAlerta('First load Tala', '');
     modoBloqueo = false;
     focusLinea();
-    inputs.forEach(input=>input.disabled=false);
+    inputs.forEach(input => (input.disabled = false));
   }
 
   if (btn.textContent === 'Close') {
@@ -436,8 +437,9 @@ const loadCompoLista = () => {
 };
 
 const crearListaHtml = () => {
-  if (document.querySelectorAll('#item-lista').length !== 0) document.querySelectorAll('#item-lista').forEach(a => a.remove());
-
+  console.log(document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista'));
+  if (document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').length !== 0)
+    document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').forEach(a => a.remove());
   const $templateTrEnlace = document.querySelector('#tr-enlace').content;
 
   compoLista.forEach((compo, index) => {
@@ -449,12 +451,12 @@ const crearListaHtml = () => {
     let $node = document.importNode($templateTrEnlace, true);
     document.body.querySelector('#contenedor-lista-usuarios table tbody').appendChild($node);
     $node = document.importNode($templateTrEnlace, true);
-    document.body.querySelector('#contenedor-lista-predefinidos table tbody').appendChild($node);
   });
 
   // console.log(document.querySelectorAll('#tr-enlace'))
   // console.log(document.body.querySelectorAll(' #enlace-item-lista'));
-  document.body.querySelectorAll(' #enlace-item-lista').forEach(enlace => enlace.addEventListener('click', recargarCompoDeLista));
+  console.log(document.body.querySelectorAll('#contenedor-lista-usuarios #enlace-item-lista'))
+  document.body.querySelectorAll('#contenedor-lista-usuarios #enlace-item-lista').forEach(enlace => enlace.addEventListener('click', recargarCompoDeLista));
 };
 
 const recargarCompoDeLista = function () {
@@ -501,3 +503,65 @@ const mensajeAlerta = (msj, nombre) => {
     $alertas.classList.remove('alertas-activo');
   }, 3000);
 };
+
+// -------------------------------------PREDEFINIDOS JSON-----------------------------------
+//ACA LO PODIA IMPORTAR Y USAR DIRECTAMENTE MIRAR IMPORT
+// const predefinidos=data.forEach(el=>console.log(el));
+
+// console.log(data);
+
+let listaPreset = undefined;
+
+const url = './src/data.json';
+
+const obtenerPredefinidos = async () => {
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw { status: resp.status, statusText: resp.statusText };
+    const json = resp.json();
+    return json;
+  } catch (error) {
+    mensajeAlerta(error.statusText, `No se puede cargar Predefinidos ${error.status}`);
+  }
+};
+
+const cargarPredefinidos = async () => {
+  listaPreset = await obtenerPredefinidos();
+
+  const $templateTrEnlace = document.querySelector('#tr-enlace').content;
+
+  listaPreset.forEach((compo, index) => {
+    const enlase = $templateTrEnlace.querySelector('#item-lista #td1 #enlace-item-lista');
+
+    enlase.setAttribute('value', index);
+    enlase.textContent = compo.nombre;
+    $templateTrEnlace.querySelector('#td2').textContent = compo.grupo;
+    $templateTrEnlace.querySelector('#td3').textContent = compo.nBeats;
+    let $node = document.importNode($templateTrEnlace, true);
+    document.body.querySelector('#contenedor-lista-predefinidos table tbody').appendChild($node);
+  });
+
+  console.log( document.body.querySelectorAll('#contenedor-lista-predefinidos #enlace-item-lista'))
+  document.body.querySelectorAll('#contenedor-lista-predefinidos #enlace-item-lista').forEach(enlace => enlace.addEventListener('click', escribirPredefinidos));
+};
+
+const escribirPredefinidos = function () {
+  modoBloqueo = false;
+  borrarLineasHtml();
+  Linea.reiniciarIdContador();
+  indexCompoLista = this.getAttribute('value');
+  compo1.nombre = listaPreset[indexCompoLista].nombre;
+  compo1.grupo = listaPreset[indexCompoLista].grupo;
+  compo1.nBeats = listaPreset[indexCompoLista].nBeats;
+  compo1.arrayLineas = listaPreset[indexCompoLista].arrayLineas.map(Linea.fromJson);
+
+  compo1.arrayLineas.forEach(linea => compo1.mandandoObjLineaAEscribirHtml(linea));
+  compo1.cargarDatosCompo();
+
+  document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
+  modoBloqueo = true;
+};
+
+cargarPredefinidos();
+
+// TODO: CUANDO PINCHAMOS EN PRESET O USER VA MAL

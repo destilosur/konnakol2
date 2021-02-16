@@ -1,0 +1,26 @@
+[
+  {
+    "nombre": "Nati",
+    "grupo": "default",
+    "nBeats": "5",
+    "arrayLineas": [{ "id": 1, "rep": 1, "arraySilabas": ["Ta"] }]
+  },
+  {
+    "nombre": "Membrillo",
+    "grupo": "dulces",
+    "nBeats": "5",
+    "arrayLineas": [{ "id": 1, "rep": 1, "arraySilabas": ["Ta"] }]
+  },
+  {
+    "nombre": "Dulce de Leche",
+    "grupo": "dulces",
+    "nBeats": "4",
+    "arrayLineas": [{ "id": 1, "rep": 1, "arraySilabas": ["Ta"] }]
+  },
+  {
+    "nombre": "Durazno",
+    "grupo": "mermelada",
+    "nBeats": "8",
+    "arrayLineas": [{ "id": 1, "rep": 1, "arraySilabas": ["Takatimi"] }]
+  }
+]
