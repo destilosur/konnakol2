@@ -29,7 +29,7 @@
 
 
   <main>
-    <!-- ---------------------------------------------display--------------------- -->
+    <!-- ---------------------------------------------display--------------------- ---------------------->
     <div class="display-botones" id="display-botones">
 
       <div class=" contenedor-button-display info" id="info">
@@ -38,15 +38,12 @@
         <label for="grupo">Tala</label>
         <input type="text" class=" grupo titulo-lista" id="grupo">
         <label for="nBeats">Beats</label>
-        <input type="number" name="nBeats" class=" titulo-lista nBeats" id="nBeats" min="4" max="124" value=""
+        <input type="number" name="nBeats" class=" titulo-lista nBeats" id="nBeats" min="2" max="124" value=""
           placeholder="Default">
       </div>
 
       <div class="display-btnNumbrer">
-        <div class="alertas" id="alertas">
-          <button id="reset-drutam" class="reset-drutam button-display">Reset</button>
-          <button id="cerrar-drutam" class="cerrar-drutam">X</button>
-        </div>
+        <div class="alertas" id="alertas"></div>
         <div class="marco-display">
           <!-- //colocar aqui template  -->
 
@@ -54,38 +51,42 @@
         </div>
         <div class="contenedor-btnNumber">
 
-          <button class="btn-number button-display">1</button>
-          <button class="btn-number button-display">2</button>
-          <button class="btn-number button-display">3</button>
-          <button class="btn-number button-display">4</button>
-          <button class="btn-number button-display">5</button>
-          <button class="btn-number button-display">6</button>
-          <button class="btn-number button-display">7</button>
-          <button class="btn-number button-display">8</button>
-          <button class="btn-number button-display">9</button>
-          <button class="btn-number button-display">R</button>
-          <button class="button-display back">Back</button>
-          <button class="button-display back">New Line</button>
+          <button class="button btn-number button-display">1</button>
+          <button class="button btn-number button-display">2</button>
+          <button class="button btn-number button-display">3</button>
+          <button class="button btn-number button-display">4</button>
+          <button class="button btn-number button-display">5</button>
+          <button class="button btn-number button-display">6</button>
+          <button class="button btn-number button-display">7</button>
+          <button class="button btn-number button-display">8</button>
+          <button class="button btn-number button-display">9</button>
+          <button class="button btn-number button-display">R</button>
+          <button class="button button-display back">Back</button>
+          <button class="button button-display back">New Line</button>
 
         </div>
       </div>
       <div class="contenedor-button-display">
 
 
-        <button class="button-display">Save<div class="ledBlanco"></div></button>
-        <a class="button-display" href="#footer">Load<div class="ledBlanco"></div></a>
-        <button class="button-display">Edit<div class="ledBlanco"></div></button>
-        <button class="button-display">New<div class="ledBlanco"></div></button>
+        <button class="button button-display">Save<div class="ledBlanco"></div></button>
+        <a class="button button-display" href="#footer">Load<div class="ledBlanco"></div></a>
+        <button class="button button-display">Delete<div class="ledBlanco"></div></button>
+        <button class="button button-display">Edit<div class="ledBlanco"></div></button>
+        <button class="button button-display">New<div class="ledBlanco"></div></button>
         
         <form action="">
           <select name="option-bol" id="option-bol" class="option-bol titulo-lista" disabled>
             <option value='0' >Variation Bol</option>
-
-
           </select>
-
-
       </form>
+       <div class="metro">
+
+         <button class="play"><i class="fas fa-play"></i></button>
+
+       </div>
+
+
 
       </div>
     </div>
@@ -149,7 +150,7 @@
       </div>
 
 
-      <!-- -----------------------------------------hata aca---------------------------------------- -->
+      <!-- -----------------------------------------hasta aca---------------------------------------- -->
 
 
 
@@ -157,7 +158,7 @@
 
 
       <div class="contenedor-button-display contenedor-button-lista">
-        <a class="button-display" href="#display-botones">Close<div class="ledBlanco"></div></a>
+        <a class="button button-display" href="#display-botones">Close<div class="ledBlanco"></div></a>
       </div>
 
     </div>
@@ -167,7 +168,7 @@
       <tr class="tr-tabla" id="item-lista">
         <td class="td1" id="td1">
 
-          <a href="#display-botones" class="enlase-item-lista " id="enlace-item-lista"></a>
+          <a href="#display-botones" class="button enlase-item-lista " id="enlace-item-lista"></a>
 
         </td>
 

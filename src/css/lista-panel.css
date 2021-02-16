@@ -3,6 +3,8 @@
     --color-hover: #8cffff;
     --color-resaltado: rgb(0, 230, 241);
     --color-hover: #8cffff;
+    --color-resaltado-trans2: hsla(183, 75%, 52%, 0.158);
+    --color-hover-trans2: rgba(138, 255, 255, 0.144);
     --color-background: #282320;
     --color-amarillo: #ffd152;
 }
@@ -53,6 +55,16 @@
     box-shadow: inset 2px 2px 7px #000, inset -2px -2px 7px #000;
     text-shadow: 3px 3px 15px rgba(255, 209, 82, .74), -3px -3px 15px rgba(255, 209, 82, .733);
     background-image: linear-gradient(to bottom, rgba(226, 219, 255, 0.4)1%,rgba(196, 196, 196, 0)50%);
+}
+
+.input-foco
+{
+    border: inset .5px var(--color-resaltado-trans2);
+    box-shadow: 1px 1px 8px 0 #fff,
+    inset -1px -1px 0 0 #fff,
+    inset -1px -1px 15px 0px var(--color-resaltado-trans2),
+    inset 1px 1px 15px 0 var(--color-resaltado-trans2),
+    inset 1px 1px 15px 0px var(--color-hover-trans2);
 }
 
 .tr-tabla td {
