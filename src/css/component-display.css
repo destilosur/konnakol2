@@ -103,6 +103,13 @@ body .marco-display .notas .borde-notas p
     text-shadow: 1px 1px 2px rgb(255, 255, 255);
 }
 
+/* METRO SUBDIVICIONES */
+.activo{
+color: crimson;
+border:1px solid crimson;
+
+}
+
 body .marco-display .notas .borde-notas .guiones{
     
     font-size: 3rem;
@@ -249,6 +256,7 @@ body .marco-display .notas .borde-notas .guiones{
     align-items: center;
     
 }
+
 
 
 

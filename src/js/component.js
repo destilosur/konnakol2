@@ -1,5 +1,7 @@
 import { Linea } from '../classes/linea.class';
 import { compo1 } from '../index';
+import{init,play} from './metronome'
+
 // import data from '../data.json';
 
 const d = document;
@@ -9,12 +11,14 @@ let $cajaNotas;
 const $alertas = document.querySelector('#alertas');
 let modoBloqueo = false;
 const $select = document.querySelector('#option-bol');
+const $playButton=document.querySelector('#play-button');
 
 let lineaID;
 let escribirInputs = false;
 let repetir = 2; // para icono x2 x3 x4 se reinicia en focusLinea
 let contadorSilaba = 0;
 let ultimoNum = 0;
+
 
 const speakSilabas = [
   ['Ta', 'Taka', 'Takite', 'Takatimi', 'Tatikinaton', 'TakatimiTaka', 'ta-ti-kinaton', 'TakatimiTakajuna', 'TakatimiTakaTakita'],
@@ -437,7 +441,6 @@ const loadCompoLista = () => {
 };
 
 const crearListaHtml = () => {
-  console.log(document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista'));
   if (document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').length !== 0)
     document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').forEach(a => a.remove());
   const $templateTrEnlace = document.querySelector('#tr-enlace').content;
@@ -455,7 +458,6 @@ const crearListaHtml = () => {
 
   // console.log(document.querySelectorAll('#tr-enlace'))
   // console.log(document.body.querySelectorAll(' #enlace-item-lista'));
-  console.log(document.body.querySelectorAll('#contenedor-lista-usuarios #enlace-item-lista'))
   document.body.querySelectorAll('#contenedor-lista-usuarios #enlace-item-lista').forEach(enlace => enlace.addEventListener('click', recargarCompoDeLista));
 };
 
@@ -541,7 +543,6 @@ const cargarPredefinidos = async () => {
     document.body.querySelector('#contenedor-lista-predefinidos table tbody').appendChild($node);
   });
 
-  console.log( document.body.querySelectorAll('#contenedor-lista-predefinidos #enlace-item-lista'))
   document.body.querySelectorAll('#contenedor-lista-predefinidos #enlace-item-lista').forEach(enlace => enlace.addEventListener('click', escribirPredefinidos));
 };
 
@@ -564,4 +565,14 @@ const escribirPredefinidos = function () {
 
 cargarPredefinidos();
 
-// TODO: CUANDO PINCHAMOS EN PRESET O USER VA MAL
+/////////////////////////////////////METRONOMO/////////////////////////////////////////////
+
+
+
+$playButton.addEventListener('click',()=>{
+  console.log('start');
+
+ init();
+ play();
+  
+});
