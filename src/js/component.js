@@ -1,6 +1,6 @@
 import { Linea } from '../classes/linea.class';
 import { compo1 } from '../index';
-import{init,play} from './metronome'
+import { init, play, totalSilabas } from './metronome';
 
 // import data from '../data.json';
 
@@ -8,283 +8,294 @@ const d = document;
 const $btns = d.querySelectorAll('body .display-botones .button , #lista a');
 const $template = document.querySelector('#caja-escritura').content;
 let $cajaNotas;
+const $total = document.querySelector('#total');
 const $alertas = document.querySelector('#alertas');
 let modoBloqueo = false;
 const $select = document.querySelector('#option-bol');
-const $playButton=document.querySelector('#play-button');
+const $playButton = document.querySelector('#play-button');
+const playIcono = document.querySelector('#play-button i');
 
 let lineaID;
 let escribirInputs = false;
 let repetir = 2; // para icono x2 x3 x4 se reinicia en focusLinea
 let contadorSilaba = 0;
 let ultimoNum = 0;
-
+let parrafos = [];
 
 const speakSilabas = [
-  ['Ta', 'Taka', 'Takite', 'Takatimi', 'Tatikinaton', 'TakatimiTaka', 'ta-ti-kinaton', 'TakatimiTakajuna', 'TakatimiTakaTakita'],
+	['Ta', 'Taka', 'Takite', 'Takatimi', 'Tatikinaton', 'TakatimiTaka', 'ta-ti-kinaton', 'TakatimiTakajuna', 'TakatimiTakaTakita'],
 
-  ['Na', 'Ta', 'te', 'Ton', 'Ta', 'Ka', 'Ti', 'Mi', '-'],
-  ['Ta-', 'Timi', 'Kita', 'Kina', 'Tati'],
-  ['Tan-gu', 'Ta--', 'ta-ki', '-te-', '-ta-', 'Ta-ka', 'Ti-mi', 'Kinaton'],
-  ['Takajuna', 'Kitataka', 'terekite', 'tatikena', 'Ta-ka-', 'Ti-mi-', 'Ta--ah', 'Ta---', 'Tikinaton', 'Tati--', 'Tati-ta'],
-  ['Takatakite', 'Takitetaka', 'Ta-kinaton', 'Tati-naton', 'Ta----', 'Ta-ah--', 'Ta--ta-'],
-  ['TakiteTakite', , 'Tatikenaton-', 'Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'terekitaka', 'Ta-ki-ta-', 'ki-na-ton'],
-  ['Ta---kenaton', 'Ta---ah--', 'Ta------', 'Ta-ti-Tan-gu', 'Ta-ka-ti-mi'],
-  ['Tati-ke-na-ton', 'Tan-guTatikenaton', 'TakaterekiteTaka', 'Ta-terekiteTaka'],
-  ['Ta-di-ke-na-ton', 'Ta-ti-Tatikenaton', 'TakatimiTatikenaton', 'TakaTakaTakaTakite', 'TakaTakiteTakaTaka'],
+	['Na', 'Ta', 'te', 'Ton', 'Ta', 'Ka', 'Ti', 'Mi', '-'],
+	['Ta-', 'Timi', 'Kita', 'Kina', 'Tati'],
+	['Tan-gu', 'Ta--', 'ta-ki', '-te-', '-ta-', 'Ta-ka', 'Ti-mi', 'Kinaton'],
+	['Takajuna', 'Kitataka', 'terekite', 'tatikena', 'Ta-ka-', 'Ti-mi-', 'Ta--ah', 'Ta---', 'Tikinaton', 'Tati--', 'Tati-ta'],
+	['Takatakite', 'Takitetaka', 'Ta-kinaton', 'Tati-naton', 'Ta----', 'Ta-ah--', 'Ta--ta-'],
+	['TakiteTakite', , 'Tatikenaton-', 'Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'terekitaka', 'Ta-ki-ta-', 'ki-na-ton'],
+	['Ta---kenaton', 'Ta---ah--', 'Ta------', 'Ta-ti-Tan-gu', 'Ta-ka-ti-mi'],
+	['Tati-ke-na-ton', 'Tan-guTatikenaton', 'TakaterekiteTaka', 'Ta-terekiteTaka'],
+	['Ta-di-ke-na-ton', 'Ta-ti-Tatikenaton', 'TakatimiTatikenaton', 'TakaTakaTakaTakite', 'TakaTakiteTakaTaka'],
 ];
 
 // -------------------------------------FUNCIONES ARRAY Y DOM-----------------------------------------
 
 export const crearTablaHtml = id => {
-  lineaID = id;
-  $template.querySelector('.notas').dataset.id = id;
-  let $node = d.importNode($template, true);
-  document.body.querySelector('.marco-display').appendChild($node);
+	lineaID = id;
+	$template.querySelector('.notas').dataset.id = id;
+	let $node = d.importNode($template, true);
+	document.body.querySelector('.marco-display').appendChild($node);
 };
 
 export const inicio = () => {
-  if (localStorage.getItem('compoLista')) loadCompoLista();
-  crearListaHtml();
-  if (compo1.nombre !== 'default') return (modoBloqueo = true);
-  focusLinea();
+	if (localStorage.getItem('compoLista')) {
+		loadCompoLista();
+		crearListaHtml();
+		$total.textContent = totalParrafosSinEspacios().length;
+	}
+	if (compo1.nombre !== 'default') return (modoBloqueo = true);
+	focusLinea();
 };
 
 const focusLinea = () => {
-  if (modoBloqueo) return mensajeAlerta('Press Edit', '');
-  $cajaNotas = document.body.querySelectorAll(' .borde-notas');
-  $cajaNotas.forEach(linea => linea.classList.remove('edit'));
-  $cajaNotas[lineaID - 1].classList.add('edit');
+	if (modoBloqueo) return mensajeAlerta('Press Edit', '');
+	$cajaNotas = document.body.querySelectorAll(' .borde-notas');
+	$cajaNotas.forEach(linea => linea.classList.remove('edit'));
+	$cajaNotas[lineaID - 1].classList.add('edit');
 
-  repetir = 2;
+	repetir = 2;
 };
 
 const eleccionDeBol = (id, num) => {
-  //PREDETERMINADO
-  escribirHtml(id, speakSilabas[0][num - 1]);
-  escribirArray(id, speakSilabas[0][num - 1]);
-  compo1.guardarLocalStorage();
+	//PREDETERMINADO
+	escribirHtml(id, speakSilabas[0][num - 1]);
+	escribirArray(id, speakSilabas[0][num - 1]);
+	compo1.guardarLocalStorage();
 
-  reiniciarSelect();
+	reiniciarSelect();
 
-  ultimoNum = num; //para borrar bol selecionado en el option(evento click)
+	ultimoNum = num; //para borrar bol selecionado en el option(evento click)
 
-  speakSilabas[num].forEach(elem => cargarSelect(elem));
+	speakSilabas[num].forEach(elem => cargarSelect(elem));
 };
 
 const reiniciarSelect = () => {
-  if ($select.options) [...$select.options].forEach(elem => elem.remove());
-  const etiqueta = document.createElement('option');
-  etiqueta.textContent = 'Variation Bol';
-  $select.append(etiqueta);
-  $select.disabled = true;
+	if ($select.options) [...$select.options].forEach(elem => elem.remove());
+	const etiqueta = document.createElement('option');
+	etiqueta.textContent = 'Variation Bol';
+	$select.append(etiqueta);
+	$select.disabled = true;
 };
 
 // CARGA SELECT
 const cargarSelect = opcion => {
-  $select.disabled = false;
+	$select.disabled = false;
 
-  const opcionBol = document.createElement('option');
-  opcionBol.setAttribute('value', opcion);
-  opcionBol.textContent = opcion;
-  $select.append(opcionBol);
+	const opcionBol = document.createElement('option');
+	opcionBol.setAttribute('value', opcion);
+	opcionBol.textContent = opcion;
+	$select.append(opcionBol);
 };
 
 // GUARDA LO QUE HAY EL LINEA(.BORDE NOTAS P ) EN EL ARRAY CON SUS DRUTAM
 const guardaArray = () => {
-  const parrafo_silabas = document.querySelectorAll('.notas')[lineaID - 1].querySelectorAll('.borde-notas p');
-  let silabasTemp = [...parrafo_silabas].map(p => p.textContent);
+	const parrafo_silabas = document.querySelectorAll('.notas')[lineaID - 1].querySelectorAll('.borde-notas p');
+	let silabasTemp = [...parrafo_silabas].map(p => p.textContent);
 
-  parrafo_silabas.forEach((silaba, index) => {
-    if (silaba.matches('.drutam')) {
-      silabasTemp[index] = `(${silabasTemp[index]})`;
-    }
-  });
+	parrafo_silabas.forEach((silaba, index) => {
+		if (silaba.matches('.drutam')) {
+			silabasTemp[index] = `(${silabasTemp[index]})`;
+		}
+	});
 
-  silabasTemp = silabasTemp.join('').split(' ');
+	silabasTemp = silabasTemp.join('').split(' ');
 
-  silabasTemp = silabasTemp.map(bol => bol.trim());
-  silabasTemp = silabasTemp.filter(bol => bol.length !== 0);
-  compo1.arrayLineas[lineaID - 1].arraySilabas = [...silabasTemp];
+	silabasTemp = silabasTemp.map(bol => bol.trim());
+	silabasTemp = silabasTemp.filter(bol => bol.length !== 0);
+	compo1.arrayLineas[lineaID - 1].arraySilabas = [...silabasTemp];
 
-  compo1.guardarLocalStorage();
+	compo1.guardarLocalStorage();
 };
 
 // escribe Array -----------------
 export const escribirArray = (id, bol, repet) => {
-  if (!modoBloqueo && !escribirInputs && repet === 'R') {
-    compo1.arrayLineas[id - 1].rep = bol - 1;
-    compo1.guardarLocalStorage();
-  } else if (!modoBloqueo && !escribirInputs) guardaArray();
+	if (!modoBloqueo && !escribirInputs && repet === 'R') {
+		compo1.arrayLineas[id - 1].rep = bol - 1;
+		compo1.guardarLocalStorage();
+	} else if (!modoBloqueo && !escribirInputs) guardaArray();
 };
 // escribe HTML ----------------
 export const escribirHtml = (id, bol) => {
-  if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
+	if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
 
-  if (typeof bol !== 'string') return console.error`<p> El dato guardado ${bol} no es una cadena de texto`;
+	if (typeof bol !== 'string') return console.error`<p> El dato guardado ${bol} no es una cadena de texto`;
 
-  if (!escribirInputs) {
-    let indiceD = [];
+	if (!escribirInputs) {
+		let indiceD = [];
 
-    bol = bol.replaceAll('-', '--');
-    bol = bol.replaceAll(/tan/gi, 'an');
-    bol = bol.replaceAll(/ton/gi, 'on');
+		bol = bol.replaceAll('-', '--');
+		bol = bol.replaceAll(/tan/gi, 'an');
+		bol = bol.replaceAll(/ton/gi, 'on');
 
-    if (bol.includes('(')) {
-      let idLetra = bol.indexOf('('); //primera vez
+		if (bol.includes('(')) {
+			let idLetra = bol.indexOf('('); //primera vez
 
-      while (idLetra >= 0) {
-        indiceD.push(idLetra);
-        idLetra = bol.indexOf('(', idLetra + 1);
-      }
-      indiceD = indiceD.map((ind, index) => (ind = ind - index * 2));
+			while (idLetra >= 0) {
+				indiceD.push(idLetra);
+				idLetra = bol.indexOf('(', idLetra + 1);
+			}
+			indiceD = indiceD.map((ind, index) => (ind = ind - index * 2));
 
-      bol = bol.replace(/[()]/g, '');
-    }
+			bol = bol.replace(/[()]/g, '');
+		}
 
-    let bolCortado = bol.trim().match(/ta|te|ti|ka|ke|ki|mi|na|ju|ton|--|an|on|gu|ah|re/gi);
+		let bolCortado = bol.trim().match(/ta|te|ti|ka|ke|ki|mi|na|ju|ton|--|an|on|gu|ah|re/gi);
 
-    bolCortado.push('&nbsp &nbsp');
+		bolCortado.push('&nbsp &nbsp');
 
-    bolCortado.forEach((silaba, index) => {
-      const speak = document.createElement('p');
-      speak.innerHTML = silaba;
-      indiceD.forEach(ind => {
-        if (ind / 2 === index) speak.classList.add('drutam');
-      });
-      if (speak.innerHTML === '--') {
-        speak.innerHTML = '-';
-        speak.classList.add('guiones');
-      }
-      if (speak.innerHTML === 'an') speak.innerHTML = 'Tan';
-      if (speak.innerHTML === 'on') speak.innerHTML = 'ton';
+		bolCortado.forEach((silaba, index) => {
+			const speak = document.createElement('p');
+			speak.innerHTML = silaba;
+      if(index===0)speak.classList.add('first');
+			indiceD.forEach(ind => {
+				if (ind / 2 === index) speak.classList.add('drutam');
+			});
+			if (speak.innerHTML === '--') {
+				speak.innerHTML = '-';
+				speak.classList.add('guiones');
+			}
+			if (speak.innerHTML === 'an') speak.innerHTML = 'Tan';
+			if (speak.innerHTML === 'on') speak.innerHTML = 'ton';
 
-      $cajaNotas = document.body.querySelectorAll(' .borde-notas');
-      $cajaNotas[id - 1].appendChild(speak);
-    });
-  }
+			$cajaNotas = document.body.querySelectorAll(' .borde-notas');
+			$cajaNotas[id - 1].appendChild(speak);
+		});
+		$total.textContent = totalParrafosSinEspacios().length;
+	}
 };
 
 export const escribirRepeticiones = (id, rep) => {
-  const ledRepetir = document.querySelectorAll('.cruz')[id - 1];
-  ledRepetir.textContent = rep;
-  rep === 1 ? ledRepetir.classList.remove('mostrar') : ledRepetir.classList.add('mostrar');
+	const ledRepetir = document.querySelectorAll('.cruz')[id - 1];
+	ledRepetir.dataset.rep = rep;
+	ledRepetir.dataset.id = id;
+	ledRepetir.textContent = rep;
+	rep === 1 ? ledRepetir.classList.remove('mostrar') : ledRepetir.classList.add('mostrar');
 };
 
 const borrarUltimaSilaba = id => {
-  // if (modoBloqueo) return alert('Press Edit \ndont forget to save');
-  if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
+	// if (modoBloqueo) return alert('Press Edit \ndont forget to save');
+	if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
 
-  if (!escribirInputs) {
-    if (!$cajaNotas[id - 1].children[$cajaNotas[id - 1].children.length - 1].matches('div'))
-      $cajaNotas[id - 1].lastChild.remove();
-    guardaArray();
-  }
+	if (!escribirInputs) {
+		if (!$cajaNotas[id - 1].children[$cajaNotas[id - 1].children.length - 1].matches('div'))
+			$cajaNotas[id - 1].lastChild.remove();
+		guardaArray();
+		$total.textContent = totalParrafosSinEspacios().length;
+	}
 };
 
 export const borrarLineasHtml = () => {
-  if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
+	if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
 
-  document.body.querySelectorAll('.notas').forEach(elem => elem.remove());
+	document.body.querySelectorAll('.notas').forEach(elem => elem.remove());
 };
 
 const reiniciarCompo = () => {
-  modoBloqueo = false;
-  compo1.reiniciarCompo();
-  borrarLineasHtml();
-  compo1.nuevaLinea();
-  focusLinea();
-  reiniciarSelect();
+	modoBloqueo = false;
+	compo1.reiniciarCompo();
+	borrarLineasHtml();
+	compo1.nuevaLinea();
+	focusLinea();
+	reiniciarSelect();
+	$total.textContent = '0';
 };
 
 function accionBoton() {
-  // -----------------------EVENTO-BOTONES LUCES--------------------------------------------------------------
-  let btn = this.matches('.ledBlanco') ? this.parentElement : this;
+	// -----------------------EVENTO-BOTONES LUCES--------------------------------------------------------------
+	let btn = this.matches('.ledBlanco') ? this.parentElement : this;
 
-  if (btn.children[0]) btn.children[0].classList.toggle('ledAzul');
+	if (btn.children[0]) btn.children[0].classList.toggle('ledAzul');
 
-  btn.classList.toggle('encendido');
-  btn.classList.toggle('button-display');
+	btn.classList.toggle('encendido');
+	btn.classList.toggle('button-display');
 
-  setTimeout(() => {
-    btn.classList.toggle('encendido');
-    btn.classList.toggle('button-display');
-    if (btn.children[0]) btn.children[0].classList.toggle('ledAzul');
-  }, 1000);
+	setTimeout(() => {
+		btn.classList.toggle('encendido');
+		btn.classList.toggle('button-display');
+		if (btn.children[0]) btn.children[0].classList.toggle('ledAzul');
+	}, 1000);
 
-  // -----------------------------BOTONES ACCIÒN---------------------------------------------------------------
-  //ESCRIBIR 1 A 9
-  if (btn.matches('.btn-number') && btn.textContent > 0 && btn.textContent < 10) {
-    eleccionDeBol(lineaID, parseInt(btn.textContent));
-  }
+	// -----------------------------BOTONES ACCIÒN---------------------------------------------------------------
+	//ESCRIBIR 1 A 9
+	if (btn.matches('.btn-number') && btn.textContent > 0 && btn.textContent < 10) {
+		eleccionDeBol(lineaID, parseInt(btn.textContent));
+	}
 
-  if (btn.textContent === 'R' && !modoBloqueo) {
-    const ledRepetir = document.querySelectorAll('.cruz')[lineaID - 1];
+	if (btn.textContent === 'R' && !modoBloqueo) {
+		const ledRepetir = document.querySelectorAll('.cruz')[lineaID - 1];
 
-    ledRepetir.textContent = repetir++;
-    ledRepetir.classList.add('mostrar');
-    if (repetir > 9) {
-      repetir = 2;
-      ledRepetir.classList.remove('mostrar');
-    }
+		ledRepetir.textContent = repetir++;
+		ledRepetir.classList.add('mostrar');
+		if (repetir > 9) {
+			repetir = 2;
+			ledRepetir.classList.remove('mostrar');
+		}
 
-    //----------array------------------------
-    escribirArray(lineaID, repetir, 'R');
-  }
+		//----------array------------------------
+		escribirArray(lineaID, repetir, 'R');
+	}
 
-  //BACK
-  if (btn.textContent === 'Back') {
-    borrarUltimaSilaba(lineaID);
-    reiniciarSelect();
-  }
+	//BACK
+	if (btn.textContent === 'Back') {
+		borrarUltimaSilaba(lineaID);
+		reiniciarSelect();
+	}
 
-  //NEW LINE
-  if (btn.textContent === 'New Line' && !modoBloqueo) {
-    compo1.nuevaLinea();
-    focusLinea();
-    reiniciarSelect();
-  }
+	//NEW LINE
+	if (btn.textContent === 'New Line' && !modoBloqueo) {
+		compo1.nuevaLinea();
+		focusLinea();
+		reiniciarSelect();
+	}
 
-  //SAVE------
-  if (btn.textContent === 'Save') {
-    if (modoBloqueo) return mensajeAlerta('it`s already saved\nPress Edit \ndont forget to save', '');
-    loadCompoLista();
-    guardarCompoEnLista();
-    crearListaHtml();
-    reiniciarSelect();
-    modoBloqueo = true;
-    $cajaNotas.forEach(linea => linea.classList.remove('edit'));
-  }
+	//SAVE------
+	if (btn.textContent === 'Save') {
+		if (modoBloqueo) return mensajeAlerta('it`s already saved\nPress Edit \ndont forget to save', '');
+		loadCompoLista();
+		guardarCompoEnLista();
+		crearListaHtml();
+		reiniciarSelect();
+		modoBloqueo = true;
+		$cajaNotas.forEach(linea => linea.classList.remove('edit'));
+	}
 
-  //LOAD
-  if (btn.textContent === 'Load') {
-    modoBloqueo = false;
-    loadCompoLista();
-    document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
-    reiniciarSelect();
-  }
+	//LOAD
+	if (btn.textContent === 'Load') {
+		modoBloqueo = false;
+		loadCompoLista();
+		document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
+		reiniciarSelect();
+	}
 
-  if (btn.textContent === 'Delete') {
-    deleteCompo(compo1.nombre);
-  }
+	if (btn.textContent === 'Delete') {
+		deleteCompo(compo1.nombre);
+	}
 
-  //REINICIAR
-  if (btn.textContent === 'New') {
-    reiniciarCompo();
-    compo1.guardarLocalStorage();
-  }
+	//REINICIAR
+	if (btn.textContent === 'New') {
+		reiniciarCompo();
+		compo1.guardarLocalStorage();
+	}
 
-  //EDIT
-  if (btn.textContent === 'Edit') {
-    if (!modoBloqueo) return mensajeAlerta('First load Tala', '');
-    modoBloqueo = false;
-    focusLinea();
-    inputs.forEach(input => (input.disabled = false));
-  }
+	//EDIT
+	if (btn.textContent === 'Edit') {
+		if (!modoBloqueo) return mensajeAlerta('First load Tala', '');
+		modoBloqueo = false;
+		focusLinea();
+		inputs.forEach(input => (input.disabled = false));
+	}
 
-  if (btn.textContent === 'Close') {
-    document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
-  }
+	if (btn.textContent === 'Close') {
+		document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
+	}
 }
 
 $btns.forEach(elem => elem.addEventListener('click', accionBoton));
@@ -292,96 +303,97 @@ $btns.forEach(elem => elem.addEventListener('click', accionBoton));
 // -----------------------EVENTO-TECLAS------------------------------------------
 
 export const accionTeclas = e => {
-  const num = parseInt(e.key);
+	const num = parseInt(e.key);
 
-  if (num > 0 && num < 10) {
-    eleccionDeBol(lineaID, num);
-  }
+	if (num > 0 && num < 10) {
+		eleccionDeBol(lineaID, num);
+	}
 
-  if (e.key === 'Backspace' || e.code === 'Backspace') {
-    borrarUltimaSilaba(lineaID);
-    reiniciarSelect();
-  }
+	if (e.key === 'Backspace' || e.code === 'Backspace') {
+		borrarUltimaSilaba(lineaID);
+		reiniciarSelect();
+	}
 
-  if (e.keyCode == 13 && !modoBloqueo && !escribirInputs) {
-    compo1.nuevaLinea();
-    focusLinea();
-    reiniciarSelect();
-  }
+	if (e.keyCode == 13 && !modoBloqueo && !escribirInputs) {
+		compo1.nuevaLinea();
+		focusLinea();
+		reiniciarSelect();
+	}
 };
 
 document.addEventListener('keydown', accionTeclas);
 
 //----------------EVENTO CLICK-------------------------------------------------
 document.addEventListener('click', e => {
-  // ESCRIBIR LOS DRUTAM () EN EL ARRAY
-  if (e.target.parentElement.matches('.edit')) {
-    e.target.classList.toggle('drutam');
-    guardaArray();
-  }
+	// ESCRIBIR LOS DRUTAM () EN EL ARRAY
+	if (e.target.parentElement) {
+		if (e.target.parentElement.matches('.edit')) {
+			e.target.classList.toggle('drutam');
+			guardaArray();
+		}
+	}
+	//PONER FOCUS
+	if (e.target.matches('.borde-notas')) {
+		if (compo1.arrayLineas.length !== 0) {
+			lineaID = e.target.parentElement.parentElement.getAttribute('data-id');
+			focusLinea();
+		}
+	}
 
-  //PONER FOCUS
-  if (e.target.matches('.borde-notas')) {
-    if (compo1.arrayLineas.length !== 0) {
-      lineaID = e.target.parentElement.parentElement.getAttribute('data-id');
-      focusLinea();
-    }
-  }
+	// BORRAR LINEA
+	if (e.target.matches('.close')) {
+		if ($cajaNotas && !modoBloqueo) {
+			let closeId = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
+			// borramos Array  que pichamos
+			compo1.arrayLineas = compo1.arrayLineas.filter((linea, index, array) => linea !== array[closeId - 1]);
+			//borramos Linea HTML que pinchamos
 
-  // BORRAR LINEA
-  if (e.target.matches('.close')) {
-    if ($cajaNotas && !modoBloqueo) {
-      let closeId = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
-      // borramos Array  que pichamos
-      compo1.arrayLineas = compo1.arrayLineas.filter((linea, index, array) => linea !== array[closeId - 1]);
-      //borramos Linea HTML que pinchamos
-
-      document.querySelectorAll('.notas')[closeId - 1].remove();
-      //resetemos los ids y el let contador de clase Linea
-      let contador = 1;
-      compo1.arrayLineas.forEach(linea => (linea.id = contador++));
-      contador = 1;
-      document.querySelectorAll('.notas').forEach(linea => linea.setAttribute('data-id', contador++));
-      Linea.setIdContador(contador);
-    }
-    compo1.guardarLocalStorage();
-  }
+			document.querySelectorAll('.notas')[closeId - 1].remove();
+			//resetemos los ids y el let contador de clase Linea
+			let contador = 1;
+			compo1.arrayLineas.forEach(linea => (linea.id = contador++));
+			contador = 1;
+			document.querySelectorAll('.notas').forEach(linea => linea.setAttribute('data-id', contador++));
+			Linea.setIdContador(contador);
+		}
+		compo1.guardarLocalStorage();
+	}
 });
 
 // SELECT ---------- EVENTO SELECCIONA OPTION BOLS Y BORRA BOL ANTERIOR
 $select.addEventListener('change', function () {
-  for (let i = 0; i < ultimoNum + 1; i++) {
-    borrarUltimaSilaba(lineaID);
-  }
+	for (let i = 0; i < ultimoNum + 1; i++) {
+		borrarUltimaSilaba(lineaID);
+	}
 
-  const valor = this.options[this.options.selectedIndex].value;
+	const valor = this.options[this.options.selectedIndex].value;
 
-  escribirHtml(lineaID, valor);
-  escribirArray(lineaID, valor);
-  compo1.guardarLocalStorage();
+	escribirHtml(lineaID, valor);
+	escribirArray(lineaID, valor);
+	compo1.guardarLocalStorage();
 });
 
 //----------------------------------------INPUTS--------------------------------------------------
-const inputs = document.querySelectorAll('input');
+const inputs = document.querySelectorAll('.info input');
 
 inputs.forEach(input =>
-  input.addEventListener('focus', e => {
-    if (modoBloqueo) {
-      e.target.disabled = true;
-      return mensajeAlerta('Press Edit \n and dont forget to save', '');
-    } else {
-      e.target.disabled = false;
-      e.target.classList.add('input-foco');
-      //para que no escriba en linea cuando inputs
-      escribirInputs = true;
-    }
-  })
+	input.addEventListener('focus', e => {
+		if (modoBloqueo) {
+			e.target.disabled = true;
+			return mensajeAlerta('Press Edit \n and dont forget to save', '');
+		} else {
+			e.target.disabled = false;
+			e.target.classList.add('input-foco');
+			//para que no escriba en linea cuando inputs
+			escribirInputs = true;
+		}
+	})
 );
 inputs.forEach(input =>
-  input.addEventListener('blur', e => {
-    e.target.classList.remove('input-foco');
-    escribirInputs = false;
-  })
+	input.addEventListener('blur', e => {
+		e.target.classList.remove('input-foco');
+		escribirInputs = false;
+	})
 );
 
 ///////////////////////////////////LISTA DE COMPOS/////////////////////////////////////
@@ -390,120 +402,122 @@ let compoLista = [];
 let indexCompoLista = undefined;
 
 const guardarCompoEnLista = () => {
-  // COMPROBAR NOMBRE IGUAL A UNO GUARDADO
-  let nombresLista = compoLista.map(compo => compo.nombre);
-  let inputNombre = document.getElementById('nombre').value.trim();
-  let indexRepetido = nombresLista.indexOf(inputNombre);
+	// COMPROBAR NOMBRE IGUAL A UNO GUARDADO
+	let nombresLista = compoLista.map(compo => compo.nombre);
+	let inputNombre = document.getElementById('nombre').value.trim();
+	let indexRepetido = nombresLista.indexOf(inputNombre);
 
-  if (nombresLista.includes(inputNombre)) {
-    let guardar = confirm(`La Lista ya contiene el nombre. Desea sobreescribir ${inputNombre}?`);
+	if (nombresLista.includes(inputNombre)) {
+		let guardar = confirm(`La Lista ya contiene el nombre. Desea sobreescribir ${inputNombre}?`);
 
-    if (guardar) {
-      compoLista.splice(indexRepetido, 1);
+		if (guardar) {
+			compoLista.splice(indexRepetido, 1);
 
-      return guardarConfirmado();
-    } else {
-      return mensajeAlerta('Saved Canceled', inputNombre);
-    }
-  }
+			return guardarConfirmado();
+		} else {
+			return mensajeAlerta('Saved Canceled', inputNombre);
+		}
+	}
 
-  guardarConfirmado();
+	guardarConfirmado();
 };
 
 const guardarConfirmado = () => {
-  guardarDatos();
-  compoLista.push(compo1);
-  compoLista.sort((a, b) => {
-    if (a.nombre < b.nombre) return -1;
-    if (b.nombre < a.nombre) return 1;
-  });
-  localStorage.setItem('compoLista', JSON.stringify(compoLista));
+	guardarDatos();
+	compoLista.push(compo1);
+	compoLista.sort((a, b) => {
+		if (a.nombre < b.nombre) return -1;
+		if (b.nombre < a.nombre) return 1;
+	});
+	localStorage.setItem('compoLista', JSON.stringify(compoLista));
 
-  mensajeAlerta(' Saved', compo1.nombre);
+	mensajeAlerta(' Saved', compo1.nombre);
 };
 
 const guardarDatos = () => {
-  compo1.nombre = document.getElementById('nombre').value;
-  compo1.grupo = document.getElementById('grupo').value;
-  compo1.nBeats = document.getElementById('nBeats').value;
+	compo1.nombre = document.getElementById('nombre').value;
+	compo1.grupo = document.getElementById('grupo').value;
+	compo1.nBeats = document.getElementById('nBeats').value;
 };
 
 const loadCompoLista = () => {
-  compoLista = localStorage.getItem('compoLista')
-    ? (compoLista = JSON.parse(localStorage.getItem('compoLista')))
-    : (compoLista = []);
-  compoLista.sort((a, b) => {
-    if (a.nombre < b.nombre) return -1;
-    if (b.nombre < a.nombre) return 1;
-  });
+	compoLista = localStorage.getItem('compoLista')
+		? (compoLista = JSON.parse(localStorage.getItem('compoLista')))
+		: (compoLista = []);
+	compoLista.sort((a, b) => {
+		if (a.nombre < b.nombre) return -1;
+		if (b.nombre < a.nombre) return 1;
+	});
 
-  return compoLista;
+	return compoLista;
 };
 
 const crearListaHtml = () => {
-  if (document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').length !== 0)
-    document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').forEach(a => a.remove());
-  const $templateTrEnlace = document.querySelector('#tr-enlace').content;
+	if (document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').length !== 0)
+		document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').forEach(a => a.remove());
+	const $templateTrEnlace = document.querySelector('#tr-enlace').content;
 
-  compoLista.forEach((compo, index) => {
-    const enlase = $templateTrEnlace.querySelector('#item-lista #td1 #enlace-item-lista');
-    enlase.setAttribute('value', index);
-    enlase.textContent = compo.nombre;
-    $templateTrEnlace.querySelector('#td2').textContent = compo.grupo;
-    $templateTrEnlace.querySelector('#td3').textContent = compo.nBeats;
-    let $node = document.importNode($templateTrEnlace, true);
-    document.body.querySelector('#contenedor-lista-usuarios table tbody').appendChild($node);
-    $node = document.importNode($templateTrEnlace, true);
-  });
+	compoLista.forEach((compo, index) => {
+		const enlase = $templateTrEnlace.querySelector('#item-lista #td1 #enlace-item-lista');
+		enlase.setAttribute('value', index);
+		enlase.textContent = compo.nombre;
+		$templateTrEnlace.querySelector('#td2').textContent = compo.grupo;
+		$templateTrEnlace.querySelector('#td3').textContent = compo.nBeats;
+		let $node = document.importNode($templateTrEnlace, true);
+		document.body.querySelector('#contenedor-lista-usuarios table tbody').appendChild($node);
+		$node = document.importNode($templateTrEnlace, true);
+	});
 
-  // console.log(document.querySelectorAll('#tr-enlace'))
-  // console.log(document.body.querySelectorAll(' #enlace-item-lista'));
-  document.body.querySelectorAll('#contenedor-lista-usuarios #enlace-item-lista').forEach(enlace => enlace.addEventListener('click', recargarCompoDeLista));
+	// console.log(document.querySelectorAll('#tr-enlace'))
+	// console.log(document.body.querySelectorAll(' #enlace-item-lista'));
+	document.body
+		.querySelectorAll('#contenedor-lista-usuarios #enlace-item-lista')
+		.forEach(enlace => enlace.addEventListener('click', recargarCompoDeLista));
 };
 
 const recargarCompoDeLista = function () {
-  modoBloqueo = false;
-  borrarLineasHtml();
-  Linea.reiniciarIdContador();
-  indexCompoLista = this.getAttribute('value');
-  compo1.nombre = compoLista[indexCompoLista].nombre;
-  compo1.grupo = compoLista[indexCompoLista].grupo;
-  compo1.nBeats = compoLista[indexCompoLista].nBeats;
-  compo1.arrayLineas = compoLista[indexCompoLista].arrayLineas.map(Linea.fromJson);
+	modoBloqueo = false;
+	borrarLineasHtml();
+	Linea.reiniciarIdContador();
+	indexCompoLista = this.getAttribute('value');
+	compo1.nombre = compoLista[indexCompoLista].nombre;
+	compo1.grupo = compoLista[indexCompoLista].grupo;
+	compo1.nBeats = compoLista[indexCompoLista].nBeats;
+	compo1.arrayLineas = compoLista[indexCompoLista].arrayLineas.map(Linea.fromJson);
 
-  compo1.arrayLineas.forEach(linea => compo1.mandandoObjLineaAEscribirHtml(linea));
-  compo1.cargarDatosCompo();
+	compo1.arrayLineas.forEach(linea => compo1.mandandoObjLineaAEscribirHtml(linea));
+	compo1.cargarDatosCompo();
 
-  document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
-  modoBloqueo = true;
+	document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
+	modoBloqueo = true;
 };
 
 const deleteCompo = nombre => {
-  let compoLista = loadCompoLista();
-  let compoNombre = compoLista.map(compo => compo.nombre);
-  let borrar = false;
-  compoNombre.forEach(compo => {
-    if (compo === nombre) borrar = confirm(`Are you sure you want to delete ${nombre}?`);
-  });
+	let compoLista = loadCompoLista();
+	let compoNombre = compoLista.map(compo => compo.nombre);
+	let borrar = false;
+	compoNombre.forEach(compo => {
+		if (compo === nombre) borrar = confirm(`Are you sure you want to delete ${nombre}?`);
+	});
 
-  if (borrar) {
-    compoLista = compoLista.filter(compo => compo.nombre !== nombre);
-    localStorage.setItem('compoLista', JSON.stringify(compoLista));
-    loadCompoLista();
-    crearListaHtml();
-    reiniciarCompo();
-    mensajeAlerta('ERASED', nombre);
-  } else {
-    mensajeAlerta('The deletion was canceled', nombre);
-  }
+	if (borrar) {
+		compoLista = compoLista.filter(compo => compo.nombre !== nombre);
+		localStorage.setItem('compoLista', JSON.stringify(compoLista));
+		loadCompoLista();
+		crearListaHtml();
+		reiniciarCompo();
+		mensajeAlerta('ERASED', nombre);
+	} else {
+		mensajeAlerta('The deletion was canceled', nombre);
+	}
 };
 
 const mensajeAlerta = (msj, nombre) => {
-  $alertas.classList.add('alertas-activo');
-  $alertas.textContent = `${nombre}  ${msj}`;
-  setTimeout(() => {
-    $alertas.classList.remove('alertas-activo');
-  }, 3000);
+	$alertas.classList.add('alertas-activo');
+	$alertas.textContent = `${nombre}  ${msj}`;
+	setTimeout(() => {
+		$alertas.classList.remove('alertas-activo');
+	}, 3000);
 };
 
 // -------------------------------------PREDEFINIDOS JSON-----------------------------------
@@ -517,62 +531,108 @@ let listaPreset = undefined;
 const url = './src/data.json';
 
 const obtenerPredefinidos = async () => {
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) throw { status: resp.status, statusText: resp.statusText };
-    const json = resp.json();
-    return json;
-  } catch (error) {
-    mensajeAlerta(error.statusText, `No se puede cargar Predefinidos ${error.status}`);
-  }
+	try {
+		const resp = await fetch(url);
+		if (!resp.ok) throw { status: resp.status, statusText: resp.statusText };
+		const json = resp.json();
+		return json;
+	} catch (error) {
+		mensajeAlerta(error.statusText, `No se puede cargar Predefinidos ${error.status}`);
+	}
 };
 
 const cargarPredefinidos = async () => {
-  listaPreset = await obtenerPredefinidos();
+	listaPreset = await obtenerPredefinidos();
 
-  const $templateTrEnlace = document.querySelector('#tr-enlace').content;
+	const $templateTrEnlace = document.querySelector('#tr-enlace').content;
 
-  listaPreset.forEach((compo, index) => {
-    const enlase = $templateTrEnlace.querySelector('#item-lista #td1 #enlace-item-lista');
+	listaPreset.forEach((compo, index) => {
+		const enlase = $templateTrEnlace.querySelector('#item-lista #td1 #enlace-item-lista');
 
-    enlase.setAttribute('value', index);
-    enlase.textContent = compo.nombre;
-    $templateTrEnlace.querySelector('#td2').textContent = compo.grupo;
-    $templateTrEnlace.querySelector('#td3').textContent = compo.nBeats;
-    let $node = document.importNode($templateTrEnlace, true);
-    document.body.querySelector('#contenedor-lista-predefinidos table tbody').appendChild($node);
-  });
+		enlase.setAttribute('value', index);
+		enlase.textContent = compo.nombre;
+		$templateTrEnlace.querySelector('#td2').textContent = compo.grupo;
+		$templateTrEnlace.querySelector('#td3').textContent = compo.nBeats;
+		let $node = document.importNode($templateTrEnlace, true);
+		document.body.querySelector('#contenedor-lista-predefinidos table tbody').appendChild($node);
+	});
 
-  document.body.querySelectorAll('#contenedor-lista-predefinidos #enlace-item-lista').forEach(enlace => enlace.addEventListener('click', escribirPredefinidos));
+	document.body
+		.querySelectorAll('#contenedor-lista-predefinidos #enlace-item-lista')
+		.forEach(enlace => enlace.addEventListener('click', escribirPredefinidos));
 };
 
 const escribirPredefinidos = function () {
-  modoBloqueo = false;
-  borrarLineasHtml();
-  Linea.reiniciarIdContador();
-  indexCompoLista = this.getAttribute('value');
-  compo1.nombre = listaPreset[indexCompoLista].nombre;
-  compo1.grupo = listaPreset[indexCompoLista].grupo;
-  compo1.nBeats = listaPreset[indexCompoLista].nBeats;
-  compo1.arrayLineas = listaPreset[indexCompoLista].arrayLineas.map(Linea.fromJson);
+	modoBloqueo = false;
+	borrarLineasHtml();
+	Linea.reiniciarIdContador();
+	indexCompoLista = this.getAttribute('value');
+	compo1.nombre = listaPreset[indexCompoLista].nombre;
+	compo1.grupo = listaPreset[indexCompoLista].grupo;
+	compo1.nBeats = listaPreset[indexCompoLista].nBeats;
+	compo1.arrayLineas = listaPreset[indexCompoLista].arrayLineas.map(Linea.fromJson);
 
-  compo1.arrayLineas.forEach(linea => compo1.mandandoObjLineaAEscribirHtml(linea));
-  compo1.cargarDatosCompo();
+	compo1.arrayLineas.forEach(linea => compo1.mandandoObjLineaAEscribirHtml(linea));
+	compo1.cargarDatosCompo();
 
-  document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
-  modoBloqueo = true;
+	document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
+	modoBloqueo = true;
 };
 
 cargarPredefinidos();
 
 /////////////////////////////////////METRONOMO/////////////////////////////////////////////
 
+const totalParrafosSinEspacios = () => {
+	const lineas = document.querySelectorAll('.borde-linea .borde-notas');
 
+	//DUPLICA EL ARRAY DE HTMLCOLLECTIONS N REPETICIONES
+	lineas.forEach((linea, index) => {
+		let rep = linea.parentElement.querySelector('.contenedor-iconos i').getAttribute('data-rep');
+		for (let i = 0; i < rep; i++) {
+			parrafos.push(linea.children);
+		}
+	});
 
-$playButton.addEventListener('click',()=>{
-  console.log('start');
+	//TRANSFORMA HTML COLECTION EN ARRAY LITERALES
+	let parrafosNuevos = parrafos.map(coleccion => Array.from(coleccion));
+	let parrafos2 = [];
 
- init();
- play();
-  
+	//FUNCION GUARDA PARAFOS EN ARRAY GRANDE PARRAFOS2
+	const guardarArray = array => {
+		array.forEach(p => parrafos2.push(p));
+	};
+	//MANDA CADA ARRAY INTERNO A LA FUNCION DE ARRIBA
+	parrafosNuevos.forEach((arr, index, array) => {
+		guardarArray(arr);
+	});
+
+	//FILTRA LOS ESPACIOS
+	parrafos = parrafos2.filter(p => p.innerHTML !== '&nbsp; &nbsp;');
+
+	// console.log(parrafos.length);
+	return parrafos;
+};
+
+let start = false;
+$playButton.addEventListener('click', () => {
+	console.log('start');
+	let parrafosCompleto = totalParrafosSinEspacios();
+
+	// init();
+	play(parrafosCompleto);
+
+	if (!start) {
+		$playButton.innerHTML = '<i class="fas fa-stop"></i>';
+		start = true;
+		console.log('entro if');
+    modoBloqueo=true;
+    $btns.forEach(btn=>btn.disabled=true);
+	} else {
+    
+    
+    $btns.forEach(btn=>btn.disabled=false);
+		$playButton.innerHTML = '<i class="fas fa-play"></i>';
+		start = false;
+	}
 });

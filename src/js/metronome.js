@@ -20,12 +20,16 @@ var last16thNoteDrawn = -1; // the last "box" we drew on the screen
 var notesInQueue = []; // the notes that have been put into the web audio,
 // and may or may not have played yet. {note, time}
 var timerWorker = null; // The Web Worker used to fire timer messages
-const volumeControl = document.querySelector('[data-action="volume"]'); 
+const volumeControl = document.querySelector('#volumen'); 
+const volumeControl2 = document.querySelector('#volumen2'); 
 let osc;
 let bufferTemp;
 let bufferTemp2;
+let bufferTemp3;
 let gainNode;
-let $parrafos=undefined;
+let gainNode2;
+let $parrafos=[];
+const showTempo=document.querySelector('#showTempo');
 
 
 // First, let's shim the requestAnimationFrame API, with a setTimeout fallback
@@ -69,13 +73,7 @@ function scheduleNote(beatNumber, time) {
 
 	let bandpassHi = audioContext.createBiquadFilter();
 	bandpassHi.type = 'notch';
-	bandpassHi.frequency.value = 1000;
-
-	
-	const volumeControl = document.querySelector('[data-action="volume"]');
-	volumeControl.addEventListener('input', function() {
-		gainNode.gain.value = this.value;
-	}, false);
+	bandpassHi.frequency.value = 1000;	
 
 	osc.connect(bandpassLow).connect(bandpassHi).connect(gainNode).connect(audioContext.destination);
 	osc.start(time);
@@ -91,7 +89,11 @@ function scheduler() {
 	}
 }
 
-export function play() {
+export function play(silabas) {
+	$parrafos=silabas;
+	
+	
+
 	if (!unlocked) {
 		// play silent buffer to unlock the audio
 		var buffer = audioContext.createBuffer(1, 1, 22050);
@@ -105,6 +107,8 @@ export function play() {
 
 	if (isPlaying) {
 		// start playing
+		$parrafos.forEach(p=>p.classList.remove('activo'));
+		i = 0;
 		requestAnimFrame(draw);
 		current16thNote = 0;
 		nextNoteTime = audioContext.currentTime;
@@ -118,15 +122,24 @@ export function play() {
 
 function playSample(audioContext, audioBuffer) {
 	const sampleSource = audioContext.createBufferSource();
-	sampleSource.buffer = audioBuffer;
-	sampleSource.connect(audioContext.destination)
+	sampleSource.buffer = audioBuffer;	
+	sampleSource.connect(audioContext.destination);
 	sampleSource.start(0,0);
 	// sampleSource.stop();
 	return sampleSource;
   }
 
-let i = 0;
+  function playSample2(audioContext, audioBuffer) {
+	const sampleSource = audioContext.createBufferSource();
+	sampleSource.buffer = audioBuffer;	
+	sampleSource.connect(gainNode2).connect(audioContext.destination);
+	sampleSource.start(0,0);
+	// sampleSource.stop();
+	return sampleSource;
+  }
 
+
+  let i =0;
 // console.log($parrafos)
 function draw() {
 	var currentNote = last16thNoteDrawn;
@@ -140,17 +153,16 @@ function draw() {
 	// We only need to draw if the note has moved.
 	if (last16thNoteDrawn != currentNote) {
 		
-
 		$parrafos[i].classList.add('activo');
 
 		if (i === 0) {
 			$parrafos[$parrafos.length-1].classList.remove('activo');
 
 			if($parrafos[i].classList.contains('drutam')){
-				console.log($parrafos[i].classList.contains('drutam'))
+			
 				osc.frequency.value=440.0; 
 				playSample(audioContext,bufferTemp2);              
-				let iTemp=i
+				let iTemp=i;
 				$parrafos[i].classList.add('drutan-activo'); 
 
 				setTimeout(() => {
@@ -174,6 +186,8 @@ function draw() {
                 
             }
 		}
+
+		if($parrafos[i].classList.contains('first'))playSample2(audioContext,bufferTemp3);
 		i++;
 		if (i === $parrafos.length) i = 0;
 
@@ -207,22 +221,22 @@ export function init() {
 
 	  bufferTemp=audioContext.createBuffer(1, 1, 22050);
 	  bufferTemp2=audioContext.createBuffer(1, 1, 22050);
+	  bufferTemp3=audioContext.createBuffer(1, 1, 22050);
 
 	  setupSample('./assets/click.mp3')
 	  .then(buffer=>bufferTemp=buffer);
 	  setupSample('./assets/Djun.mp3')
 	  .then(buffer=>bufferTemp2=buffer);
+	  setupSample('./assets/hh.mp3')
+	  .then(buffer=>bufferTemp3=buffer);
 
 	  //VOLUMEN 
 
 	    gainNode = audioContext.createGain();
+	    gainNode2 = audioContext.createGain();
 		
-
-	    $parrafos = document.querySelectorAll('.borde-notas p');
-		console.log($parrafos)
-    
-
-	//    // start the drawing loop.
+        // CARGA PARRAFOS PARRAFOS----------------------------------------------------------
+			//    // start the drawing loop.
 
 	timerWorker = new Worker('/src/js/metronomeworker.js');
 
@@ -233,6 +247,8 @@ export function init() {
 		} else console.log('message: ' + e.data);
 	};
 	timerWorker.postMessage({ interval: lookahead });
+
+	
 }
 
 window.addEventListener('load', init);
@@ -243,3 +259,16 @@ window.addEventListener('load', init);
 		volumeControl.addEventListener('input', function() {
 		gainNode.gain.value = this.value;
 	    }, false);
+
+	const $tempo=document.querySelector('#tempo');
+
+	volumeControl2.addEventListener('input', function() {
+		gainNode2.gain.value = this.value;
+		
+	}, false);
+
+    $tempo.addEventListener('change',()=>{
+
+		tempo=$tempo.value;
+		showTempo.textContent=tempo;
+    })

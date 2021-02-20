@@ -105,8 +105,8 @@ body .marco-display .notas .borde-notas p
 
 /* METRO SUBDIVICIONES */
 .activo{
-color: crimson;
-border:1px solid crimson;
+color: #db664a;
+
 
 }
 
@@ -115,10 +115,6 @@ body .marco-display .notas .borde-notas .guiones{
     font-size: 3rem;
     line-height: 1.2rem;
     
-    /* border-bottom-color: black; */
-    
-
-
 }
 
 /* --------boton-cerrar-linea----- */
@@ -223,39 +219,6 @@ body .marco-display .notas .borde-notas .guiones{
 }
 
 
-
-.option-bol option{
-    display: block;
-    overflow: auto;
-    font-size: 1.2rem;
-    color: var(--color-resaltado);
-    background-color: rgba(20, 18, 18);
-    
-}
-/* ---------------------------------------------------------METRO------------------------------------- */
-
-.metro{
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.play{
-    
-    height: 40px;
-    color:#3d700e;
-    font-size: 2rem;
-    background-color: transparent;
-    border: none;
-    text-shadow: 1px 1px 7px rgba(133, 182, 90, 0.329);
-    box-shadow: -1px -1px 4px 0px rgba(255, 255, 255, 0.651),
-    inset -1px -1px 0px 0px rgba(255, 255, 255, 0.26);
-    border-radius: 5px;
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    
-}
 
 
 

@@ -103,3 +103,12 @@
     }
 }
 
+.total{
+    max-width: 4rem;
+    padding: 0 0.625rem;
+    display: flex;
+    align-items:center;
+    
+
+}
+

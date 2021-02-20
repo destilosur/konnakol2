@@ -67,7 +67,7 @@
         </div>
       </div>
       <div class="contenedor-button-display">
-
+         <div class="total titulo-lista" id="total">0</div>
 
         <button class="button button-display">Save<div class="ledBlanco"></div></button>
         <a class="button button-display" href="#footer">Load<div class="ledBlanco"></div></a>
@@ -75,18 +75,30 @@
         <button class="button button-display">Edit<div class="ledBlanco"></div></button>
         <button class="button button-display">New<div class="ledBlanco"></div></button>
         
-        <form action="">
-          <select name="option-bol" id="option-bol" class="option-bol titulo-lista" disabled>
+
+        <div id="metro-bol" class="metro-bol">
+          
+            <select name="option-bol" id="option-bol" class="select-bols titulo-lista" titulo-lista" disabled>
             <option value='0' >Variation Bol</option>
-          </select>
-      </form>
-        <div class="metro">
+            </select>
+            
+            <div class="cont-tempo">
+            <span id="showTempo">120</span> &nbsp BPM
+            <input class="ranges" id="tempo"type="range" min="30.0" max="160.0" step="1" value="120"/>
+            </div>
 
-         <button class="play" id="play-button" ><i class="fas fa-play"></i></button>
-         <input type="range" id="volumen" class="control-volume" min="0" max="2" value="1" list="gain-vals" step="0.01" data-action="volume" />
-					
-					<label for="volume">VOL</label>
+            <div class="cont-volumen">
+            <label for="volume">VOL</label>          
+            <input type="range" id="volumen" class="ranges" min="0" max="2" value="1" 
+            step="0.01" data-action="volume" />            
+            </div>
+            <div class="cont-volumen">
+                       
+              <input type="range" id="volumen2" class="ranges" min="0" max="2" value="1" 
+              step="0.01" data-action="volume" />            
+              </div>
 
+            <button class="play" id="play-button" ><i class="fas fa-play"></i></button>
         </div>
 
 
@@ -103,7 +115,7 @@
 
           </div>
           <div class="contenedor-iconos">
-            <i class="fas fa-times cruz " data-rep="" data-id=""></i>
+            <i class="fas fa-times cruz "></i>
             <div class="close">x</div>
           </div>
         </div>
