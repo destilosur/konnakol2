@@ -1,11 +1,9 @@
-
-
 var audioContext = null;
 var unlocked = false;
 var isPlaying = false; // Are we currently playing?
 var startTime; // The start time of the entire sequence.
 var current16thNote; // What note is currently last scheduled?
-var tempo = 120.0; // tempo (in beats per minute)
+var tempo = 90.0; // tempo (in beats per minute)
 var lookahead = 25.0; // How frequently to call scheduling function
 //(in milliseconds)
 var scheduleAheadTime = 0.1; // How far ahead to schedule audio (sec)
@@ -20,17 +18,25 @@ var last16thNoteDrawn = -1; // the last "box" we drew on the screen
 var notesInQueue = []; // the notes that have been put into the web audio,
 // and may or may not have played yet. {note, time}
 var timerWorker = null; // The Web Worker used to fire timer messages
-const volumeControl = document.querySelector('#volumen'); 
-const volumeControl2 = document.querySelector('#volumen2'); 
+const volumeControl = document.querySelector('#volumen');
+const volumeControl2 = document.querySelector('#volumen2');
+let primerP=undefined;
+
 let osc;
 let bufferTemp;
 let bufferTemp2;
 let bufferTemp3;
 let gainNode;
 let gainNode2;
-let $parrafos=[];
-const showTempo=document.querySelector('#showTempo');
-
+let $parrafos = [];
+const showTempo = document.querySelector('#showTempo');
+let subdivicion = 0.25;
+const dosillo=0.50;
+const tresillo = 0.33333333333333;
+const cuatrillo= 0.25;
+const seisillo= 0.1666666666666667;
+const octillo=0.125;
+let contadorRep=1;
 
 // First, let's shim the requestAnimationFrame API, with a setTimeout fallback
 window.requestAnimFrame = (function () {
@@ -50,7 +56,7 @@ function nextNote() {
 	// Advance current note and time by a 16th note...
 	var secondsPerBeat = 60.0 / tempo; // Notice this picks up the CURRENT
 	// tempo value to calculate beat length.
-	nextNoteTime += 0.25 * secondsPerBeat; // Add beat length to last beat time
+	nextNoteTime += subdivicion * secondsPerBeat; // Add beat length to last beat time
 
 	current16thNote++;
 	if (current16thNote == 16) {
@@ -59,13 +65,10 @@ function nextNote() {
 	}
 }
 
-
-
-
 function scheduleNote(beatNumber, time) {
-	notesInQueue.push({ note: beatNumber, time: time });	
-	 osc = audioContext.createOscillator();	
-	osc.frequency.value = 880.0;	
+	notesInQueue.push({ note: beatNumber, time: time });
+	osc = audioContext.createOscillator();
+	osc.frequency.value = 880.0;
 
 	let bandpassLow = audioContext.createBiquadFilter();
 	bandpassLow.type = 'lowpass';
@@ -73,7 +76,7 @@ function scheduleNote(beatNumber, time) {
 
 	let bandpassHi = audioContext.createBiquadFilter();
 	bandpassHi.type = 'notch';
-	bandpassHi.frequency.value = 1000;	
+	bandpassHi.frequency.value = 1000;
 
 	osc.connect(bandpassLow).connect(bandpassHi).connect(gainNode).connect(audioContext.destination);
 	osc.start(time);
@@ -90,9 +93,8 @@ function scheduler() {
 }
 
 export function play(silabas) {
-	$parrafos=silabas;
-	
-	
+	$parrafos= silabas;
+	// console.log($parrafos);
 
 	if (!unlocked) {
 		// play silent buffer to unlock the audio
@@ -100,15 +102,42 @@ export function play(silabas) {
 		var node = audioContext.createBufferSource();
 		node.buffer = buffer;
 		node.start(0);
-		unlocked = true;
+		unlocked = true;		
+		
 	}
 
 	isPlaying = !isPlaying;
 
 	if (isPlaying) {
 		// start playing
-		$parrafos.forEach(p=>p.classList.remove('activo'));
+		$parrafos.forEach(p => p.classList.remove('activo'));
 		i = 0;
+		subdivicion = 0.25;
+		if(primerP.textContent.includes(':')) {
+
+
+			console.warn(primerP.textContent)
+
+			switch(primerP.textContent){
+
+				case ':2':{
+					subdivicion=dosillo;
+				}break;
+				case ':3':{
+					subdivicion=tresillo;
+				}break;
+				case ':4':{
+					subdivicion=cuatrillo;
+				}break;
+				case ':6':{
+					subdivicion=seisillo;
+				}break;
+				case ':8':{
+					subdivicion=octillo;
+				}break;
+			}
+
+		}
 		requestAnimFrame(draw);
 		current16thNote = 0;
 		nextNoteTime = audioContext.currentTime;
@@ -122,26 +151,26 @@ export function play(silabas) {
 
 function playSample(audioContext, audioBuffer) {
 	const sampleSource = audioContext.createBufferSource();
-	sampleSource.buffer = audioBuffer;	
+	sampleSource.buffer = audioBuffer;
 	sampleSource.connect(audioContext.destination);
-	sampleSource.start(0,0);
+	sampleSource.start(0, 0);
 	// sampleSource.stop();
 	return sampleSource;
-  }
+}
 
-  function playSample2(audioContext, audioBuffer) {
+function playSample2(audioContext, audioBuffer) {
 	const sampleSource = audioContext.createBufferSource();
-	sampleSource.buffer = audioBuffer;	
+	sampleSource.buffer = audioBuffer;
 	sampleSource.connect(gainNode2).connect(audioContext.destination);
-	sampleSource.start(0,0);
+	sampleSource.start(0, 0);
 	// sampleSource.stop();
 	return sampleSource;
-  }
+}
 
-
-  let i =0;
-// console.log($parrafos)
+let i = 0;
+// DRAW
 function draw() {
+
 	var currentNote = last16thNoteDrawn;
 	var currentTime = audioContext.currentTime;
 
@@ -153,57 +182,103 @@ function draw() {
 	// We only need to draw if the note has moved.
 	if (last16thNoteDrawn != currentNote) {
 		
+
+		if (i !== 0) $parrafos[i - 1].classList.remove('activo');
+		else $parrafos[$parrafos.length - 1].classList.remove('activo');
+       
+		let rep=$parrafos[i].parentElement.parentElement.querySelector('.contenedor-iconos i').getAttribute('data-rep');
+		switch ($parrafos[i].getAttribute('data-subd')) {
+			case '2':
+				{
+					console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
+					if(contadorRep===Number(rep)){
+						subdivicion = dosillo;
+						contadorRep=1;
+
+					}else {contadorRep++};
+				}
+				break;
+
+			case '3':
+				{
+					console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
+
+					if(contadorRep===Number(rep)){
+						subdivicion = tresillo;
+						contadorRep=1;
+
+					}else {contadorRep++};
+						
+				}
+				break;
+
+			case '4':
+				{
+					console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
+					if(contadorRep===Number(rep)){
+						subdivicion = cuatrillo;
+						contadorRep=1;
+
+					}else {contadorRep++};
+				}
+				break;
+
+			case '6':
+				{
+					console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
+					if(contadorRep===Number(rep)){
+						subdivicion = seisillo;
+						contadorRep=1;
+
+					}else {contadorRep++};
+				}
+				break;
+
+			case '8':
+				{
+					console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
+					if(contadorRep===Number(rep)){
+						subdivicion = octillo;
+						contadorRep=1;
+
+					}else {contadorRep++};
+				}
+				break;
+		}
+		
+		
+
+		if ($parrafos[i].classList.contains('first')) playSample2(audioContext, bufferTemp3);
+
 		$parrafos[i].classList.add('activo');
 
-		if (i === 0) {
-			$parrafos[$parrafos.length-1].classList.remove('activo');
+		if ($parrafos[i].classList.contains('drutam')) {
+			osc.frequency.value = 440.0;
 
-			if($parrafos[i].classList.contains('drutam')){
-			
-				osc.frequency.value=440.0; 
-				playSample(audioContext,bufferTemp2);              
-				let iTemp=i;
-				$parrafos[i].classList.add('drutan-activo'); 
+			if (i !== 0) {
+				playSample(audioContext, bufferTemp);
+			} else {
+				playSample(audioContext, bufferTemp2);
+			}
 
-				setTimeout(() => {
-					$parrafos[iTemp].classList.remove('drutan-activo'); 
-				}, 100);
-			
-		}
-            
-		} else {
-			
-			$parrafos[i-1].classList.remove('activo');
-            if($parrafos[i].classList.contains('drutam')){
-                    osc.frequency.value=440.0; 
-					playSample(audioContext,bufferTemp);              
-                    let iTemp=i
-                    $parrafos[i].classList.add('drutan-activo'); 
+			let iTemp = i;
 
-                    setTimeout(() => {
-                        $parrafos[iTemp].classList.remove('drutan-activo'); 
-                    }, 100);
-                
-            }
+			$parrafos[i].classList.add('drutan-activo');
+			setTimeout(() => {
+				$parrafos[iTemp].classList.remove('drutan-activo');
+			}, 100);
 		}
 
-		if($parrafos[i].classList.contains('first'))playSample2(audioContext,bufferTemp3);
 		i++;
 		if (i === $parrafos.length) i = 0;
-
-		
 	}
 	last16thNoteDrawn = currentNote;
 
 	// // set up to draw again
 	requestAnimFrame(draw);
-
 }
 
 export function init() {
-	
-
-
 	audioContext = new AudioContext();
 
 	async function getFile(audioContext, filepath) {
@@ -211,32 +286,30 @@ export function init() {
 		const arrayBuffer = await response.arrayBuffer();
 		const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 		return audioBuffer;
-	  }
+	}
 
-	  async function setupSample(filePath) {
-				
+	async function setupSample(filePath) {
 		const sample = await getFile(audioContext, filePath);
 		return sample;
-	  }
+	}
 
-	  bufferTemp=audioContext.createBuffer(1, 1, 22050);
-	  bufferTemp2=audioContext.createBuffer(1, 1, 22050);
-	  bufferTemp3=audioContext.createBuffer(1, 1, 22050);
+	bufferTemp = audioContext.createBuffer(1, 1, 22050);
+	bufferTemp2 = audioContext.createBuffer(1, 1, 22050);
+	bufferTemp3 = audioContext.createBuffer(1, 1, 22050);
 
-	  setupSample('./assets/click.mp3')
-	  .then(buffer=>bufferTemp=buffer);
-	  setupSample('./assets/Djun.mp3')
-	  .then(buffer=>bufferTemp2=buffer);
-	  setupSample('./assets/hh.mp3')
-	  .then(buffer=>bufferTemp3=buffer);
+	setupSample('./assets/click.mp3').then(buffer => (bufferTemp = buffer));
+	setupSample('./assets/Djun.mp3').then(buffer => (bufferTemp2 = buffer));
+	setupSample('./assets/hh.mp3').then(buffer => (bufferTemp3 = buffer));
 
-	  //VOLUMEN 
+	//VOLUMEN
 
-	    gainNode = audioContext.createGain();
-	    gainNode2 = audioContext.createGain();
-		
-        // CARGA PARRAFOS PARRAFOS----------------------------------------------------------
-			//    // start the drawing loop.
+	gainNode = audioContext.createGain();
+	gainNode2 = audioContext.createGain();
+
+	primerP=document.querySelectorAll('.borde-notas p')[0];
+
+	// CARGA PARRAFOS PARRAFOS----------------------------------------------------------
+	//    // start the drawing loop.
 
 	timerWorker = new Worker('/src/js/metronomeworker.js');
 
@@ -247,28 +320,33 @@ export function init() {
 		} else console.log('message: ' + e.data);
 	};
 	timerWorker.postMessage({ interval: lookahead });
-
-	
 }
 
 window.addEventListener('load', init);
 
 // volumen-------------------------
 
-
-		volumeControl.addEventListener('input', function() {
+volumeControl.addEventListener(
+	'input',
+	function () {
 		gainNode.gain.value = this.value;
-	    }, false);
+	},
+	false
+);
 
-	const $tempo=document.querySelector('#tempo');
+const $tempo = document.querySelector('#tempo');
 
-	volumeControl2.addEventListener('input', function() {
+volumeControl2.addEventListener(
+	'input',
+	function () {
 		gainNode2.gain.value = this.value;
-		
-	}, false);
+	},
+	false
+);
 
-    $tempo.addEventListener('change',()=>{
+$tempo.addEventListener('change', () => {
+	tempo = $tempo.value;
+	showTempo.textContent = tempo;
+});
 
-		tempo=$tempo.value;
-		showTempo.textContent=tempo;
-    })
+

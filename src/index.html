@@ -61,6 +61,7 @@
           <button class="button btn-number button-display">8</button>
           <button class="button btn-number button-display">9</button>
           <button class="button btn-number button-display">R</button>
+          <button class="button btn-number button-display back">SubD</button>
           <button class="button button-display back">Back</button>
           <button class="button button-display back">New Line</button>
 
@@ -83,8 +84,8 @@
             </select>
             
             <div class="cont-tempo">
-            <span id="showTempo">120</span> &nbsp BPM
-            <input class="ranges" id="tempo"type="range" min="30.0" max="160.0" step="1" value="120"/>
+            <span id="showTempo">90</span> &nbsp BPM
+            <input class="ranges" id="tempo"type="range" min="30.0" max="160.0" step="1" value="90"/>
             </div>
 
             <div class="cont-volumen">
@@ -106,7 +107,7 @@
       </div>
     </div>
 
-
+       <!-- TEMPLATE DE DISPLAY-NOTAS----------------------------- -->
     <template id="caja-escritura">
 
       <div class="notas">
@@ -115,7 +116,7 @@
 
           </div>
           <div class="contenedor-iconos">
-            <i class="fas fa-times cruz "></i>
+            <i class="fas fa-times cruz"  data-rep="1"></i>
             <div class="close">x</div>
           </div>
         </div>
@@ -178,6 +179,8 @@
 
     </div>
 
+
+    <!-- TEMPLATE DE LISTA-LOAD----PARA USER Y PRESET------------------------------------------- -->
     <template id="tr-enlace" class="tr-enlace">
 
       <tr class="tr-tabla" id="item-lista">
