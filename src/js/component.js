@@ -21,10 +21,9 @@ let repetir = 1; // para icono x2 x3 x4 se reinicia en focusLinea
 let contadorSilaba = 0;
 let ultimoNum = 0;
 let parrafos = [];
-let parrafosGrande=[];
-let subD=[2,3,4,6,8];
-let subDIndex=0;
-let contadorSubD=0;
+let subD = [2, 3, 4, 6, 8];
+let subDIndex = 0;
+let contadorSubD = 0;
 
 const speakSilabas = [
 	['Ta', 'Taka', 'Takite', 'Takatimi', 'Tatikinaton', 'TakatimiTaka', 'ta-ti-kinaton', 'TakatimiTakajuna', 'TakatimiTakaTakita'],
@@ -53,8 +52,7 @@ export const inicio = () => {
 	if (localStorage.getItem('compoLista')) {
 		loadCompoLista();
 		crearListaHtml();
-		//TODO:DONDE SACO INFO?
-		// $total.textContent = totalParrafosConRep().length;
+		
 	}
 	if (compo1.nombre !== 'default') return (modoBloqueo = true);
 	focusLinea();
@@ -65,10 +63,9 @@ const focusLinea = () => {
 	$cajaNotas = document.body.querySelectorAll(' .borde-notas');
 	$cajaNotas.forEach(linea => linea.classList.remove('edit'));
 	$cajaNotas[lineaID - 1].classList.add('edit');
-    contadorSubD=0;//subdibiciones borra o no
-	subDIndex=0;//subdibiciones index array ':3'
+	contadorSubD = 0; //subdibiciones borra o no
+	subDIndex = 0; //subdibiciones index array ':3'
 	repetir = 1;
-	
 };
 
 const eleccionDeBol = (id, num) => {
@@ -175,9 +172,8 @@ export const escribirHtml = (id, bol) => {
 			$cajaNotas = document.body.querySelectorAll(' .borde-notas');
 			$cajaNotas[id - 1].appendChild(speak);
 		});
-
-		// TODO: DONDE SACO INFO?
-		// $total.textContent = totalParrafosConRep().length;
+		// TODO: SACAR INFO DE OTRO LADO UN METODO PUEDE SER DEL ARRAY GUARDADO
+		// $total.textContent = aplicarCambiosTempo().length;
 	}
 };
 
@@ -187,6 +183,7 @@ export const escribirRepeticiones = (id, rep) => {
 	ledRepetir.dataset.id = id;
 	ledRepetir.textContent = rep;
 	rep === 1 ? ledRepetir.classList.remove('mostrar') : ledRepetir.classList.add('mostrar');
+	// $total.textContent = aplicarCambiosTempo().length;
 };
 
 const borrarUltimaSilaba = id => {
@@ -197,7 +194,6 @@ const borrarUltimaSilaba = id => {
 		if (!$cajaNotas[id - 1].children[$cajaNotas[id - 1].children.length - 1].matches('div'))
 			$cajaNotas[id - 1].lastChild.remove();
 		guardaArray();
-		//TODO: ACA VER DONDE SACO INFO
 		// $total.textContent = aplicarCambiosTempo().length;
 	}
 };
@@ -206,10 +202,11 @@ export const borrarLineasHtml = () => {
 	if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
 
 	document.body.querySelectorAll('.notas').forEach(elem => elem.remove());
+	// $total.textContent = aplicarCambiosTempo().length;
 };
 
 const reiniciarCompo = () => {
-	if(start)isStart(aplicarCambiosTempo());
+	if (start) isStart(aplicarCambiosTempo());
 	modoBloqueo = false;
 	compo1.reiniciarCompo();
 	borrarLineasHtml();
@@ -217,7 +214,7 @@ const reiniciarCompo = () => {
 	focusLinea();
 	reiniciarSelect();
 	$total.textContent = '0';
-	contadorSubD=0;
+	contadorSubD = 0;
 };
 
 //           ///////////////////////////////////////EVENTOS/////////////////////////////////////////////////////
@@ -241,8 +238,8 @@ function accionBoton() {
 	//ESCRIBIR 1 A 9
 	if (btn.matches('.btn-number') && btn.textContent > 0 && btn.textContent < 10) {
 		eleccionDeBol(lineaID, parseInt(btn.textContent));
-		contadorSubD=0;
-		subDIndex=0;
+		contadorSubD = 0;
+		subDIndex = 0;
 	}
 
 	if (btn.textContent === 'R' && !modoBloqueo) {
@@ -261,11 +258,13 @@ function accionBoton() {
 	}
 
 	//SubD
-	
+
 	if (btn.textContent === 'SubD') {
-       
-        if(subDIndex===5)subDIndex=0;
-		if(contadorSubD>0){borrarUltimaSilaba(lineaID); borrarUltimaSilaba(lineaID)};
+		if (subDIndex === 5) subDIndex = 0;
+		if (contadorSubD > 0) {
+			borrarUltimaSilaba(lineaID);
+			borrarUltimaSilaba(lineaID);
+		}
 		escribirHtml(lineaID, `:${subD[subDIndex]}`);
 		escribirArray(lineaID, `:${subDIndex[subDIndex]}`);
 		subDIndex++;
@@ -291,7 +290,7 @@ function accionBoton() {
 	//SAVE------
 	if (btn.textContent === 'Save') {
 		if (modoBloqueo) return mensajeAlerta('it`s already saved\nPress Edit \ndont forget to save', '');
-		if(start)isStart(aplicarCambiosTempo());
+		if (start) isStart(aplicarCambiosTempo());
 		loadCompoLista();
 		guardarCompoEnLista();
 		crearListaHtml();
@@ -341,8 +340,8 @@ export const accionTeclas = e => {
 
 	if (num > 0 && num < 10) {
 		eleccionDeBol(lineaID, num);
-		contadorSubD=0;
-		subDIndex=0;
+		contadorSubD = 0;
+		subDIndex = 0;
 	}
 
 	if (e.key === 'Backspace' || e.code === 'Backspace') {
@@ -627,78 +626,64 @@ cargarPredefinidos();
 const aplicarCambiosTempo = () => {
 	//CAMBIA EL TEMPO UN PARAFO ANTES CUANDO HAY :N
 
-	let parrafos=document.querySelectorAll('.borde-notas p');
+	let parrafos = document.querySelectorAll('.borde-notas p');
 	//FILTRA LOS ESPACIOS
 	parrafos = [...parrafos].filter(p => p.innerHTML !== '&nbsp; &nbsp;');
-	// console.log(parrafos);
+
+	//AGREGA EL NUMERO DE MODULACION AL DATASET DEL PARRAFO ANTERIOR
 	parrafos.forEach((p, index, array) => {
 		if (p.textContent.includes(':')) {
-			if (index === 0) {
-				array[array.length - 1].dataset.subd=p.textContent.replace(':','');
-				console.log(array[array.length - 1].dataset.subd=p.textContent.replace(':',''));
-			} else {
-				array[index-1].dataset.subd=p.textContent.replace(':','');
-			}
+			(index === 0)
+				? (array[array.length - 1].dataset.subd = p.textContent.replace(':', ''))
+				: (array[index - 1].dataset.subd = p.textContent.replace(':', ''));
 		}
 	});
 
+	
 	return totalParrafosConRep(parrafos);
 };
 
-const totalParrafosConRep = (parrafosConModlulac) => {
+const totalParrafosConRep = parrafosConModlulac => {
+
 	const lineas = document.querySelectorAll('.borde-linea .borde-notas');
-    
-	//borramos los que tengan ':'
-	let parrafos=parrafosConModlulac.filter(p=>!(p.textContent.includes(':')));
 
 	
-	lineas.forEach((linea,index,array)=>{
+	//borramos los que tengan ':'
+	let parrafos = parrafosConModlulac.filter(p => !p.textContent.includes(':'));
+	
+	let parrafosGrande=[];
+
+	//POR C/LINEA
+	lineas.forEach((linea, index, array) => {
+
+		//OBTIENE EL Nº DE REPETICIONES DE LA LINEA 
 		let rep = linea.parentElement.querySelector('.contenedor-iconos i').getAttribute('data-rep');
+
+		//GUARDA EN ARRAY LOS PARRAFOS QUE TENGAN EN SU VISABUELO LINEA EL ID=AL INDEX +1 OSEA: (1,2,3) 
+		let arrTemp = parrafos.filter(p => Number(p.parentElement.parentElement.parentElement.getAttribute('data-id')) === index + 1);
 		
-		let arrTemp=parrafos.filter(p=>Number(p.parentElement.parentElement.parentElement.getAttribute('data-id'))===index+1 );
+		//GUARDA EN UN ARRAY UN ARRAY ANIDADO CON LOS VALORES DE [...arrTemp] ARRAY FILTRADO POR ID LINEA
 		for (let i = 0; i < rep; i++) {
-		parrafosGrande.push([...arrTemp]);
+			parrafosGrande.push([...arrTemp]);
 		}
 		
-	})
-	// console.log(parrafosGrande);
+	});
 
-
-	// //DUPLICA EL ARRAY DE HTMLCOLLECTIONS N REPETICIONES
-	// lineas.forEach((linea, index) => {
-	// 	let rep = linea.parentElement.querySelector('.contenedor-iconos i').getAttribute('data-rep');
-	// 	for (let i = 0; i < rep; i++) {
-	// 		parrafos.push(linea.children);
-	// 	}
-	// });
-
-	// //TRANSFORMA HTMLCOLECTION EN ARRAY LITERALES
-	// let parrafosNuevos = parrafos.map(coleccion => Array.from(coleccion));
 	let parrafosSueltos = [];
-
-	// //FUNCION GUARDA PARAFOS EN ARRAY GRANDE PARRAFOS2
-	const guardarArray = array => {
-		array.forEach(p => parrafosSueltos.push(p));
-	};
-	// //MANDA CADA ARRAY INTERNO A LA FUNCION DE ARRIBA
-	parrafosGrande.forEach(guardarArray);
-
-	// console.log(parrafosSueltos);
-
+	//GUARDA LOS ELEMENTOS DE CADA ARRAY ANIDADO EN UN ARRAY NUEVO (PARRAFOSUELTOS)
+	parrafosGrande.forEach(arr=>parrafosSueltos.push(...arr));
 	
 
-
-
-	// console.log(parrafos.length);
 	return parrafosSueltos;
 };
 
 let start = false;
 
 const isStart = parrafos => {
-	// console.log(parrafos);
+	
 	if (parrafos.length !== 0) {
 		play(parrafos);
+		
 
 		if (!start) {
 			$playButton.innerHTML = '<i class="fas fa-stop"></i>';
@@ -707,6 +692,7 @@ const isStart = parrafos => {
 			const $btnsNumber = document.querySelectorAll('.contenedor-btnNumber button');
 			$btnsNumber.forEach(btn => (btn.disabled = true));
 		} else {
+			
 			$btns.forEach(btn => (btn.disabled = false));
 			$playButton.innerHTML = '<i class="fas fa-play"></i>';
 			start = false;
@@ -714,15 +700,6 @@ const isStart = parrafos => {
 	}
 };
 
-
-
-
 $playButton.addEventListener('click', () => {
 	isStart(aplicarCambiosTempo());
-
-	// let parrafosConModulaciones=aplicarCambiosTempo();
-	// console.log(parrafosConModulaciones);
-
-	
 });
-

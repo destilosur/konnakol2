@@ -94,7 +94,7 @@ function scheduler() {
 
 export function play(silabas) {
 	$parrafos= silabas;
-	// console.log($parrafos);
+	console.log($parrafos);
 
 	if (!unlocked) {
 		// play silent buffer to unlock the audio
@@ -113,6 +113,7 @@ export function play(silabas) {
 		$parrafos.forEach(p => p.classList.remove('activo'));
 		i = 0;
 		subdivicion = 0.25;
+		contadorRep=1;
 		if(primerP.textContent.includes(':')) {
 
 
@@ -190,7 +191,7 @@ function draw() {
 		switch ($parrafos[i].getAttribute('data-subd')) {
 			case '2':
 				{
-					console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
+					// console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
 					if(contadorRep===Number(rep)){
 						subdivicion = dosillo;
 						contadorRep=1;
@@ -201,7 +202,6 @@ function draw() {
 
 			case '3':
 				{
-					console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
 
 					if(contadorRep===Number(rep)){
 						subdivicion = tresillo;
@@ -214,7 +214,6 @@ function draw() {
 
 			case '4':
 				{
-					console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
 					if(contadorRep===Number(rep)){
 						subdivicion = cuatrillo;
 						contadorRep=1;
@@ -225,7 +224,6 @@ function draw() {
 
 			case '6':
 				{
-					console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
 					if(contadorRep===Number(rep)){
 						subdivicion = seisillo;
 						contadorRep=1;
@@ -236,7 +234,6 @@ function draw() {
 
 			case '8':
 				{
-					console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
 					if(contadorRep===Number(rep)){
 						subdivicion = octillo;
 						contadorRep=1;
