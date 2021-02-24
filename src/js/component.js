@@ -28,12 +28,12 @@ let contadorSubD = 0;
 const speakSilabas = [
 	['Ta', 'Taka', 'Takite', 'Takatimi', 'Tatikinaton', 'TakatimiTaka', 'ta-ti-kinaton', 'TakatimiTakajuna', 'TakatimiTakaTakita'],
 
-	['Na', 'Ta', 'te', 'Ton', 'Ta', 'Ka', 'Ti', 'Mi', '-'],
-	['Ta-', 'Timi', 'Kita', 'Kina', 'Tati'],
-	['Tan-gu', 'Ta--', 'ta-ki', '-te-', '-ta-', 'Ta-ka', 'Ti-mi', 'Kinaton'],
-	['Takajuna', 'Kitataka', 'terekite', 'tatikena', 'Ta-ka-', 'Ti-mi-', 'Ta--ah', 'Ta---', 'Tikinaton', 'Tati--', 'Tati-ta'],
-	['Takatakite', 'Takitetaka', 'Ta-kinaton', 'Tati-naton', 'Ta----', 'Ta-ah--', 'Ta--ta-'],
-	['TakiteTakite', , 'Tatikenaton-', 'Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'terekitaka', 'Ta-ki-ta-', 'ki-na-ton'],
+	['Na', 'Ta', 'Te', 'Ti', 'Ta','Ton', 'Ka','Ke','Ki',  'Mi', '-'],
+	['Ta-','Ki-', 'Timi', 'Kita', 'Kina', 'Tati','--'],
+	['Tan-gu', 'Ta--', 'Ki--','ta-ki', '-te-', '-ta-', 'Ta-ka', 'Ti-mi', 'Kinaton','---'],
+	['Takajuna', 'Kitataka', 'terekite', 'tatikena', 'Ta-ka-', 'Ti-mi-', 'Ta--ah',  'Tikinaton', 'Tati--', 'Tati-ta','Ta---','Ki---','----'],
+	['Takatakite', 'Takitetaka', 'Ta-takita','TakaTan-gu','Ta-kinaton', 'Tati-naton', 'Kitakinaton','Ta----', 'Ta-ah--', 'Ta--ta-','-----'],
+	['TakiteTakite', 'Tatikenaton-', 'Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'terekitaka', 'Ta-ki-ta-', 'ki-na-ton'],
 	['Ta---kenaton', 'Ta---ah--', 'Ta------', 'Ta-ti-Tan-gu', 'Ta-ka-ti-mi'],
 	['Tati-ke-na-ton', 'Tan-guTatikenaton', 'TakaterekiteTaka', 'Ta-terekiteTaka'],
 	['Ta-di-ke-na-ton', 'Ta-ti-Tatikenaton', 'TakatimiTatikenaton', 'TakaTakaTakaTakite', 'TakaTakiteTakaTaka'],
@@ -52,7 +52,6 @@ export const inicio = () => {
 	if (localStorage.getItem('compoLista')) {
 		loadCompoLista();
 		crearListaHtml();
-		
 	}
 	if (compo1.nombre !== 'default') return (modoBloqueo = true);
 	focusLinea();
@@ -108,6 +107,9 @@ const guardaArray = () => {
 		if (silaba.matches('.drutam')) {
 			silabasTemp[index] = `(${silabasTemp[index]})`;
 		}
+		if (silaba.matches('.anudrutam')) {
+			silabasTemp[index] = `[${silabasTemp[index]}]`;
+		}
 	});
 
 	silabasTemp = silabasTemp.join('').split(' ');
@@ -116,8 +118,11 @@ const guardaArray = () => {
 	silabasTemp = silabasTemp.filter(bol => bol.length !== 0);
 	compo1.arrayLineas[lineaID - 1].arraySilabas = [...silabasTemp];
 
+
 	compo1.guardarLocalStorage();
 };
+
+
 
 // escribe Array -----------------
 export const escribirArray = (id, bol, repet) => {
@@ -134,6 +139,7 @@ export const escribirHtml = (id, bol) => {
 
 	if (!escribirInputs) {
 		let indiceD = [];
+		let indiceA = [];
 
 		bol = bol.replaceAll('-', '--');
 		bol = bol.replaceAll(/tan/gi, 'an');
@@ -151,6 +157,33 @@ export const escribirHtml = (id, bol) => {
 			bol = bol.replace(/[()]/g, '');
 		}
 
+		if (bol.includes('[')) {
+			let idLetra = bol.indexOf('['); //primera vez
+
+			while (idLetra >= 0) {
+				indiceA.push(idLetra);
+				idLetra = bol.indexOf('[', idLetra + 1);
+			}
+			indiceA = indiceA.map((ind, index) => (ind = ind - index * 2));
+
+			bol = bol.replace(/[\[\]]/g, '');
+		}
+
+		//LE RESTAMOS AL INDICE DE() LOS [] ENCONTRADOS
+		// TODO: aca restamos pero si el anudrutam esta despues del drutan resta igual y el drutam aparece una silaba antes
+		indiceD=indiceD.map(n=>n-(indiceA.length*2));
+		console.log(indiceD);
+		console.log(indiceA);
+
+		for(let d in indiceD ){
+
+		for(let a in indiceA){
+
+			if(indiceD[d]<indiceA[a])indiceD[d]+=2;
+		}
+	}
+		
+
 		let bolCortado = bol.trim().match(/ta|te|ti|ka|ke|ki|mi|na|ju|ton|--|an|on|gu|ah|re|:2|:3|:4|:6|:8/gi);
 
 		bolCortado.push('&nbsp &nbsp');
@@ -162,6 +195,10 @@ export const escribirHtml = (id, bol) => {
 			indiceD.forEach(ind => {
 				if (ind / 2 === index) speak.classList.add('drutam');
 			});
+			
+			indiceA.forEach(ind => {
+				if (ind / 2 === index) speak.classList.add('anudrutam');
+			});
 			if (speak.innerHTML === '--') {
 				speak.innerHTML = '-';
 				speak.classList.add('guiones');
@@ -172,8 +209,8 @@ export const escribirHtml = (id, bol) => {
 			$cajaNotas = document.body.querySelectorAll(' .borde-notas');
 			$cajaNotas[id - 1].appendChild(speak);
 		});
-		// TODO: SACAR INFO DE OTRO LADO UN METODO PUEDE SER DEL ARRAY GUARDADO
-		// $total.textContent = aplicarCambiosTempo().length;
+
+		escribirTotalSub();
 	}
 };
 
@@ -183,7 +220,7 @@ export const escribirRepeticiones = (id, rep) => {
 	ledRepetir.dataset.id = id;
 	ledRepetir.textContent = rep;
 	rep === 1 ? ledRepetir.classList.remove('mostrar') : ledRepetir.classList.add('mostrar');
-	// $total.textContent = aplicarCambiosTempo().length;
+	escribirTotalSub();
 };
 
 const borrarUltimaSilaba = id => {
@@ -191,10 +228,9 @@ const borrarUltimaSilaba = id => {
 	if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
 
 	if (!escribirInputs) {
-		if (!$cajaNotas[id - 1].children[$cajaNotas[id - 1].children.length - 1].matches('div'))
-			$cajaNotas[id - 1].lastChild.remove();
+		if ($cajaNotas[id - 1].querySelector('p')) $cajaNotas[id - 1].lastChild.remove();
 		guardaArray();
-		// $total.textContent = aplicarCambiosTempo().length;
+		escribirTotalSub();
 	}
 };
 
@@ -202,7 +238,7 @@ export const borrarLineasHtml = () => {
 	if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
 
 	document.body.querySelectorAll('.notas').forEach(elem => elem.remove());
-	// $total.textContent = aplicarCambiosTempo().length;
+	escribirTotalSub();
 };
 
 const reiniciarCompo = () => {
@@ -362,11 +398,19 @@ document.addEventListener('keydown', accionTeclas);
 document.addEventListener('click', e => {
 	// ESCRIBIR LOS DRUTAM () EN EL ARRAY
 	if (e.target.parentElement) {
-		if (e.target.parentElement.matches('.edit')) {
-			e.target.classList.toggle('drutam');
+		if (e.target.parentElement.matches('.edit') && e.target.matches('.anudrutam')) {
+			e.target.classList.remove('anudrutam');
+			guardaArray();
+		} else if (e.target.parentElement.matches('.edit') && e.target.matches('.drutam')) {
+			e.target.classList.add('anudrutam');
+			e.target.classList.remove('drutam');
+			guardaArray();
+		} else if (e.target.parentElement.matches('.edit')) {
+			e.target.classList.add('drutam');
 			guardaArray();
 		}
 	}
+
 	//PONER FOCUS
 	if (e.target.matches('.borde-notas')) {
 		if (compo1.arrayLineas.length !== 0) {
@@ -633,46 +677,40 @@ const aplicarCambiosTempo = () => {
 	//AGREGA EL NUMERO DE MODULACION AL DATASET DEL PARRAFO ANTERIOR
 	parrafos.forEach((p, index, array) => {
 		if (p.textContent.includes(':')) {
-			(index === 0)
+			index === 0
 				? (array[array.length - 1].dataset.subd = p.textContent.replace(':', ''))
 				: (array[index - 1].dataset.subd = p.textContent.replace(':', ''));
 		}
 	});
 
-	
 	return totalParrafosConRep(parrafos);
 };
 
 const totalParrafosConRep = parrafosConModlulac => {
-
 	const lineas = document.querySelectorAll('.borde-linea .borde-notas');
 
-	
 	//borramos los que tengan ':'
 	let parrafos = parrafosConModlulac.filter(p => !p.textContent.includes(':'));
-	
-	let parrafosGrande=[];
+
+	let parrafosGrande = [];
 
 	//POR C/LINEA
 	lineas.forEach((linea, index, array) => {
-
-		//OBTIENE EL Nº DE REPETICIONES DE LA LINEA 
+		//OBTIENE EL Nº DE REPETICIONES DE LA LINEA
 		let rep = linea.parentElement.querySelector('.contenedor-iconos i').getAttribute('data-rep');
 
-		//GUARDA EN ARRAY LOS PARRAFOS QUE TENGAN EN SU VISABUELO LINEA EL ID=AL INDEX +1 OSEA: (1,2,3) 
+		//GUARDA EN ARRAY LOS PARRAFOS QUE TENGAN EN SU VISABUELO LINEA EL ID=AL INDEX +1 OSEA: (1,2,3)
 		let arrTemp = parrafos.filter(p => Number(p.parentElement.parentElement.parentElement.getAttribute('data-id')) === index + 1);
-		
+
 		//GUARDA EN UN ARRAY UN ARRAY ANIDADO CON LOS VALORES DE [...arrTemp] ARRAY FILTRADO POR ID LINEA
 		for (let i = 0; i < rep; i++) {
 			parrafosGrande.push([...arrTemp]);
 		}
-		
 	});
 
 	let parrafosSueltos = [];
 	//GUARDA LOS ELEMENTOS DE CADA ARRAY ANIDADO EN UN ARRAY NUEVO (PARRAFOSUELTOS)
-	parrafosGrande.forEach(arr=>parrafosSueltos.push(...arr));
-	
+	parrafosGrande.forEach(arr => parrafosSueltos.push(...arr));
 
 	return parrafosSueltos;
 };
@@ -680,10 +718,8 @@ const totalParrafosConRep = parrafosConModlulac => {
 let start = false;
 
 const isStart = parrafos => {
-	
 	if (parrafos.length !== 0) {
 		play(parrafos);
-		
 
 		if (!start) {
 			$playButton.innerHTML = '<i class="fas fa-stop"></i>';
@@ -692,12 +728,28 @@ const isStart = parrafos => {
 			const $btnsNumber = document.querySelectorAll('.contenedor-btnNumber button');
 			$btnsNumber.forEach(btn => (btn.disabled = true));
 		} else {
-			
 			$btns.forEach(btn => (btn.disabled = false));
 			$playButton.innerHTML = '<i class="fas fa-play"></i>';
 			start = false;
 		}
 	}
+};
+
+const escribirTotalSub = () => {
+	const lineas = document.querySelectorAll('.notas .borde-linea');
+	let total = 0;
+
+	lineas.forEach(linea => {
+		let rep = linea.querySelector('.contenedor-iconos i').getAttribute('data-rep');
+		let totalLininea = linea.querySelectorAll('.borde-notas p');
+		totalLininea = [...totalLininea].filter(p => p.innerHTML !== '&nbsp; &nbsp;');
+		totalLininea = totalLininea.filter(p => !p.textContent.includes(':')).length;
+		totalLininea *= rep;
+
+		total += totalLininea;
+	});
+
+	$total.textContent = total;
 };
 
 $playButton.addEventListener('click', () => {

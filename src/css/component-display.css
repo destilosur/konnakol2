@@ -189,6 +189,20 @@ body .marco-display .notas .borde-notas .guiones{
     padding: 1px 2px;
 
 }
+.drutam-activo{
+    background-color: #db664a;
+}
+
+.anudrutam{
+    border: 2px solid #205511;
+    border-radius: 3px;
+    padding: 1px 2px;
+
+}
+
+.anudrutam-activo{
+    background: #205511;
+}
 
 
 .alertas{

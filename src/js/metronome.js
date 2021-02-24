@@ -20,7 +20,7 @@ var notesInQueue = []; // the notes that have been put into the web audio,
 var timerWorker = null; // The Web Worker used to fire timer messages
 const volumeControl = document.querySelector('#volumen');
 const volumeControl2 = document.querySelector('#volumen2');
-let primerP=undefined;
+let primerP = undefined;
 
 let osc;
 let bufferTemp;
@@ -31,12 +31,12 @@ let gainNode2;
 let $parrafos = [];
 const showTempo = document.querySelector('#showTempo');
 let subdivicion = 0.25;
-const dosillo=0.50;
+const dosillo = 0.5;
 const tresillo = 0.33333333333333;
-const cuatrillo= 0.25;
-const seisillo= 0.1666666666666667;
-const octillo=0.125;
-let contadorRep=1;
+const cuatrillo = 0.25;
+const seisillo = 0.1666666666666667;
+const octillo = 0.125;
+let contadorRep = 1;
 
 // First, let's shim the requestAnimationFrame API, with a setTimeout fallback
 window.requestAnimFrame = (function () {
@@ -93,7 +93,7 @@ function scheduler() {
 }
 
 export function play(silabas) {
-	$parrafos= silabas;
+	$parrafos = silabas;
 	console.log($parrafos);
 
 	if (!unlocked) {
@@ -102,8 +102,7 @@ export function play(silabas) {
 		var node = audioContext.createBufferSource();
 		node.buffer = buffer;
 		node.start(0);
-		unlocked = true;		
-		
+		unlocked = true;
 	}
 
 	isPlaying = !isPlaying;
@@ -113,31 +112,37 @@ export function play(silabas) {
 		$parrafos.forEach(p => p.classList.remove('activo'));
 		i = 0;
 		subdivicion = 0.25;
-		contadorRep=1;
-		if(primerP.textContent.includes(':')) {
+		contadorRep = 1;
+		if (primerP.textContent.includes(':')) {
+			console.warn(primerP.textContent);
 
-
-			console.warn(primerP.textContent)
-
-			switch(primerP.textContent){
-
-				case ':2':{
-					subdivicion=dosillo;
-				}break;
-				case ':3':{
-					subdivicion=tresillo;
-				}break;
-				case ':4':{
-					subdivicion=cuatrillo;
-				}break;
-				case ':6':{
-					subdivicion=seisillo;
-				}break;
-				case ':8':{
-					subdivicion=octillo;
-				}break;
+			switch (primerP.textContent) {
+				case ':2':
+					{
+						subdivicion = dosillo;
+					}
+					break;
+				case ':3':
+					{
+						subdivicion = tresillo;
+					}
+					break;
+				case ':4':
+					{
+						subdivicion = cuatrillo;
+					}
+					break;
+				case ':6':
+					{
+						subdivicion = seisillo;
+					}
+					break;
+				case ':8':
+					{
+						subdivicion = octillo;
+					}
+					break;
 			}
-
 		}
 		requestAnimFrame(draw);
 		current16thNote = 0;
@@ -171,7 +176,6 @@ function playSample2(audioContext, audioBuffer) {
 let i = 0;
 // DRAW
 function draw() {
-
 	var currentNote = last16thNoteDrawn;
 	var currentTime = audioContext.currentTime;
 
@@ -182,68 +186,67 @@ function draw() {
 
 	// We only need to draw if the note has moved.
 	if (last16thNoteDrawn != currentNote) {
-		
-
 		if (i !== 0) $parrafos[i - 1].classList.remove('activo');
 		else $parrafos[$parrafos.length - 1].classList.remove('activo');
-       
-		let rep=$parrafos[i].parentElement.parentElement.querySelector('.contenedor-iconos i').getAttribute('data-rep');
+
+		let rep = $parrafos[i].parentElement.parentElement.querySelector('.contenedor-iconos i').getAttribute('data-rep');
 		switch ($parrafos[i].getAttribute('data-subd')) {
 			case '2':
 				{
 					// console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
-					if(contadorRep===Number(rep)){
+					if (contadorRep === Number(rep)) {
 						subdivicion = dosillo;
-						contadorRep=1;
-
-					}else {contadorRep++};
+						contadorRep = 1;
+					} else {
+						contadorRep++;
+					}
 				}
 				break;
 
 			case '3':
 				{
-
-					if(contadorRep===Number(rep)){
+					if (contadorRep === Number(rep)) {
 						subdivicion = tresillo;
-						contadorRep=1;
-
-					}else {contadorRep++};
-						
+						contadorRep = 1;
+					} else {
+						contadorRep++;
+					}
 				}
 				break;
 
 			case '4':
 				{
-					if(contadorRep===Number(rep)){
+					if (contadorRep === Number(rep)) {
 						subdivicion = cuatrillo;
-						contadorRep=1;
-
-					}else {contadorRep++};
+						contadorRep = 1;
+					} else {
+						contadorRep++;
+					}
 				}
 				break;
 
 			case '6':
 				{
-					if(contadorRep===Number(rep)){
+					if (contadorRep === Number(rep)) {
 						subdivicion = seisillo;
-						contadorRep=1;
-
-					}else {contadorRep++};
+						contadorRep = 1;
+					} else {
+						contadorRep++;
+					}
 				}
 				break;
 
 			case '8':
 				{
-					if(contadorRep===Number(rep)){
+					if (contadorRep === Number(rep)) {
 						subdivicion = octillo;
-						contadorRep=1;
-
-					}else {contadorRep++};
+						contadorRep = 1;
+					} else {
+						contadorRep++;
+					}
 				}
 				break;
 		}
-		
-		
 
 		if ($parrafos[i].classList.contains('first')) playSample2(audioContext, bufferTemp3);
 
@@ -251,18 +254,25 @@ function draw() {
 
 		if ($parrafos[i].classList.contains('drutam')) {
 			osc.frequency.value = 440.0;
-
-			if (i !== 0) {
-				playSample(audioContext, bufferTemp);
-			} else {
-				playSample(audioContext, bufferTemp2);
-			}
+			playSample(audioContext, bufferTemp);
 
 			let iTemp = i;
 
-			$parrafos[i].classList.add('drutan-activo');
+			$parrafos[i].classList.add('drutam-activo');
 			setTimeout(() => {
-				$parrafos[iTemp].classList.remove('drutan-activo');
+				$parrafos[iTemp].classList.remove('drutam-activo');
+			}, 100);
+		}
+
+		if ($parrafos[i].classList.contains('anudrutam')) {
+			osc.frequency.value = 440.0;
+			playSample(audioContext, bufferTemp2);
+
+			let iTemp = i;
+
+			$parrafos[i].classList.add('anudrutam-activo');
+			setTimeout(() => {
+				$parrafos[iTemp].classList.remove('anudrutam-activo');
 			}, 100);
 		}
 
@@ -303,7 +313,7 @@ export function init() {
 	gainNode = audioContext.createGain();
 	gainNode2 = audioContext.createGain();
 
-	primerP=document.querySelectorAll('.borde-notas p')[0];
+	primerP = document.querySelectorAll('.borde-notas p')[0];
 
 	// CARGA PARRAFOS PARRAFOS----------------------------------------------------------
 	//    // start the drawing loop.
@@ -345,5 +355,3 @@ $tempo.addEventListener('change', () => {
 	tempo = $tempo.value;
 	showTempo.textContent = tempo;
 });
-
-
