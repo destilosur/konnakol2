@@ -1,6 +1,6 @@
 import { Linea } from '../classes/linea.class';
 import { compo1 } from '../index';
-import { init, play, totalSilabas } from './metronome';
+import { play } from './metronome';
 
 // import data from '../data.json';
 

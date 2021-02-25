@@ -8,6 +8,7 @@ import { inicio} from './js/component';
 
 
 
+
 export let compo1 = new Compo('Default','Default',4,[]);
 const compoGuardada = compo1.loadLocalStorage();
 
