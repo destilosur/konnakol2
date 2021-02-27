@@ -317,7 +317,7 @@ export function init() {
 	// CARGA PARRAFOS PARRAFOS----------------------------------------------------------
 	//    // start the drawing loop.
 
-	timerWorker = new Worker('/src/js/metronomeworker.js');
+	timerWorker = new Worker('./src/js/metronomeworker.js');
 
 	timerWorker.onmessage = function (e) {
 		if (e.data == 'tick') {
