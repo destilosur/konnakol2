@@ -113,7 +113,7 @@ export function play(silabas) {
 		subdivicion = 0.25;
 		contadorRep = 1;
 		if (primerP.textContent.includes(':')) {
-			console.log(primerP);
+			
 			
 			switch (primerP.textContent) {
 				case ':2':
@@ -350,6 +350,7 @@ volumeControl2.addEventListener(
 );
 
 $tempo.addEventListener('change', () => {
+	
 	tempo = $tempo.value;
 	showTempo.textContent = tempo;
 });

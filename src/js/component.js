@@ -1,6 +1,6 @@
 import { Linea } from '../classes/linea.class';
 import { compo1 } from '../index';
-import { play } from './metronome';
+import { play,init } from './metronome';
 
 // import data from '../data.json';
 
@@ -750,5 +750,6 @@ const escribirTotalSub = () => {
 };
 
 $playButton.addEventListener('click', () => {
+    init();
 	isStart(aplicarCambiosTempo());
 });
