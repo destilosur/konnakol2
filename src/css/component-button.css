@@ -335,4 +335,20 @@ input[type='range']:focus::-webkit-slider-runnable-track {
 }
 
 
+@media screen and (max-width:100rem) {
+
+	.cont-volumen,
+.cont-tempo {
+	
+	
+
+	
+	align-items: center;
+	margin: 0 0px;
+}
+
+
+	
+}
+
 

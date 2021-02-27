@@ -94,8 +94,7 @@ function scheduler() {
 
 export function play(silabas) {
 	$parrafos = silabas;
-	console.log($parrafos);
-
+	
 	if (!unlocked) {
 		// play silent buffer to unlock the audio
 		var buffer = audioContext.createBuffer(1, 1, 22050);
@@ -104,9 +103,9 @@ export function play(silabas) {
 		node.start(0);
 		unlocked = true;
 	}
-
+	 
 	isPlaying = !isPlaying;
-
+	
 	if (isPlaying) {
 		// start playing
 		$parrafos.forEach(p => p.classList.remove('activo'));
@@ -114,15 +113,15 @@ export function play(silabas) {
 		subdivicion = 0.25;
 		contadorRep = 1;
 		if (primerP.textContent.includes(':')) {
-			console.warn(primerP.textContent);
-
+			console.log(primerP);
+			
 			switch (primerP.textContent) {
 				case ':2':
 					{
 						subdivicion = dosillo;
 					}
 					break;
-				case ':3':
+					case ':3':
 					{
 						subdivicion = tresillo;
 					}
@@ -304,9 +303,9 @@ export function init() {
 	bufferTemp2 = audioContext.createBuffer(1, 1, 22050);
 	bufferTemp3 = audioContext.createBuffer(1, 1, 22050);
 
-	setupSample('../assets/click.mp3').then(buffer => (bufferTemp = buffer));
-	setupSample('../assets/Djun.mp3').then(buffer => (bufferTemp2 = buffer));
-	setupSample('../assets/hh.mp3').then(buffer => (bufferTemp3 = buffer));
+	setupSample('./assets/click.mp3').then(buffer => (bufferTemp = buffer));
+	setupSample('./assets/Djun.mp3').then(buffer => (bufferTemp2 = buffer));
+	setupSample('./assets/hh.mp3').then(buffer => (bufferTemp3 = buffer));
 
 	//VOLUMEN
 
@@ -322,7 +321,6 @@ export function init() {
 
 	timerWorker.onmessage = function (e) {
 		if (e.data == 'tick') {
-			// console.log("tick!");
 			scheduler();
 		} else console.log('message: ' + e.data);
 	};

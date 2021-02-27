@@ -172,8 +172,7 @@ export const escribirHtml = (id, bol) => {
 		//LE RESTAMOS AL INDICE DE() LOS [] ENCONTRADOS
 		// TODO: aca restamos pero si el anudrutam esta despues del drutan resta igual y el drutam aparece una silaba antes
 		indiceD=indiceD.map(n=>n-(indiceA.length*2));
-		console.log(indiceD);
-		console.log(indiceA);
+		
 
 		for(let d in indiceD ){
 
@@ -547,8 +546,7 @@ const crearListaHtml = () => {
 		$node = document.importNode($templateTrEnlace, true);
 	});
 
-	// console.log(document.querySelectorAll('#tr-enlace'))
-	// console.log(document.body.querySelectorAll(' #enlace-item-lista'));
+	
 	document.body
 		.querySelectorAll('#contenedor-lista-usuarios #enlace-item-lista')
 		.forEach(enlace => enlace.addEventListener('click', recargarCompoDeLista));
@@ -607,11 +605,10 @@ const mensajeAlerta = (msj, nombre) => {
 //ACA LO PODIA IMPORTAR Y USAR DIRECTAMENTE MIRAR IMPORT
 // const predefinidos=data.forEach(el=>console.log(el));
 
-// console.log(data);
 
 let listaPreset = undefined;
 
-const url = '../assets/data.json';
+const url = './assets/data.json';
 
 const obtenerPredefinidos = async () => {
 	try {

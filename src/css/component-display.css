@@ -218,8 +218,6 @@ body .marco-display .notas .borde-notas .guiones{
     font-family: 'Play', sans-serif;
     font-size: 1.5rem;
     font-weight: bold;
-    background-color: #282320;
-    background-image: url('../assets/cuero.png');
     box-shadow: inset -5px -5px 4px #0a0908, inset 5px 5px 1px #4d433d;
     border-radius: 7px;
     padding: 10px 10px;
@@ -231,8 +229,6 @@ body .marco-display .notas .borde-notas .guiones{
     color: #fff;
 
 }
-
-
 
 
 
