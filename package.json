@@ -28,9 +28,5 @@
     "webpack": "^5.1.2",
     "webpack-cli": "^4.0.0",
     "webpack-dev-server": "^3.11.0"
-  },
-  "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "util": "^0.12.3"
   }
 }

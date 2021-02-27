@@ -611,7 +611,7 @@ const mensajeAlerta = (msj, nombre) => {
 
 let listaPreset = undefined;
 
-const url = './assets/data.json';
+const url = '../assets/data.json';
 
 const obtenerPredefinidos = async () => {
 	try {

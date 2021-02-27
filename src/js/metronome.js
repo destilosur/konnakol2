@@ -304,9 +304,9 @@ export function init() {
 	bufferTemp2 = audioContext.createBuffer(1, 1, 22050);
 	bufferTemp3 = audioContext.createBuffer(1, 1, 22050);
 
-	setupSample('./assets/click.mp3').then(buffer => (bufferTemp = buffer));
-	setupSample('./assets/Djun.mp3').then(buffer => (bufferTemp2 = buffer));
-	setupSample('./assets/hh.mp3').then(buffer => (bufferTemp3 = buffer));
+	setupSample('../assets/click.mp3').then(buffer => (bufferTemp = buffer));
+	setupSample('../assets/Djun.mp3').then(buffer => (bufferTemp2 = buffer));
+	setupSample('../assets/hh.mp3').then(buffer => (bufferTemp3 = buffer));
 
 	//VOLUMEN
 
