@@ -343,7 +343,8 @@ function accionBoton() {
 	}
 
 	if (btn.textContent === 'Delete') {
-		isStart(aplicarCambiosTempo());
+
+		if(start)isStart(aplicarCambiosTempo());
 		deleteCompo(compo1.nombre);
 	}
 
@@ -739,6 +740,7 @@ const isStart = parrafos => {
 	}
 };
 
+//-------------------------------------	ESCRIBIR TOTAL-----------------------
 const escribirTotalSub = () => {
 	const lineas = document.querySelectorAll('.notas .borde-linea');
 	let total = 0;

@@ -68,6 +68,9 @@
         </div>
       </div>
       <div class="contenedor-button-display">
+
+        <div class="botones-menu">
+
          <div class="total titulo-lista" id="total">0</div>
 
         <button class="button button-display">Save<div class="ledBlanco"></div></button>
@@ -75,26 +78,30 @@
         <button class="button button-display">Delete<div class="ledBlanco"></div></button>
         <button class="button button-display">Edit<div class="ledBlanco"></div></button>
         <button class="button button-display">New<div class="ledBlanco"></div></button>
+
+        <select name="option-bol" id="option-bol" class="select-bols titulo-lista" disabled>
+          <option value='0' >Variation Bol</option>
+          </select>
+
+      </div>
         
 
-        <div id="metro-bol" class="metro-bol">
+        <div id="metro-bol" class="metro">
           
-            <select name="option-bol" id="option-bol" class="select-bols titulo-lista" disabled>
-            <option value='0' >Variation Bol</option>
-            </select>
+            
             
             <div class="cont-tempo">
-            <span id="showTempo">90</span> &nbsp BPM
+            <span id="showTempo">90 bpm</span> 
             <input class="ranges" id="tempo"type="range" min="30.0" max="160.0" step="1" value="90"/>
             </div>
 
             <div class="cont-volumen">
-            <label for="volume">VOL</label>          
+            <label for="volume"><i class="fas fa-volume-down icono-vol"></i></label>          
             <input type="range" id="volumen" class="ranges" min="0" max="2" value="1" 
             step="0.01" data-action="volume" />            
             </div>
             <div class="cont-volumen">
-                       
+              <label for="volume2"><i class="fas fa-volume-down icono-vol"></i></label>          
               <input type="range" id="volumen2" class="ranges" min="0" max="2" value="1" 
               step="0.01" data-action="volume" />            
               </div>

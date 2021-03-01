@@ -358,5 +358,5 @@ volumeControl2.addEventListener(
 $tempo.addEventListener('change', () => {
 	
 	tempo = $tempo.value;
-	showTempo.textContent = tempo;
+	showTempo.textContent = `${tempo} bpm`;
 });

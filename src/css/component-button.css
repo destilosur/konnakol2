@@ -14,6 +14,7 @@
 	display: flex;
 	align-content: center;
 	justify-content: space-around;
+	flex-wrap: wrap;
 
 	width: 97%;
 	max-height: 2.5rem;
@@ -54,7 +55,6 @@
 .info .nBeats {
 	width: 70px;
 }
-
 
 .button-display {
 	font-family: 'Play', sans-serif;
@@ -188,34 +188,41 @@
 	justify-self: stretch;
 	grid-column: 1 / span 2;
 }
+/* -----------------------------------------BOTONES MENU----------------------------------------------------------------- */
 
+.botones-menu{
+	flex-grow: 1;
+	min-width: 45rem;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
 /* ---------------------------------------------------------METRO--y BOLS VAROATION----------------------------- */
 
-.metro-bol {
-	width: 50%;
+.metro {
+	min-width: 30rem; 
+	flex-grow: 1;
 	align-items: center;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	font-family: 'Play', sans-serif;
-	color: #fff;
+	color: #3d700e;
+	font-size: 1rem;
+	padding: 0 10px;
 }
 
 .cont-volumen,
 .cont-tempo {
 	display: flex;
-	flex-wrap: wrap;
 	align-items: center;
-	margin: 0 5px;
 }
 
-.cont-volumen label,
-.cont-tempo,
-.cont-tempo span {
-	font-size: 1rem;
-}
+
 
 .select-bols {
 	max-width: 12.5rem;
+	min-width: 150px;
+	margin-right: 5px;
 }
 
 .select-bols option {
@@ -238,19 +245,15 @@
 	padding: 10px 15px;
 	display: flex;
 	align-items: center;
+	margin-left: 5px;
 }
 
-.play:hover{
-
+.play:hover {
 	box-shadow: inset 1px 1px 4px 0px rgba(255, 255, 255, 0.651), inset -1px -1px 1px 0px rgba(255, 255, 255, 0.26);
-	
 }
 
-.play:active{
-
-	background-image: linear-gradient(rgba(255, 255, 255, .87), rgba(155, 187, 175, .726));
-	
-
+.play:active {
+	background-image: linear-gradient(rgba(255, 255, 255, 0.87), rgba(155, 187, 175, 0.726));
 }
 
 /* ------------------- SLIDER */
@@ -295,7 +298,6 @@ input[type='range']::-webkit-slider-thumb {
 		-1px -1px 4px -1px rgba(255, 255, 255, 0.541), -3px -1px 3px 6px #141210, 3px 1px 3px 6px #141210;
 	cursor: pointer;
 	margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
-	
 }
 
 /* All the same stuff for Firefox */
@@ -325,30 +327,61 @@ input[type='range']::-webkit-slider-runnable-track {
 	height: 8.4px;
 	cursor: pointer;
 	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-	background: #967e2c ;
+	background: #5b5148 ;
 	border-radius: 1.3px;
 	border: 0.2px solid #010101;
 }
 
 input[type='range']:focus::-webkit-slider-runnable-track {
-	background: #b49634;
+	background: #fff;
+	box-shadow: 1px 1px 3px 0px #fff;
 }
 
+@media screen and (max-width: 1350px) {
+	.botones-menu{
+		padding: 10px 0px;
+		min-width: 47rem;
+	}
 
-@media screen and (max-width:100rem) {
+	.metro{
+		padding: 10px 0px ;
+		}
 
-	.cont-volumen,
-.cont-tempo {
-	
-	
+	.contenedor-button-display{
+		
+		padding: 50px 0px;
+	}
 
-	
-	align-items: center;
-	margin: 0 0px;
+	.info{
+		padding: 10px 0;
+		flex-wrap: nowrap;
+	}
+
+	.button-display{
+		flex-shrink: 2 ;
+	}
 }
 
+@media screen and (max-width: 800px) {
+
+	.cont-volumen{
+		display: none;
+	}
+
+	.botones-menu{
+		
+		min-width: 30px;
+		flex-wrap: wrap;
+		margin-top: 5px;
+		padding: 10px 0;
+	}
+
+	.select-bols{
+		display: none;
+	}
+	
 
 	
+	
+	
 }
-
-

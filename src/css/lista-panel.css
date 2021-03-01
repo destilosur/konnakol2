@@ -87,6 +87,7 @@
 
 .contenedor-button-lista {
     width: 100%;
+    padding: 14px 0;
 }
 
 @media screen and (max-width:45rem) {
@@ -105,7 +106,7 @@
 
 .total{
     max-width: 4rem;
-    padding: 0 0.625rem;
+    padding: 4px 0.625rem;
     display: flex;
     align-items:center;
     
