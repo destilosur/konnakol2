@@ -94,9 +94,11 @@ function scheduler() {
 
 export function play(silabas) {
 	$parrafos = silabas;
+	primerP = document.querySelectorAll('.borde-notas p')[0];
+
 	
 	if (!unlocked) {
-		// play silent buffer to unlock the audio
+		// play silent buffer para desbloquear audio
 		var buffer = audioContext.createBuffer(1, 1, 22050);
 		var node = audioContext.createBufferSource();
 		node.buffer = buffer;
@@ -105,6 +107,7 @@ export function play(silabas) {
 	}
 	 
 	isPlaying = !isPlaying;
+	console.log('isPlaying: ' + isPlaying);
 	
 	if (isPlaying) {
 		// start playing
@@ -146,6 +149,7 @@ export function play(silabas) {
 		requestAnimFrame(draw);
 		current16thNote = 0;
 		nextNoteTime = audioContext.currentTime;
+		//le manda al hilo worker msj 'start'
 		timerWorker.postMessage('start');
 		return 'stop';
 	} else {
@@ -312,18 +316,20 @@ export function init() {
 	gainNode = audioContext.createGain();
 	gainNode2 = audioContext.createGain();
 
-	primerP = document.querySelectorAll('.borde-notas p')[0];
 
 	// CARGA PARRAFOS PARRAFOS----------------------------------------------------------
 	//    // start the drawing loop.
 
+	//CREA HILO
 	timerWorker = new Worker('./assets/metronomeworker.js');
 
+	//ESTA A LA ESCUCHA DEL MESSAJE DE VUELTA
 	timerWorker.onmessage = function (e) {
 		if (e.data == 'tick') {
 			scheduler();
 		} else console.log('message: ' + e.data);
 	};
+	// MANDA MENSAJE A WORKER {INTERVAL : 0.25}
 	timerWorker.postMessage({ interval: lookahead });
 }
 

@@ -226,7 +226,7 @@ const borrarUltimaSilaba = id => {
 	// if (modoBloqueo) return alert('Press Edit \ndont forget to save');
 	if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
 
-	if (!escribirInputs) {
+	if (!escribirInputs && !start) {
 		if ($cajaNotas[id - 1].querySelector('p')) $cajaNotas[id - 1].lastChild.remove();
 		guardaArray();
 		escribirTotalSub();
@@ -234,7 +234,7 @@ const borrarUltimaSilaba = id => {
 };
 
 export const borrarLineasHtml = () => {
-	if (modoBloqueo) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
+	if (modoBloqueo && !start) return mensajeAlerta('Press Edit \n and dont forget to save', 'It can not be written ');
 
 	document.body.querySelectorAll('.notas').forEach(elem => elem.remove());
 	escribirTotalSub();
@@ -316,7 +316,7 @@ function accionBoton() {
 	}
 
 	//NEW LINE
-	if (btn.textContent === 'New Line' && !modoBloqueo) {
+	if (btn.textContent === 'New Line' && !modoBloqueo ) {
 		compo1.nuevaLinea();
 		focusLinea();
 		reiniciarSelect();
@@ -373,7 +373,7 @@ $btns.forEach(elem => elem.addEventListener('click', accionBoton));
 export const accionTeclas = e => {
 	const num = parseInt(e.key);
 
-	if (num > 0 && num < 10) {
+	if (num > 0 && num < 10 && !start) {
 		eleccionDeBol(lineaID, num);
 		contadorSubD = 0;
 		subDIndex = 0;
@@ -384,7 +384,7 @@ export const accionTeclas = e => {
 		reiniciarSelect();
 	}
 
-	if (e.keyCode == 13 && !modoBloqueo && !escribirInputs) {
+	if (e.keyCode == 13 && !modoBloqueo && !escribirInputs && !start) {
 		compo1.nuevaLinea();
 		focusLinea();
 		reiniciarSelect();
@@ -420,7 +420,7 @@ document.addEventListener('click', e => {
 
 	// BORRAR LINEA
 	if (e.target.matches('.close')) {
-		if ($cajaNotas && !modoBloqueo) {
+		if ($cajaNotas && !modoBloqueo && !start) {
 			let closeId = e.target.parentElement.parentElement.parentElement.getAttribute('data-id');
 			// borramos Array  que pichamos
 			compo1.arrayLineas = compo1.arrayLineas.filter((linea, index, array) => linea !== array[closeId - 1]);
@@ -568,6 +568,7 @@ const recargarCompoDeLista = function () {
 	document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
 	modoBloqueo = true;
 	if (start) {
+
 		isStart(aplicarCambiosTempo());
 		isStart(aplicarCambiosTempo());
 	}
@@ -656,7 +657,13 @@ const escribirPredefinidos = function () {
 	compo1.cargarDatosCompo();
 
 	document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
+
 	modoBloqueo = true;
+
+	if(start){
+	isStart(aplicarCambiosTempo());
+	isStart(aplicarCambiosTempo());
+	}
 };
 
 cargarPredefinidos();
@@ -750,6 +757,6 @@ const escribirTotalSub = () => {
 };
 
 $playButton.addEventListener('click', () => {
-    init();
+    
 	isStart(aplicarCambiosTempo());
 });
