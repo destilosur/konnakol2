@@ -192,7 +192,7 @@
 
 .botones-menu{
 	flex-grow: 1;
-	min-width: 45rem;
+	min-width: 43rem;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
@@ -200,7 +200,7 @@
 /* ---------------------------------------------------------METRO--y BOLS VAROATION----------------------------- */
 
 .metro {
-	min-width: 30rem; 
+	min-width: 28rem; 
 	flex-grow: 1;
 	align-items: center;
 	display: flex;
@@ -222,7 +222,6 @@
 .select-bols {
 	max-width: 12.5rem;
 	min-width: 150px;
-	margin-right: 5px;
 }
 
 .select-bols option {
