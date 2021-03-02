@@ -21,7 +21,12 @@
 		"nombre": "Durazno",
 		"grupo": "mermelada",
 		"nBeats": "8",
-		"arrayLineas": [{ "id": 1, "rep": 1, "arraySilabas": ["Takatimi"] }]
+		"arrayLineas": [
+		 {"id": 1, "rep": 1, "arraySilabas": ["[Ta]---", "Ka---", "(Ta)---", "(Ki)---", "Ta---"]}
+ 		 {"id": 2, "rep": 1, "arraySilabas": ["[Ta]--", "Ka--", "Ta-(-)", "Ki--", "(Ta)--"]}
+ 		 {"id": 3, "rep": 1, "arraySilabas": ["Ta-", "Ka-", "Ta[-]", "Ki-", "Ta-"]}
+ 		 {"id": 4, "rep": 1, "arraySilabas": ["Taka", "Ta(ki)te", "Taka", "(Ta)kite", "Taka", "Takite"]}
+		]
 	},
 	{
 		"nombre": "Samba Modulada",
