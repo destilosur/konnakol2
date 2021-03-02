@@ -21,17 +21,17 @@ let repetir = 1; // para icono x2 x3 x4 se reinicia en focusLinea
 let contadorSilaba = 0;
 let ultimoNum = 0;
 let parrafos = [];
-let subD = [2, 3, 4, 6, 8];
+let subD = [1,2, 3, 4, 6, 8];
 let subDIndex = 0;
 let contadorSubD = 0;
 
 const speakSilabas = [
 	['Ta', 'Taka', 'Takite', 'Takatimi', 'Tatikinaton', 'TakatimiTaka', 'ta-ti-kinaton', 'TakatimiTakajuna', 'TakatimiTakaTakita'],
 
-	['Na', 'Ta', 'Te', 'Ti', 'Ta','Ton', 'Ka','Ke','Ki',  'Mi', '-'],
-	['Ta-','Ki-', 'Timi', 'Kita', 'Kina', 'Tati','--'],
-	['Tan-gu', 'Ta--', 'Ki--','ta-ki', '-te-', '-ta-', 'Ta-ka', 'Ti-mi', 'Kinaton','---'],
-	['Takajuna', 'Kitataka', 'terekite', 'tatikena', 'Ta-ka-', 'Ti-mi-', 'Ta--ah',  'Tikinaton', 'Tati--', 'Tati-ta','Ta---','Ki---','----'],
+	['Ka','Ke','Ki','Te','Ti','Mi','Ton', 'Ju','Na', '-'],
+	['Ta-','Ka-','Ki-','Ti-','Mi-', 'Timi','Juna', 'Kita', 'Kina', 'Tati','--'],
+	['Tan-gu', 'Ta--','Ti--','Ka--','Ki--','Mi--', 'ta-ki', '-te-', '-ta-', 'Ta-ka', 'Ti-mi', 'Kinaton','---'],
+	['Takajuna', 'Kitataka', 'terekite', 'tatikena', 'Tikinaton','Ta---','Ka---','Ki---','Ti---','Mi---', 'Ta-ka-', 'Ti-mi-', 'Ta--ah',  'Tati--', 'Tati-ta', '----'],
 	['Takatakite', 'Takitetaka', 'Ta-takita','TakaTan-gu','Ta-kinaton', 'Tati-naton', 'Kitakinaton','Ta----', 'Ta-ah--', 'Ta--ta-','-----'],
 	['TakiteTakite', 'Tatikenaton-', 'Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'terekitaka', 'Ta-ki-ta-', 'ki-na-ton'],
 	['Ta---kenaton', 'Ta---ah--', 'Ta------', 'Ta-ti-Tan-gu', 'Ta-ka-ti-mi'],
@@ -183,7 +183,7 @@ export const escribirHtml = (id, bol) => {
 	}
 		
 
-		let bolCortado = bol.trim().match(/ta|te|ti|ka|ke|ki|mi|na|ju|ton|--|an|on|gu|ah|re|:2|:3|:4|:6|:8/gi);
+		let bolCortado = bol.trim().match(/ta|te|ti|ka|ke|ki|mi|na|ju|ton|--|an|on|gu|ah|re|:1|:2|:3|:4|:6|:8/gi);
 
 		bolCortado.push('&nbsp &nbsp');
 
@@ -295,7 +295,7 @@ function accionBoton() {
 	//SubD
 
 	if (btn.textContent === 'SubD') {
-		if (subDIndex === 5) subDIndex = 0;
+		if (subDIndex === 6) subDIndex = 0;
 		if (contadorSubD > 0) {
 			borrarUltimaSilaba(lineaID);
 			borrarUltimaSilaba(lineaID);

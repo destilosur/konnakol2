@@ -1,28 +1,832 @@
 [
 	{
-		"nombre": "Nati",
-		"grupo": "default",
-		"nBeats": "5",
-		"arrayLineas": [{ "id": 1, "rep": 1, "arraySilabas": ["Ta"] }]
-	},
-	{
-		"nombre": "Membrillo",
-		"grupo": "dulces",
-		"nBeats": "5",
-		"arrayLineas": [{ "id": 1, "rep": 1, "arraySilabas": ["Ta"] }]
-	},
-	{
-		"nombre": "Dulce de Leche",
-		"grupo": "dulces",
+		"nombre": "Mastering Rhythm Whith Konnakol V1",
+		"grupo": "TaKaTiMi 3 speed",
 		"nBeats": "4",
-		"arrayLineas": [{ "id": 1, "rep": 1, "arraySilabas": ["Ta"] }]
+		"arrayLineas": [
+			{ "id": 1, "rep": 2, "arraySilabas": ["[Ta]---", "(Ka)---", "(Ti)---", "(Mi)---"] },
+			{ "id": 2, "rep": 4, "arraySilabas": ["(Ta)-", "Ka-", "(Ti)-", "Mi-"] },
+			{ "id": 3, "rep": 8, "arraySilabas": ["(Ta)katimi"] },
+			{ "id": 4, "rep": 4, "arraySilabas": ["(Ta)-", "Ka-", "(Ti)-", "Mi-"] }
+		]
 	},
 	{
-		"nombre": "Durazno",
-		"grupo": "mermelada",
-		"nBeats": "8",
-		"arrayLineas": [{ "id": 1, "rep": 1, "arraySilabas": ["Takatimi"] }]
+		"nombre": "Mastering Rhythm Whith Konnakol V2",
+		"grupo": "TaKiTa 3 speed",
+		"nBeats": "3",
+		"arrayLineas": [
+			{ "id": 1, "rep": 2, "arraySilabas": ["[Ta]---", "(Ki)---", "(Ta)---"] },
+			{ "id": 2, "rep": 2, "arraySilabas": ["[Ta]-", "Ki-", "(Ta)-", "Ta-", "(Ki)-", "Ta-"] },
+			{ "id": 3, "rep": 2, "arraySilabas": ["[Ta]kite", "Ta(ki)te", "Taki(te)", "Takite"] },
+			{ "id": 4, "rep": 2, "arraySilabas": ["[Ta]-", "Ki-", "(Ta)-", "Ta-", "(Ki)-", "Ta-"] }
+		]
 	},
+	{
+		"nombre": "MRWK V3 variation 1",
+		"grupo": "3-3-2",
+		"nBeats": "4",
+		"arrayLineas": [
+			{
+				"id": 1,
+				"rep": 4,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",
+					"Ta(ki)te",
+					"Taka",
+					"(Ta)kite",
+					"Ta(ki)te",
+					"Taka"
+				]
+			},
+			{
+				"id": 2,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",
+					"Ta(ki)te",
+					"Ta-",
+					"(Ta)kite",
+					"Ta(ki)te",
+					"Ta-"
+				]
+			},
+			{
+				"id": 3,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Taka",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Taka"
+				]
+			},
+
+			{
+				"id": 4,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Ta-",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Ta-"
+				]
+			},
+
+			{
+				"id": 5,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)--",
+					"Ta(-)-",
+					"Ta-",
+					"(Ta)--",
+					"Ta(-)-",
+					"Ta-"
+				]
+			}
+		]
+	},
+
+	{
+		"nombre": "MRWK V3 variation 2",
+		"grupo": "3-2-3",
+		"nBeats": "4",
+		"arrayLineas": [
+			{
+				"id": 1,
+				"rep": 4,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",
+					"Ta(ka)",
+					"Takite",
+					"(Ta)kite",
+					"Ta(ka)",
+					"Takite"
+				]
+			},
+			{
+				"id": 2,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",
+					"Ta(-)",
+					"Takite",
+					"(Ta)kite",
+					"Ta(-)",
+					"Takite"
+				]
+			},
+			{
+				"id": 3,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Ta(ka)",
+					"Tan-gu",
+					"(Tan)-gu",
+					"Ta(ka)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 4,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Ta(-)",
+					"Tan-gu",
+					"(Tan)-gu",
+					"Ta(-)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 5,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)--",
+					"Ta(-)",
+					"Ta--",
+					"(Ta)--",
+					"Ta(-)",
+					"Ta--"
+				]
+			}
+		]
+	},
+	{
+		"nombre": "MRWK V3 variation 3",
+		"grupo": "2-3-3",
+		"nBeats": "4",
+		"arrayLineas": [
+			{
+				"id": 1,
+				"rep": 4,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)ka",
+					"Taki(te)",					
+					"Takite",
+					"(Ta)ka",
+					"Taki(te)",					
+					"Takite"
+				]
+			},
+			{
+				"id": 2,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)-",
+					"Taki(te)",
+					"Takite",
+					"(Ta)-",
+					"Taki(te)",
+					"Takite"
+				]
+			},
+			{
+				"id": 3,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)ka",
+					"Tan-(gu)",
+					"Tan-gu",
+					"(Ta)ka",
+					"Tan-(gu)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 4,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)-",
+					"Tan-(gu)",
+					"Tan-gu",
+					"(Ta)-",
+					"Tan-(gu)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 5,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)-",
+					"Ta-(-)",
+					"Ta--",
+					"(Ta)-",
+					"Ta-(-)",
+					"Ta--"
+				]
+			}
+		]
+	},
+	{
+		"nombre": "MRWK V3 variation 4",
+		"grupo": "2-2-3-3-3-3",
+		"nBeats": "4",
+		"arrayLineas": [
+			{
+				"id": 1,
+				"rep": 4,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)ka",
+					"Taka",
+					"(Ta)kite",					
+					"Ta(ki)te",
+					"Taki(te)",					
+					"Takite"
+				]
+			},
+			{
+				"id": 2,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)-",
+					"Ta-",
+					"(Ta)kite",
+					"Ta(ki)te",
+					"Taki(te)",
+					"Takite"
+				]
+			},
+			{
+				"id": 3,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)ka",
+					"Taka",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Tan-(gu)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 4,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)-",
+					"Ta-",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Tan-(gu)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 5,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)-",
+					"Ta-",
+					"(Ta)--",
+					"Ta(-)-",
+					"Ta-(-)",
+					"Ta--"
+				]
+			}
+		]
+	},	
+	{
+		"nombre": "MRWK V3 variation 5",
+		"grupo": "3-2-2-3-3-3",
+		"nBeats": "4",
+		"arrayLineas": [
+			{
+				"id": 1,
+				"rep": 4,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",					
+					"Ta(ka)",
+					"Taka",
+					"Ta(ki)te",
+					"Taki(te)",					
+					"Takite"
+				]
+			},
+			{
+				"id": 2,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",
+					"Ta(-)",
+					"Ta-",
+					"Ta(ki)te",
+					"Taki(te)",
+					"Takite"
+				]
+			},
+			{
+				"id": 3,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Ta(ka)",
+					"Taka",
+					"Tan(-)gu",
+					"Tan-(gu)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 4,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Ta(-)",
+					"Ta-",
+					"Tan(-)gu",
+					"Tan-(gu)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 5,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)--",
+					"Ta(-)",
+					"Ta-",
+					"Ta(-)-",
+					"Ta-(-)",
+					"Ta--"
+				]
+			}
+		]
+	},
+	{
+		"nombre": "MRWK V3 variation 6",
+		"grupo": "3-3-2-2-3-3",
+		"nBeats": "4",
+		"arrayLineas": [
+			{
+				"id": 1,
+				"rep": 4,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",					
+					"Ta(ki)te",
+					"Taka",
+					"(Ta)ka",
+					"Taki(te)",					
+					"Takite"
+				]
+			},
+			{
+				"id": 2,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",
+					"Ta(ki)te",
+					"Ta-",
+					"(Ta)-",
+					"Taki(te)",
+					"Takite"
+				]
+			},
+			{
+				"id": 3,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Taka",
+					"(Ta)ka",
+					"Tan-(gu)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 4,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Ta-",
+					"(Ta)-",
+					"Tan-(gu)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 5,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)--",
+					"Ta(-)-",
+					"Ta-",
+					"(Ta)-",
+					"Ta-(-)",
+					"Ta--"
+				]
+			}
+		]
+	},
+	{
+		"nombre": "MRWK V3 variation 7",
+		"grupo": "3-3-3-2-2-3",
+		"nBeats": "4",
+		"arrayLineas": [
+			{
+				"id": 1,
+				"rep": 4,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",					
+					"Ta(ki)te",
+					"Taki(te)",					
+					"Taka",
+					"Ta(ka)",
+					"Takite"
+				]
+			},
+			{
+				"id": 2,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",
+					"Ta(ki)te",
+					"Taki(te)",
+					"Ta-",
+					"Ta(-)",
+					"Takite"
+				]
+			},
+			{
+				"id": 3,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Tan-(gu)",
+					"Taka",
+					"Ta(ka)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 4,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Tan-(gu)",
+					"Ta-",
+					"Ta(-)",
+					"Tan-gu"
+				]
+			},
+
+			{
+				"id": 5,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)--",
+					"Ta(-)-",
+					"Ta-(-)",
+					"Ta-",
+					"Ta(-)",
+					"Ta--"
+				]
+			}
+		]
+	},
+	{
+		"nombre": "MRWK V3 variation 8",
+		"grupo": "3-3-3-3-2-2",
+		"nBeats": "4",
+		"arrayLineas": [
+			{
+				"id": 1,
+				"rep": 4,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",					
+					"Ta(ki)te",
+					"Taki(te)",					
+					"Takite",
+					"(Ta)ka",
+					"Taka"
+				]
+			},
+			{
+				"id": 2,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)kite",
+					"Ta(ki)te",
+					"Taki(te)",
+					"Takite",
+					"(Ta)-",
+					"Ta-"
+				]
+			},
+			{
+				"id": 3,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Tan-(gu)",
+					"Tan-gu",
+					"(Ta)ka",
+					"Taka"
+				]
+			},
+
+			{
+				"id": 4,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Tan-(gu)",
+					"Tan-gu",
+					"(Ta)-",
+					"Ta-"
+				]
+			},
+
+			{
+				"id": 5,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)--",
+					"Ta(-)-",
+					"Ta-(-)",
+					"Ta--",
+					"(Ta)-",
+					"Ta-"
+				]
+			}
+		]
+	},
+    {
+		"nombre": "MRWK V3 variation 9",
+		"grupo": "2-3-3-3-3-2",
+		"nBeats": "4",
+		"arrayLineas": [
+			{
+				"id": 1,
+				"rep": 4,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)ka",
+					"Taki(te)",					
+					"Takite",
+					"(Ta)kite",					
+					"Ta(ki)te",
+					"Taka"
+				]
+			},
+			{
+				"id": 2,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)-",
+					"Taki(te)",
+					"Takite",
+					"(Ta)kite",
+					"Ta(ki)te",
+					"Ta-"
+				]
+			},
+			{
+				"id": 3,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)ka",
+					"Tan-(gu)",
+					"Tan-gu",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Taka"
+				]
+			},
+
+			{
+				"id": 4,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)-",
+					"Tan-(gu)",
+					"Tan-gu",
+					"(Tan)-gu",
+					"Tan(-)gu",
+					"Ta-"
+				]
+			},
+
+			{
+				"id": 5,
+				"rep": 2,
+				"arraySilabas": [
+					"[Ta]katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)katimi",
+					"(Ta)-",
+					"Ta-(-)",
+					"Ta--",
+					"(Ta)--",
+					"Ta(-)-",
+					"Ta-"
+				]
+			}
+		]
+	},
+ 
+
+
+
 	{
 		"nombre": "Samba Modulada",
 		"grupo": "Samba",
@@ -41,6 +845,17 @@
 			{ "id": 2, "rep": 1, "arraySilabas": ["[Ta]--", "Ki(-)-", "Ta-(-)"] },
 			{ "id": 3, "rep": 1, "arraySilabas": ["Ta-", "Ki[-]", "Ta-"] },
 			{ "id": 4, "rep": 1, "arraySilabas": ["Ta(ki)te", "Taki(te)", "Takite"] }
+		]
+	},
+	{
+		"nombre": "Displacement in five Four v22",
+		"grupo": "Khanda Chapu",
+		"nBeats": "5",
+		"arrayLineas": [
+			{ "id": 1, "rep": 1, "arraySilabas": ["[Ta]---", "Ka---", "(Ta)---", "(Ki)---", "Ta---"] },
+			{ "id": 2, "rep": 1, "arraySilabas": ["[Ta]--", "Ka--", "Ta-(-)", "Ki--", "(Ta)--"] },
+			{ "id": 3, "rep": 1, "arraySilabas": ["Ta-", "Ka-", "Ta[-]", "Ki-", "Ta-"] },
+			{ "id": 4, "rep": 1, "arraySilabas": ["Taka", "Ta(ki)te", "Taka", "(Ta)kite", "Taka", "Takite"] }
 		]
 	}
 ]

@@ -3,7 +3,7 @@ var unlocked = false;
 var isPlaying = false; // Are we currently playing?
 var startTime; // The start time of the entire sequence.
 var current16thNote; // What note is currently last scheduled?
-var tempo = 90.0; // tempo (in beats per minute)
+var tempo = 80.0; // tempo (in beats per minute)
 var lookahead = 25.0; // How frequently to call scheduling function
 //(in milliseconds)
 var scheduleAheadTime = 0.1; // How far ahead to schedule audio (sec)
@@ -31,6 +31,7 @@ let gainNode2;
 let $parrafos = [];
 const showTempo = document.querySelector('#showTempo');
 let subdivicion = 0.25;
+const one=1;
 const dosillo = 0.5;
 const tresillo = 0.33333333333333;
 const cuatrillo = 0.25;
@@ -119,6 +120,12 @@ export function play(silabas) {
 			
 			
 			switch (primerP.textContent) {
+
+				case ':1':
+					{
+						subdivicion = one;
+					}
+					break;
 				case ':2':
 					{
 						subdivicion = dosillo;
@@ -194,9 +201,20 @@ function draw() {
 
 		let rep = $parrafos[i].parentElement.parentElement.querySelector('.contenedor-iconos i').getAttribute('data-rep');
 		switch ($parrafos[i].getAttribute('data-subd')) {
-			case '2':
+			case '1':
 				{
 					// console.log('rep: ' +rep+ ' contadorRep '+contadorRep);
+					if (contadorRep === Number(rep)) {
+						subdivicion = one;
+						contadorRep = 1;
+					} else {
+						contadorRep++;
+					}
+				}
+				break;
+
+			case '2':
+				{
 					if (contadorRep === Number(rep)) {
 						subdivicion = dosillo;
 						contadorRep = 1;
