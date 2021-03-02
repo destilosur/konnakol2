@@ -18,9 +18,9 @@
 		"arrayLineas": [{ "id": 1, "rep": 1, "arraySilabas": ["Ta"] }]
 	},
 	{
-		"nombre": "Durazno",
-		"grupo": "mermelada",
-		"nBeats": "8",
+		"nombre": "Displacement in five Four",
+		"grupo": "Khanda Chapu",
+		"nBeats": "5",
 		"arrayLineas": [
 		 {"id": 1, "rep": 1, "arraySilabas": ["[Ta]---", "Ka---", "(Ta)---", "(Ki)---", "Ta---"]}
  		 {"id": 2, "rep": 1, "arraySilabas": ["[Ta]--", "Ka--", "Ta-(-)", "Ki--", "(Ta)--"]}
