@@ -3,7 +3,7 @@ var unlocked = false;
 var isPlaying = false; // Are we currently playing?
 var startTime; // The start time of the entire sequence.
 var current16thNote; // What note is currently last scheduled?
-var tempo = 80.0; // tempo (in beats per minute)
+var tempo = 70.0; // tempo (in beats per minute)
 var lookahead = 25.0; // How frequently to call scheduling function
 //(in milliseconds)
 var scheduleAheadTime = 0.1; // How far ahead to schedule audio (sec)
@@ -376,5 +376,5 @@ volumeControl2.addEventListener(
 $tempo.addEventListener('change', () => {
 	
 	tempo = $tempo.value;
-	showTempo.textContent = `${tempo} bpm`;
+	
 });

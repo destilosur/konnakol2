@@ -105,10 +105,11 @@
 }
 
 .total{
-    max-width: 4rem;
+    max-width: 5rem;
     padding: 4px 0.625rem;
     display: flex;
     align-items:center;
+    font-size: 1.5rem;
     
 
 }
