@@ -33,7 +33,7 @@ const speakSilabas = [
 	['Tan-gu', 'Ta--','Ti--','Ka--','Ki--','Mi--', 'ta-ki', '-te-', '-ta-', 'Ta-ka', 'Ti-mi', 'Kinaton','---'],
 	['Takajuna', 'Kitataka', 'terekite', 'tatikena', 'Tikinaton','Ta---','Ka---','Ki---','Ti---','Mi---', 'Ta-ka-', 'Ti-mi-', 'Ta--ah',  'Tati--', 'Tati-ta', '----'],
 	['Takatakite', 'Takitetaka', 'Ta-takita','TakaTan-gu','Ta-kinaton', 'Tati-naton', 'Kitakinaton','Ta----', 'Ta-ah--', 'Ta--ta-','-----'],
-	['TakiteTakite', 'Tatikenaton-', 'Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'terekitaka', 'Ta-ki-ta-', 'ki-na-ton'],
+	['TakatimiTa-','Terekitetaka','Terekiteta-','TakiteTakite', 'Tatikenaton-', 'Tati-kinaton', 'tatike-naton', 'Tatikena-ton', 'Ta-ki-ta-', 'ki-na-ton'],
 	['Ta---kenaton', 'Ta---ah--', 'Ta------', 'Ta-ti-Tan-gu', 'Ta-ka-ti-mi'],
 	['Tati-ke-na-ton', 'Tan-guTatikenaton', 'TakaterekiteTaka', 'Ta-terekiteTaka'],
 	['Ta-di-ke-na-ton', 'Ta-ti-Tatikenaton', 'TakatimiTatikenaton', 'TakaTakaTakaTakite', 'TakaTakiteTakaTaka'],
@@ -511,6 +511,11 @@ const guardarConfirmado = () => {
 	localStorage.setItem('compoLista', JSON.stringify(compoLista));
 
 	mensajeAlerta(' Saved', compo1.nombre);
+
+	//-----------------//COMENTAR-MOMENTANEO PARA GUARDAR PRESET--
+
+//  guardarEnPreset(compo1)
+
 };
 
 const guardarDatos = () => {

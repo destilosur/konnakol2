@@ -941,7 +941,7 @@
 					"Ta(-)-",
 					"Ta-(-)",
 					"Ta--"
-									]
+				]
 			}
 		]
 	},
@@ -1030,7 +1030,7 @@
 					"(Ta)-",
 					"Ta-(-)",
 					"Ta--"
-									]
+				]
 			}
 		]
 	},
@@ -1119,7 +1119,7 @@
 					"(Ta)--",
 					"Ta(-)",
 					"Ta--"
-									]
+				]
 			}
 		]
 	},
@@ -1208,7 +1208,7 @@
 					"Ta-",
 					"Ta(-)-",
 					"Ta-"
-									]
+				]
 			}
 		]
 	},
@@ -1297,7 +1297,7 @@
 					"(Ta)--",
 					"Ta(-)",
 					"Ta--"
-									]
+				]
 			}
 		]
 	},
@@ -1386,11 +1386,130 @@
 					"(Ta)--",
 					"Ta(-)-",
 					"Ta-"
-									]
+				]
+			}
+		]
+	},
+	{
+		"nombre": "Six and four in 4 time",
+		"grupo": "6-6-4",
+		"nBeats": "8",
+		"arrayLineas": [
+			{
+				"id": 1,
+				"rep": 1,
+				"arraySilabas": ["[Ta]katimiTakajuna", "(Ta)katimiTakajuna", "(Ta)katimiTakajuna", "(Ta)katimiTakajuna"]
+			},
+
+			{
+				"id": 2,
+				"rep": 1,
+				"arraySilabas": ["(Ta)katimiTaka", "Taka(ti)miTaka", "Takatimi", "(Ta)katimiTaka", "Taka(ti)miTaka", "Takatimi"]
+			},
+
+			{
+				"id": 3,
+				"rep": 1,
+				"arraySilabas": ["[Ta]katimiTakajuna", "(Ta)katimiTakajuna", "(Ta)katimiTakajuna", "(Ta),katimiTakajuna"]
+			},
+
+			{
+				"id": 4,
+				"rep": 1,
+				"arraySilabas": ["(te)rekitetaka", "tere(ki)tetaka", "terekite", "(te)rekitetaka", "tere(ki)tetaka", "terekite"]
+			},
+
+			{
+				"id": 5,
+				"rep": 1,
+				"arraySilabas": ["[Ta]katimiTakajuna", "(Ta)katimiTakajuna", "(Ta)katimiTakajuna", "(Ta)katimiTakajuna"]
+			},
+
+			{
+				"id": 6,
+				"rep": 1,
+				"arraySilabas": ["(Ta)katimiTa-", "Taka(ti)miTa-", "Takatimi", "(Ta)katimiTa-", "Taka(ti)miTa-", "Takatimi"]
+			},
+
+			{
+				"id": 7,
+				"rep": 1,
+				"arraySilabas": ["[Ta]katimiTakajuna", "(Ta)katimiTakajuna", "(Ta)katimiTakajuna", "(Ta)katimiTakajuna"]
+			},
+
+			{
+				"id": 8,
+				"rep": 1,
+				"arraySilabas": ["(Te)rekiteta-", "Tere(ki)teta-", "terekite", "(Te)rekiteta-", "Tere(ki)teta-", "terekite"]
 			}
 		]
 	},
 
+	{
+		"nombre": "Examples six and four variation",
+		"grupo": "6 & 4 variationes",
+		"nBeats": "8",
+		"arrayLineas": [
+			{ "id": 1, "rep": 8, "arraySilabas": ["(Ta)katimi(Ta)ka", "Taka(ti)miTaka", "(Ta)katimi"] },
+			{ "id": 2, "rep": 8, "arraySilabas": ["(Ta)katimi(Ta)ka", "Taka(ti)mi", "Taka(ti)miTaka"] },
+			{ "id": 3, "rep": 8, "arraySilabas": ["(Ta)katimi", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka"] },
+			{
+				"id": 4,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi", "(Ta)katimi", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka"]
+			},
+			{
+				"id": 5,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi(Ta)ka", "Taka(ti)mi", "Taka(ti)mi", "Taka(ti)miTaka", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka"]
+			},
+			{
+				"id": 6,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi(Ta)ka", "Taka(ti)miTaka", "(Ta)katimi", "(Ta)katimi", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka"]
+			},
+			{
+				"id": 7,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi(Ta)ka", "Taka(ti)miTaka", "(Ta)katimi(Ta)ka", "Taka(ti)mi", "Taka(ti)mi", "Taka(ti)miTaka"]
+			},
+			{
+				"id": 8,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka", "(Ta)katimi"]
+			},
+			{
+				"id": 9,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi", "(Ta)katimi(Ta)ka", "Taka(ti)mi", "Taka(ti)miTaka", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka"]
+			},
+			{
+				"id": 10,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi(Ta)ka", "Taka(ti)mi", "Taka(ti)miTaka", "(Ta)katimi", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka"]
+			},
+			{
+				"id": 11,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi(Ta)ka", "Taka(ti)miTaka", "(Ta)katimi", "(Ta)katimi(Ta)ka", "Taka(ti)mi", "Taka(ti)miTaka"]
+			},
+			{
+				"id": 12,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi(Ta)ka", "Taka(ti)miTaka", "(Ta)katimi(Ta)ka", "Taka(ti)mi", "Taka(ti)miTaka", "(Ta)katimi"]
+			},
+			{
+				"id": 13,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka", "(Ta)katimi(Ta)ka", "Taka(ti)mi", "Taka(ti)miTaka"]
+			},
+			{
+				"id": 14,
+				"rep": 4,
+				"arraySilabas": ["(Ta)katimi(Ta)ka", "Taka(ti)mi", "Taka(ti)miTaka", "(Ta)katimi(Ta)ka", "Taka(ti)miTaka", "(Ta)katimi"]
+			}
+		]
+	},
 	{
 		"nombre": "Samba Modulada",
 		"grupo": "Samba",
