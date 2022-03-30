@@ -1,6 +1,7 @@
 import { Linea } from '../classes/linea.class';
 import { compo1 } from '../index';
 import { play,init } from './metronome';
+import {cargarPredefinidos, guardarPredefinidos} from './presetsDB'
 
 // import data from '../data.json';
 
@@ -10,11 +11,12 @@ const $template = document.querySelector('#caja-escritura').content;
 let $cajaNotas;
 const $total = document.querySelector('#total');
 const $alertas = document.querySelector('#alertas');
-let modoBloqueo = false;
 const $select = document.querySelector('#option-bol');
 const $playButton = document.querySelector('#play-button');
 const playIcono = document.querySelector('#play-button i');
+const url = './assets/data.json';
 
+let modoBloqueo = false;
 let lineaID;
 let escribirInputs = false;
 let repetir = 1; // para icono x2 x3 x4 se reinicia en focusLinea
@@ -55,6 +57,7 @@ export const inicio = () => {
 	}
 	if (compo1.nombre !== 'default') return (modoBloqueo = true);
 	focusLinea();
+
 };
 
 const focusLinea = () => {
@@ -170,7 +173,7 @@ export const escribirHtml = (id, bol) => {
 		}
 
 		//LE RESTAMOS AL INDICE DE() LOS [] ENCONTRADOS
-		// TODO: aca restamos pero si el anudrutam esta despues del drutan resta igual y el drutam aparece una silaba antes
+		//aca restamos pero si el anudrutam esta despues del drutan resta igual y el drutam aparece una silaba antes
 		indiceD=indiceD.map(n=>n-(indiceA.length*2));
 		
 
@@ -329,6 +332,15 @@ function accionBoton() {
 		loadCompoLista();
 		guardarCompoEnLista();
 		crearListaHtml();
+		reiniciarSelect();
+		modoBloqueo = true;
+		$cajaNotas.forEach(linea => linea.classList.remove('edit'));
+	}
+	//SAVE Predefinidos------
+	if (btn.textContent === 'SaveP') {
+		if (modoBloqueo) return mensajeAlerta('it`s already saved\nPress Edit \ndont forget to save', '');
+		if (start) isStart(aplicarCambiosTempo());
+		guardarPredefinidos();
 		reiniciarSelect();
 		modoBloqueo = true;
 		$cajaNotas.forEach(linea => linea.classList.remove('edit'));
@@ -511,11 +523,6 @@ const guardarConfirmado = () => {
 	localStorage.setItem('compoLista', JSON.stringify(compoLista));
 
 	mensajeAlerta(' Saved', compo1.nombre);
-
-	//-----------------//COMENTAR-MOMENTANEO PARA GUARDAR PRESET--
-
-//  guardarEnPreset(compo1)
-
 };
 
 const guardarDatos = () => {
@@ -608,56 +615,21 @@ const mensajeAlerta = (msj, nombre) => {
 	}, 3000);
 };
 
-// -------------------------------------PREDEFINIDOS JSON-----------------------------------
-//ACA LO PODIA IMPORTAR Y USAR DIRECTAMENTE MIRAR IMPORT
-// const predefinidos=data.forEach(el=>console.log(el));
 
 
-let listaPreset = undefined;
+/////////////////////////////////////PREDEFINIDOS/////////////////////////////////////////////
+cargarPredefinidos();
 
-const url = './assets/data.json';
-
-const obtenerPredefinidos = async () => {
-	try {
-		const resp = await fetch(url);
-		if (!resp.ok) throw { status: resp.status, statusText: resp.statusText };
-		const json = resp.json();
-		return json;
-	} catch (error) {
-		mensajeAlerta(error.statusText, `No se puede cargar Predefinidos ${error.status}`);
-	}
-};
-
-const cargarPredefinidos = async () => {
-	listaPreset = await obtenerPredefinidos();
-
-	const $templateTrEnlace = document.querySelector('#tr-enlace').content;
-
-	listaPreset.forEach((compo, index) => {
-		const enlase = $templateTrEnlace.querySelector('#item-lista #td1 #enlace-item-lista');
-
-		enlase.setAttribute('value', index);
-		enlase.textContent = compo.nombre;
-		$templateTrEnlace.querySelector('#td2').textContent = compo.grupo;
-		$templateTrEnlace.querySelector('#td3').textContent = compo.nBeats;
-		let $node = document.importNode($templateTrEnlace, true);
-		document.body.querySelector('#contenedor-lista-predefinidos table tbody').appendChild($node);
-	});
-
-	document.body
-		.querySelectorAll('#contenedor-lista-predefinidos #enlace-item-lista')
-		.forEach(enlace => enlace.addEventListener('click', escribirPredefinidos));
-};
-
-const escribirPredefinidos = function () {
+export const escribirPredefinidos = function (lista,index) {
 	modoBloqueo = false;
 	borrarLineasHtml();
 	Linea.reiniciarIdContador();
-	indexCompoLista = this.getAttribute('value');
-	compo1.nombre = listaPreset[indexCompoLista].nombre;
-	compo1.grupo = listaPreset[indexCompoLista].grupo;
-	compo1.nBeats = listaPreset[indexCompoLista].nBeats;
-	compo1.arrayLineas = listaPreset[indexCompoLista].arrayLineas.map(Linea.fromJson);
+	
+
+	compo1.nombre = lista[index].nombre;
+	compo1.grupo = lista[index].grupo;
+	compo1.nBeats = lista[index].nBeats;
+	compo1.arrayLineas = lista[index].arrayLineas.map(Linea.fromJson);
 
 	compo1.arrayLineas.forEach(linea => compo1.mandandoObjLineaAEscribirHtml(linea));
 	compo1.cargarDatosCompo();
@@ -672,7 +644,10 @@ const escribirPredefinidos = function () {
 	}
 };
 
-cargarPredefinidos();
+
+
+
+
 
 /////////////////////////////////////METRONOMO/////////////////////////////////////////////
 
