@@ -6,6 +6,7 @@
     --color-resaltado-trans2: hsla(183, 75%, 52%, 0.158);
     --color-hover-trans2: rgba(138, 255, 255, 0.144);
     --color-background: #282320;
+    --color-background-trans:rgba(20, 18, 18, .637);
     --color-amarillo: #ffd152;
 }
 
@@ -40,8 +41,10 @@
     overflow: auto;
     height: 68vh;
     color: var(--color-resaltado);
-    background-color: rgba(20, 18, 18, .637);
+    background-color: var(--color-background-trans);
 }
+
+
 
 .titulo-lista {
     font-weight: lighter;
@@ -54,7 +57,7 @@
     background-color: #332118;
     box-shadow: inset 2px 2px 7px #000, inset -2px -2px 7px #000;
     text-shadow: 3px 3px 15px rgba(255, 209, 82, .74), -3px -3px 15px rgba(255, 209, 82, .733);
-    background-image: linear-gradient(to bottom, rgba(226, 219, 255, 0.4)1%,rgba(196, 196, 196, 0)50%);
+    background-image: linear-gradient(to bottom, rgba(226, 219, 255, 0.4),rgba(196, 196, 196, 0)50%);
 }
 
 .input-foco
@@ -88,6 +91,66 @@
 .contenedor-button-lista {
     width: 100%;
     padding: 14px 0;
+}
+
+/* ///////////////////////////////////////LOGIN/////////////////////////////////////// */
+.contenedor-login{
+    
+    width: 50%;
+    height: 15vh;
+    padding: 30px 12px 20px;
+    margin: auto;
+    border-radius: 7px;
+    background-color: #ffd152;
+    background-color: var(--color-background-trans);
+    
+}
+
+.contenedor-login  ::before{
+    content: "login";
+    border-top: 2px solid white;
+    color: var(--color-resaltado);    
+    position: absolute;
+    top: -81px;
+    left: -37vw;
+    font-size: 24px;
+    border-top-right-radius:  7px;
+    width: 200px;
+    background-color: var(--color-background-trans);
+    
+}
+
+
+.contenedor-login form{
+    display: grid;
+    grid-template-columns: 20%  1fr 20%;
+    justify-items: center;
+    align-items: center ;
+}
+
+.contenedor-login label{
+    color: var(--color-resaltado);
+grid-column: 1/2;
+}
+.contenedor-login input {
+    grid-column: 2 / 3;
+    width: 100%;
+    height: 3vh;
+    margin: 3px;
+
+}
+
+.contenedor-login button{
+    transform: translateY(-18px);
+    grid-column: 3 / 4;
+}
+
+.contenedor-alert-login{
+    display: none;
+    color: tomato;
+    font-size: 24px;
+    grid-column: 1/4;
+    margin-top: 20px;
 }
 
 @media screen and (max-width:45rem) {

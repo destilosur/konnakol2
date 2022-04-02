@@ -47,7 +47,6 @@ export class Compo {
   }
 
   mandandoObjLineaAEscribirHtml(objLinea) {
-    //TODO: ESCRIBIR REPETICIONES
 
     let idLinea = objLinea.id;
     let silabasArray = objLinea.arraySilabas;

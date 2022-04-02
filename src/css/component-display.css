@@ -169,7 +169,7 @@ body .marco-display .notas .borde-notas .guiones{
     color: #7fd1b9;
     border: solid 1px #7fd1b9;
     border-radius: 20%;
-    box-shadow: 3px 3px 15px 0#7fd1b98e,
+    box-shadow: 3px 3px 15px #7fd1b98e,
     -3px -3px 15px 0 #7fd1b98c,
     inset -1px -1px 10px 0 #fff9,
     inset -2px -2px 1px 0 #7fd1b9c5,

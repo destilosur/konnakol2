@@ -2,6 +2,7 @@ import { Linea } from '../classes/linea.class';
 import { compo1 } from '../index';
 import { play,init } from './metronome';
 import {cargarPredefinidos, guardarPredefinidos} from './presetsDB'
+import * as login from'./login';
 
 // import data from '../data.json';
 
@@ -340,7 +341,7 @@ function accionBoton() {
 	if (btn.textContent === 'SaveP') {
 		if (modoBloqueo) return mensajeAlerta('it`s already saved\nPress Edit \ndont forget to save', '');
 		if (start) isStart(aplicarCambiosTempo());
-		guardarPredefinidos();
+		login.isPermisos();
 		reiniciarSelect();
 		modoBloqueo = true;
 		$cajaNotas.forEach(linea => linea.classList.remove('edit'));
@@ -489,12 +490,12 @@ inputs.forEach(input =>
 
 ///////////////////////////////////LISTA DE COMPOS/////////////////////////////////////
 
-let compoLista = [];
+let listaUser = [];
 let indexCompoLista = undefined;
 
 const guardarCompoEnLista = () => {
 	// COMPROBAR NOMBRE IGUAL A UNO GUARDADO
-	let nombresLista = compoLista.map(compo => compo.nombre);
+	let nombresLista = listaUser.map(compo => compo.nombre);
 	let inputNombre = document.getElementById('nombre').value.trim();
 	let indexRepetido = nombresLista.indexOf(inputNombre);
 
@@ -502,7 +503,7 @@ const guardarCompoEnLista = () => {
 		let guardar = confirm(`La Lista ya contiene el nombre. Desea sobreescribir ${inputNombre}?`);
 
 		if (guardar) {
-			compoLista.splice(indexRepetido, 1);
+			listaUser.splice(indexRepetido, 1);
 
 			return guardarConfirmado();
 		} else {
@@ -515,12 +516,12 @@ const guardarCompoEnLista = () => {
 
 const guardarConfirmado = () => {
 	guardarDatos();
-	compoLista.push(compo1);
-	compoLista.sort((a, b) => {
+	listaUser.push(compo1);
+	listaUser.sort((a, b) => {
 		if (a.nombre < b.nombre) return -1;
 		if (b.nombre < a.nombre) return 1;
 	});
-	localStorage.setItem('compoLista', JSON.stringify(compoLista));
+	localStorage.setItem('compoLista', JSON.stringify(listaUser));
 
 	mensajeAlerta(' Saved', compo1.nombre);
 };
@@ -532,15 +533,15 @@ const guardarDatos = () => {
 };
 
 const loadCompoLista = () => {
-	compoLista = localStorage.getItem('compoLista')
-		? (compoLista = JSON.parse(localStorage.getItem('compoLista')))
-		: (compoLista = []);
-	compoLista.sort((a, b) => {
+	listaUser = localStorage.getItem('compoLista')
+		? (listaUser = JSON.parse(localStorage.getItem('compoLista')))
+		: (listaUser = []);
+	listaUser.sort((a, b) => {
 		if (a.nombre < b.nombre) return -1;
 		if (b.nombre < a.nombre) return 1;
 	});
 
-	return compoLista;
+	return listaUser;
 };
 
 const crearListaHtml = () => {
@@ -548,7 +549,7 @@ const crearListaHtml = () => {
 		document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').forEach(a => a.remove());
 	const $templateTrEnlace = document.querySelector('#tr-enlace').content;
 
-	compoLista.forEach((compo, index) => {
+	listaUser.forEach((compo, index) => {
 		const enlase = $templateTrEnlace.querySelector('#item-lista #td1 #enlace-item-lista');
 		enlase.setAttribute('value', index);
 		enlase.textContent = compo.nombre;
@@ -562,30 +563,15 @@ const crearListaHtml = () => {
 	
 	document.body
 		.querySelectorAll('#contenedor-lista-usuarios #enlace-item-lista')
-		.forEach(enlace => enlace.addEventListener('click', recargarCompoDeLista));
+		.forEach(enlace => {
+			enlace.addEventListener('click',(e)=>{
+				const indexCompoLista =e.target.getAttribute('value');
+			    cargarCompoEnDisplay(listaUser,indexCompoLista);
+			})
+		});
 };
 
-const recargarCompoDeLista = function () {
-	modoBloqueo = false;
-	borrarLineasHtml();
-	Linea.reiniciarIdContador();
-	indexCompoLista = this.getAttribute('value');
-	compo1.nombre = compoLista[indexCompoLista].nombre;
-	compo1.grupo = compoLista[indexCompoLista].grupo;
-	compo1.nBeats = compoLista[indexCompoLista].nBeats;
-	compo1.arrayLineas = compoLista[indexCompoLista].arrayLineas.map(Linea.fromJson);
 
-	compo1.arrayLineas.forEach(linea => compo1.mandandoObjLineaAEscribirHtml(linea));
-	compo1.cargarDatosCompo();
-
-	document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
-	modoBloqueo = true;
-	if (start) {
-
-		isStart(aplicarCambiosTempo());
-		isStart(aplicarCambiosTempo());
-	}
-};
 
 const deleteCompo = nombre => {
 	let compoLista = loadCompoLista();
@@ -620,7 +606,8 @@ const mensajeAlerta = (msj, nombre) => {
 /////////////////////////////////////PREDEFINIDOS/////////////////////////////////////////////
 cargarPredefinidos();
 
-export const escribirPredefinidos = function (lista,index) {
+//renderiza cuando clikeas tanto en lista user como en lista presets
+export const cargarCompoEnDisplay = function (lista,index) {
 	modoBloqueo = false;
 	borrarLineasHtml();
 	Linea.reiniciarIdContador();
@@ -643,6 +630,8 @@ export const escribirPredefinidos = function (lista,index) {
 	isStart(aplicarCambiosTempo());
 	}
 };
+
+
 
 
 
