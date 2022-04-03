@@ -28,15 +28,20 @@ const obtenerPredefinidos = async () => {
 	return compos;
 };
 
-export const cargarPredefinidos = async () => {
+export const cargarListaPresets = async () => {
 	listaPreset = await obtenerPredefinidos();
+
+	if (document.querySelectorAll('#contenedor-lista-predefinidos table tbody #item-lista').length !== 0)
+		document.querySelectorAll('#contenedor-lista-predefinidos table tbody #item-lista').forEach(a => a.remove());
 
 	const $templateTrEnlace = document.querySelector('#tr-enlace').content;
 
 	listaPreset.forEach((compo, index) => {
+
 		const enlase = $templateTrEnlace.querySelector('#item-lista #td1 #enlace-item-lista');
 
 		enlase.setAttribute('value', index);
+		enlase.setAttribute('idmongo', compo._id);
 		enlase.textContent = compo.nombre;
 		$templateTrEnlace.querySelector('#td2').textContent = compo.grupo;
 		$templateTrEnlace.querySelector('#td3').textContent = compo.nBeats;
@@ -71,7 +76,7 @@ export const guardarPredefinidos = async () => {
 	});
 
 	// const resp = await peticion(peticionPOST);
-	const { msg, status } = await peticion(peticionPOST);
+	const { msg, status, compo } = await peticion(peticionPOST);
 	console.log('status', status);
 
 	if (msg) {
@@ -91,6 +96,7 @@ export const guardarPredefinidos = async () => {
 	} else if (status === 200) {
 		const msg = `status: ${status}  guardado en  en base de datos presets`;
 		dibujarMSG(msg);
+		console.log('COMPO', compo);
 	}
 };
 
@@ -106,12 +112,23 @@ const modificarCompo = async () => {
 
 	const data = { nombre: compo1.nombre, grupo: compo1.grupo, nBeats: compo1.nBeats, arrayLineas: compo1.arrayLineas };
 
-	//pedir ID de compo
-	const {id,status} = await peticion(urlApi+'/'+data.nombre); 
+	//pedir ID de compo//pedir ID de compo	
+	if(!data.nombre) return;
+
+	const peticionGetId = new Request(`${urlApi}/getID`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'x-token': jwt 
+		},
+		body: JSON.stringify(data),
+	});
+	const {id ,status,msg } = await peticion(peticionGetId);
 
 	if(!id || status !== 200) return dibujarMSG('Hubo un error no se encuentra ID de la Compo');
 
 
+	//UPDATE
 	const peticionPUT = new Request(`${urlApi}/${id}`, {
 		method: 'PUT',
 		headers: {
@@ -121,17 +138,59 @@ const modificarCompo = async () => {
 		body: JSON.stringify(data),
 	});
 
-	const {msg,ok} = await peticion(peticionPUT);
-	console.log(msg);
-	if(msg) {
+	const {msgU,ok} = await peticion(peticionPUT);
+	
+	if(msgU) {
 		dibujarMSG('Error la compo no se pudo actualizar');
-		return console.error(msg);
+		return console.error(msgU);
 	}
 
 	if(ok)dibujarMSG('Compo Update ok.');
 
 
 };
+
+export const deleteCompoPreset = async () => {
+	const jwt = localStorage.getItem( 'token' );
+	guardarDatos();
+
+	//pedir ID de compo
+	const data = {nombre: compo1.nombre};
+	if(!data.nombre) return;
+
+	const peticionGetId = new Request(`${urlApi}/getID`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'x-token': jwt 
+		},
+		body: JSON.stringify(data),
+	});
+	const {id,status,msg } = await peticion(peticionGetId);
+
+	if(!id) return dibujarMSG(`Error: ${msg}` );
+
+	
+	//ELIMINA EL ID
+	const peticionDELETE = new Request(`${urlApi}/${id}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			'x-token': jwt 
+		},
+	});
+
+	const  {compo, msg: msg2 } = await peticion(peticionDELETE);
+
+	if(msg2) {
+		dibujarMSG(msg2)
+		return console.error(msg2);
+	}
+
+	dibujarMSG(`${compo.nombre} DELETE ok.`);
+	cargarListaPresets();
+
+}
 
 const dibujarMSG = msg => {
 	alertasApp.classList.add('alertas-activo');
@@ -140,5 +199,5 @@ const dibujarMSG = msg => {
 	setTimeout(() => {
 		alertasApp.classList.remove('alertas-activo');
 	}, 3000);
-	console.error(`ERROR:  ${msg} `);
+	console.warn(` ${msg} `);
 };

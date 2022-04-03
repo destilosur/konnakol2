@@ -1,8 +1,8 @@
-import {guardarPredefinidos} from './presetsDB'
 
 const btnForm = document.querySelector('#btn-form');
 const alertLogin = document.querySelector('#alert-login');
 const alertasApp = document.querySelector('.alertas');
+
 
 
 //petición---------------------------------
@@ -82,6 +82,7 @@ export const isPermisos = async () => {
 			return console.error(`ERROR:  ${msg} `)
 		}
 
-		//guardar en predefinidos
-		guardarPredefinidos();
+		return true;
+
+	
 };

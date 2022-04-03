@@ -1,7 +1,7 @@
 import { Linea } from '../classes/linea.class';
 import { compo1 } from '../index';
 import { play,init } from './metronome';
-import {cargarPredefinidos, guardarPredefinidos} from './presetsDB'
+import {cargarListaPresets, guardarPredefinidos, deleteCompoPreset} from './presetsDB'
 import * as login from'./login';
 
 // import data from '../data.json';
@@ -53,8 +53,8 @@ export const crearTablaHtml = id => {
 
 export const inicio = () => {
 	if (localStorage.getItem('compoLista')) {
-		loadCompoLista();
-		crearListaHtml();
+		obtenerListaUser();
+		cargarListaUser();
 	}
 	if (compo1.nombre !== 'default') return (modoBloqueo = true);
 	focusLinea();
@@ -330,9 +330,9 @@ function accionBoton() {
 	if (btn.textContent === 'Save') {
 		if (modoBloqueo) return mensajeAlerta('it`s already saved\nPress Edit \ndont forget to save', '');
 		if (start) isStart(aplicarCambiosTempo());
-		loadCompoLista();
+		obtenerListaUser();
 		guardarCompoEnLista();
-		crearListaHtml();
+		cargarListaUser();
 		reiniciarSelect();
 		modoBloqueo = true;
 		$cajaNotas.forEach(linea => linea.classList.remove('edit'));
@@ -341,7 +341,7 @@ function accionBoton() {
 	if (btn.textContent === 'SaveP') {
 		if (modoBloqueo) return mensajeAlerta('it`s already saved\nPress Edit \ndont forget to save', '');
 		if (start) isStart(aplicarCambiosTempo());
-		login.isPermisos();
+		login.isPermisos().then(r=> (r)?guardarPredefinidos(): false);
 		reiniciarSelect();
 		modoBloqueo = true;
 		$cajaNotas.forEach(linea => linea.classList.remove('edit'));
@@ -350,7 +350,8 @@ function accionBoton() {
 	//LOAD
 	if (btn.textContent === 'Load') {
 		modoBloqueo = false;
-		loadCompoLista();
+		obtenerListaUser();
+		cargarListaPresets();
 		document.querySelector('.lista-panel').classList.toggle('lista-panel-active');
 		reiniciarSelect();
 	}
@@ -358,7 +359,14 @@ function accionBoton() {
 	if (btn.textContent === 'Delete') {
 
 		if(start)isStart(aplicarCambiosTempo());
-		deleteCompo(compo1.nombre);
+		deleteCompoUser(compo1.nombre);
+	}
+
+	if (btn.textContent === 'DelPre') {
+
+		if(start)isStart(aplicarCambiosTempo());
+		login.isPermisos().then(r=> (r)?deleteCompoPreset(): false);
+		
 	}
 
 	//REINICIAR
@@ -532,7 +540,7 @@ const guardarDatos = () => {
 	compo1.nBeats = document.getElementById('nBeats').value;
 };
 
-const loadCompoLista = () => {
+const obtenerListaUser = () => {
 	listaUser = localStorage.getItem('compoLista')
 		? (listaUser = JSON.parse(localStorage.getItem('compoLista')))
 		: (listaUser = []);
@@ -544,7 +552,7 @@ const loadCompoLista = () => {
 	return listaUser;
 };
 
-const crearListaHtml = () => {
+const cargarListaUser = () => {
 	if (document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').length !== 0)
 		document.querySelectorAll('#contenedor-lista-usuarios table tbody #item-lista').forEach(a => a.remove());
 	const $templateTrEnlace = document.querySelector('#tr-enlace').content;
@@ -573,8 +581,8 @@ const crearListaHtml = () => {
 
 
 
-const deleteCompo = nombre => {
-	let compoLista = loadCompoLista();
+const deleteCompoUser = nombre => {
+	let compoLista = obtenerListaUser();
 	let compoNombre = compoLista.map(compo => compo.nombre);
 	let borrar = false;
 	compoNombre.forEach(compo => {
@@ -584,14 +592,16 @@ const deleteCompo = nombre => {
 	if (borrar) {
 		compoLista = compoLista.filter(compo => compo.nombre !== nombre);
 		localStorage.setItem('compoLista', JSON.stringify(compoLista));
-		loadCompoLista();
-		crearListaHtml();
+		obtenerListaUser();
+		cargarListaUser();
 		reiniciarCompo();
 		mensajeAlerta('ERASED', nombre);
 	} else {
 		mensajeAlerta('The deletion was canceled', nombre);
 	}
 };
+
+
 
 const mensajeAlerta = (msj, nombre) => {
 	$alertas.classList.add('alertas-activo');
@@ -604,7 +614,7 @@ const mensajeAlerta = (msj, nombre) => {
 
 
 /////////////////////////////////////PREDEFINIDOS/////////////////////////////////////////////
-cargarPredefinidos();
+cargarListaPresets();
 
 //renderiza cuando clikeas tanto en lista user como en lista presets
 export const cargarCompoEnDisplay = function (lista,index) {
