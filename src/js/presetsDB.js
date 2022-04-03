@@ -4,7 +4,10 @@ import { compo1 } from '../index';
 let listaPreset = {};
 const alertasApp = document.querySelector('.alertas');
 
-let urlApi = 'http://localhost:8082/api/compo';
+//DESARROLLO 
+// let urlApi = 'http://localhost:8082/api/compo';
+//PRODUCCION
+let urlApi = 'https://konnakol-rest-server.herokuapp.com/api/compo';
 
 //petición---------------------------------
 

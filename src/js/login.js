@@ -23,7 +23,8 @@ const peticion = async request => {
 //Registrarse -----------------------------
 
 //login-------------------------------------
-const url = 'http://localhost:8082/api/usuarios/login';
+// const url = 'http://localhost:8082/api/usuarios/login';
+const url = 'https://konnakol-rest-server.herokuapp.com/api/usuarios/login';
 
 btnForm.addEventListener('click', async (e) => {
 	e.preventDefault();
